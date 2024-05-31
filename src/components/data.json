@@ -1,0 +1,143 @@
+{
+  "upcomingEvents": [
+      {
+          "id": 1,
+          "title": "Upcoming Event 1",
+          "date": "01/01/2025",
+          "location": "Example City"
+      },
+      {
+          "id": 2,
+          "title": "Upcoming Event 2",
+          "date": "02/01/2025",
+          "location": "Another City"
+      }
+  ],
+  "pastEvents": [
+      {
+          "id": 1,
+          "title": "Past Event 1",
+          "date": "01/01/2024",
+          "location": "City A"
+      },
+      {
+          "id": 2,
+          "title": "Past Event 2",
+          "date": "02/01/2024",
+          "location": "City B"
+      }
+  ],
+  "eventDetails": {
+      "title": "Event Title",
+      "description": "Event Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "location": "Example City",
+      "date": "01/01/2025",
+      "time": "10:00 AM",
+      "participants": [
+          {
+              "id": 1,
+              "name": "Participant Name",
+              "email": "participant@example.com"
+          }
+      ],
+      "comments": [
+          {
+              "id": 1,
+              "author": "Comment Author",
+              "content": "Comment Content"
+          }
+      ]
+  },
+  "notifications": [
+    {
+        "id": 1,
+        "message": "New message from John Doe",
+        "timestamp": "2 minutes ago"
+    },
+    {
+        "id": 2,
+        "message": "Event 'Upcoming Event 1' has been updated.",
+        "timestamp": "5 minutes ago"
+    }
+],
+  "messages": [
+    {
+        "id": 1,
+        "from": "John Doe",
+        "content": "Hello, how are you?"
+    },
+    {
+      "id": 3,
+      "from": " Ahmad ",
+      "content": "Hello, how are you?"
+  },
+    {
+        "id": 2,
+        "from": "Jane Smith",
+        "content": "Hi there!"
+    }
+],
+"profile": {
+  "name": "User's Name",
+  "bio": "User's Bio",
+  "profilePicture": "profile.jpg",
+  "eventsParticipated": 10,
+  "upcomingEvents": 2,
+  "pastEvents": 8
+},
+  "activities": [
+      {
+          "id": 1,
+          "title": "Activity 1",
+          "date": "01/01/2024",
+          "location": "City",
+          "category": "Category 1"
+      },
+      {
+          "id": 2,
+          "title": "Activity 2",
+          "date": "02/01/2024",
+          "location": "Town",
+          "category": "Category 2"
+      }
+  ],
+  "createdEvents": [],
+  
+  "featuredEvents": [
+    {
+        "id": 1,
+        "title": "Featured Event 1",
+        "date": "01/01/2025",
+        "location": "Example City",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+        "id": 2,
+        "title": "Featured Event 2",
+        "date": "02/02/2025",
+        "location": "Another City",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }
+    
+], 
+"participants": [
+  {
+      "id": 1,
+      "name": "Participant 1",
+      "status": "Pending"
+  },
+  {
+      "id": 2,
+      "name": "Participant 2",
+      "status": "Accepted"
+  }
+],
+"settings": {
+  "email": "user@example.com",
+  "notificationPreferences": {},
+  "privacySettings": {}
+},
+"authentication": {
+  "isLoggedIn": false
+}
+}

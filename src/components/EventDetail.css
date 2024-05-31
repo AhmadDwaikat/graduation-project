@@ -1,0 +1,54 @@
+.event-detail-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.event-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.event-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.event-description {
+    margin-bottom: 20px;
+}
+
+.event-details {
+    margin-bottom: 10px;
+}
+
+.action-buttons {
+    margin-bottom: 20px;
+}
+
+.join-button {
+    margin-right: 10px;
+}
+
+.participant-grid {
+    margin-bottom: 20px;
+}
+
+.participant-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.participant-name {
+    font-weight: bold;
+}
+
+.comments {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}

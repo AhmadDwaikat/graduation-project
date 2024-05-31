@@ -1,0 +1,33 @@
+.participant-management-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.participant-grid {
+    margin-bottom: 20px;
+}
+
+.participant-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.participant-name {
+    font-weight: bold;
+}
+
+.participant-details {
+    margin-bottom: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.action-buttons > * {
+    margin-left: 5px;
+}

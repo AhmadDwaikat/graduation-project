@@ -1,0 +1,41 @@
+.activity-library-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-field {
+    flex: 1;
+}
+
+.filter-field {
+    flex: 2;
+}
+
+.filter-button {
+    height: 40px;
+}
+
+.activity-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.activity-title {
+    margin-bottom: 10px;
+}
+
+.activity-details {
+    margin-bottom: 5px;
+}

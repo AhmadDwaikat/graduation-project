@@ -1,0 +1,17 @@
+.analytics-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.statistics-card,
+.engagement-card,
+.reports-card {
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,21 @@
+.event-creation-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.event-form {
+    display: grid;
+    grid-gap: 20px;
+}
+
+.form-field {
+    width: 100%;
+}
+
+.submit-button {
+    width: 100%;
+    margin-top: 20px;
+}

@@ -1,0 +1,21 @@
+.settings-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.account-settings-card,
+.notification-settings-card,
+.privacy-settings-card {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    margin-bottom: 10px;
+}
+
+.save-button {
+    margin-top: 10px;
+}

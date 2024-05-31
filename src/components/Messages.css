@@ -1,0 +1,16 @@
+.messages-container {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.conversations-list {
+    width: 100%;
+    marginBottom: 20px;
+}
+
+.chat-interface {
+    /* Styles for the chat interface */
+}
