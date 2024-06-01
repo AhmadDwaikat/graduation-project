@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Grid, Card, CardContent, TextField, Button, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import './Home.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Home = () => {
     const { featuredEvents } = eventData;
@@ -34,7 +34,9 @@ const Home = () => {
                         <Card className="featured-event-card">
                             <CardContent className="card-content">
                                 <Typography variant="h6" className="event-title">
-                                    {event.title}
+                                    <Link component={RouterLink} to={`/event-detail/${event.id}`}>
+                                        {event.title}
+                                    </Link>
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" className="event-details">
                                     Date: {event.date}

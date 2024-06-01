@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Grid, Card, CardContent, IconButton } from '@mui/material';
 import { Check, Close, Notifications, Message } from '@mui/icons-material';
 import './ParticipantManagement.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const ParticipantManagement = () => {
     const { participants } = eventData;

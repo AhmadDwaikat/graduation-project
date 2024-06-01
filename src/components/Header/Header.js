@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Header = () => {
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Header = () => {
                 <Button color="inherit" component={RouterLink} to="/">Home</Button>
                 <Button color="inherit" component={RouterLink} to="/dashboard">Dashboard</Button>
                 <Button color="inherit" component={RouterLink} to="/profile">Profile</Button>
-                <Button color="inherit" component={RouterLink} to="/LogIn">logout</Button>
+                
                 {eventData.authentication.isLoggedIn && (
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 )}

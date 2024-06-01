@@ -1,32 +1,29 @@
 {
-  "upcomingEvents": [
-      {
-          "id": 1,
-          "title": "Upcoming Event 1",
-          "date": "01/01/2025",
-          "location": "Example City"
-      },
-      {
-          "id": 2,
-          "title": "Upcoming Event 2",
-          "date": "02/01/2025",
-          "location": "Another City"
-      }
-  ],
-  "pastEvents": [
-      {
-          "id": 1,
-          "title": "Past Event 1",
-          "date": "01/01/2024",
-          "location": "City A"
-      },
-      {
-          "id": 2,
-          "title": "Past Event 2",
-          "date": "02/01/2024",
-          "location": "City B"
-      }
-  ],
+    "upcomingEvents": [
+        {
+          "id": 4,
+          "title": "Music Festival",
+          "date": "2024-07-10",
+          "location": "Downtown",
+          "description": "Enjoy live music from various artists."
+        },
+        {
+          "id": 5,
+          "title": "Tech Conference",
+          "date": "2024-07-20",
+          "location": "Convention Center",
+          "description": "Explore the latest in tech innovations."
+        }
+      ],
+      "pastEvents": [
+        {
+          "id": 6,
+          "title": "Food Expo",
+          "date": "2024-05-05",
+          "location": "Exhibition Hall",
+          "description": "Taste delicious food from around the world."
+        }
+      ],
   "eventDetails": {
       "title": "Event Title",
       "description": "Event Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -87,14 +84,14 @@
 },
   "activities": [
       {
-          "id": 1,
+          "id": 4,
           "title": "Activity 1",
           "date": "01/01/2024",
           "location": "City",
           "category": "Category 1"
       },
       {
-          "id": 2,
+          "id": 5,
           "title": "Activity 2",
           "date": "02/01/2024",
           "location": "Town",
@@ -105,21 +102,27 @@
   
   "featuredEvents": [
     {
-        "id": 1,
-        "title": "Featured Event 1",
-        "date": "01/01/2025",
-        "location": "Example City",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "id": 1,
+      "title": "Community Cleanup",
+      "date": "2024-06-01",
+      "location": "Central Park",
+      "description": "Join us for a community cleanup event."
     },
     {
-        "id": 2,
-        "title": "Featured Event 2",
-        "date": "02/02/2025",
-        "location": "Another City",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "id": 2,
+      "title": "Charity Run",
+      "date": "2024-06-15",
+      "location": "City Square",
+      "description": "Participate in our annual charity run."
+    },
+    {
+      "id": 3,
+      "title": "Art Workshop",
+      "date": "2024-06-20",
+      "location": "Art Center",
+      "description": "Learn new art techniques at our workshop."
     }
-    
-], 
+  ], 
 "participants": [
   {
       "id": 1,

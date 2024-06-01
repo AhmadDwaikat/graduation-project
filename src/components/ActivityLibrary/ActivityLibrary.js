@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Grid, Card, CardContent, TextField, Select, MenuItem, Button } from '@mui/material';
 import './ActivityLibrary.css';
-import activitiesData from './data.json';
+import activitiesData from '../data.json';
 
 const ActivityLibrary = () => {
     const [searchTerm, setSearchTerm] = useState('');

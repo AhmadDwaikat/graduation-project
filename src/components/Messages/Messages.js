@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, List, ListItem, ListItemText, Badge } from '@mui/material';
 import './Messages.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Messages = () => {
     const { messages } = eventData;

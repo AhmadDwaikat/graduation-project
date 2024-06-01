@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 import './Analytics.css';
-import analyticsData from './data.json';
+import analyticsData from '../data.json';
 
 const Analytics = () => {
     const { participationStatistics, engagementMetrics, customReports } = analyticsData.analytics;

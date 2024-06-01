@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './Notifications.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Notifications = () => {
     const { notifications } = eventData;

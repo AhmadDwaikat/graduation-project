@@ -2,13 +2,17 @@ import React from 'react';
 import { Typography, Grid, Card, CardContent, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Dashboard = () => {
     const navigate = useNavigate();
 
     const handleCreateNewEvent = () => {
         navigate('/event-creation');
+    };
+
+    const handleEventClick = (id) => {
+        navigate(`/event-detail/${id}`);
     };
 
     return (
@@ -32,7 +36,7 @@ const Dashboard = () => {
             <Grid container spacing={2} className="activity-grid">
                 {eventData.upcomingEvents.map((event) => (
                     <Grid item xs={12} sm={6} md={4} key={event.id}>
-                        <Card className="activity-card">
+                        <Card className="activity-card" onClick={() => handleEventClick(event.id)}>
                             <CardContent>
                                 <Typography variant="h6" className="activity-title">
                                     {event.title}

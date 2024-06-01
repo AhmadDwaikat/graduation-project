@@ -1,26 +1,29 @@
-// SignIn.js
 import React from 'react';
 import { Typography, Container, TextField, Button} from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import './SignUpLogin.css';
-import eventData from './data.json'; // Import the temporary data
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import '../SignUpLogin.css';
 
-const SignIn = () => {
-    const navigate = useNavigate();
+const SignUp = () => {
+    const navigate = useNavigate(); // Initialize the useNavigate hook
 
-    const handleSignIn = () => {
-        // Here you would handle your sign in logic (authentication)
+    const handleSignUp = () => {
+        // Here you would handle your sign-up logic
         // For now, we'll just navigate to the Dashboard page
-        eventData.authentication.isLoggedIn = true;
         navigate('/dashboard');
     };
 
     return (
         <Container maxWidth="sm" className="signup-login-container">
             <Typography variant="h4" className="title">
-                Sign In
+                Sign Up
             </Typography>
-            <form className="signin-form">
+            <form className="signup-form">
+                <TextField
+                    label="Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                />
                 <TextField
                     label="Email"
                     variant="outlined"
@@ -38,17 +41,17 @@ const SignIn = () => {
                     variant="contained"
                     color="primary"
                     fullWidth
-                    onClick={handleSignIn}
-                    className="signin-button"
+                    onClick={handleSignUp}
+                    className="signup-button"
                 >
-                    Sign In
+                    Sign Up
                 </Button>
             </form>
             <Typography variant="body2" className="switch-auth">
-                Don't have an account? <RouterLink to="/signup">Sign Up</RouterLink>
+                Already have an account? <a href="/login">Login</a>
             </Typography>
         </Container>
     );
 };
 
-export default SignIn;
+export default SignUp;

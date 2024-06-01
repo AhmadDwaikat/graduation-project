@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import './EventCreation.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const EventCreation = () => {
     const [eventTitle, setEventTitle] = useState('');

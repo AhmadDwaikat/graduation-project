@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card, CardContent, FormControl, InputLabel, Input, Button } from '@mui/material';
 import './Settings.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Settings = () => {
     const { email } = eventData.settings;

@@ -14,30 +14,31 @@ import Notifications from './components/Notifications';
 import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
+import { EventProvider } from './context/EventContext'; // Import the EventProvider
 
-function App() {
-    return (
-        <Router>
-            <div className="App">
-                <Header /> {/* Include the Header component */}
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/event-creation" element={<EventCreation />} />
-                    <Route path="/event-detail" element={<EventDetail />} />
-                    <Route path="/participant-management" element={<ParticipantManagement />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/activity-library" element={<ActivityLibrary />} />
-                    <Route path="/notifications" element={<Notifications />} />
-                    <Route path="/messages" element={<Messages />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="/settings" element={<Settings />} />
-                </Routes>
-            </div>
-        </Router>
-    );
-}
+const App = () => {
+  return (
+    <Router>
+      <EventProvider> {/* Wrap the entire app or part of it with EventProvider */}
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/event-creation" element={<EventCreation />} />
+          <Route path="/event-detail/:id" element={<EventDetail />} />
+          <Route path="/participant-management" element={<ParticipantManagement />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/activity-library" element={<ActivityLibrary />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </EventProvider>
+    </Router>
+  );
+};
 
 export default App;

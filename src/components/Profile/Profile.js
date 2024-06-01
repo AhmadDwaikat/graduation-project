@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid, Avatar, Card, CardContent, Button } from '@mui/material';
 import './Profile.css';
-import eventData from './data.json'; // Import the temporary data
+import eventData from '../data.json'; // Import the temporary data
 
 const Profile = () => {
     const { name, bio, profilePicture, eventsParticipated, upcomingEvents, pastEvents } = eventData.profile;
