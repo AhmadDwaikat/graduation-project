@@ -38,7 +38,7 @@ const Home = () => {
                 </Button>
             </form>
             <Typography variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                    social Activity
             </Typography>
             <Typography variant="h5" className="title" gutterBottom>
                 Featured Events
