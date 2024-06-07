@@ -1,21 +1,28 @@
+/* Container for the notifications page */
 .notifications-container {
     padding: 20px;
+    margin: auto;
+    max-width: 800px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Title styling */
 .title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Notifications list styling */
+.notifications-list {
     margin-bottom: 20px;
 }
 
-.notifications-list {
-    width: 100%;
-}
-
-/* Style for individual notification items */
-.MuiListItem-root {
-    border-bottom: 1px solid #e0e0e0;
-}
-
-/* Style for delete button in notification items */
-.MuiIconButton-root {
-    color: #f44336;
+/* No notifications message styling */
+.no-notifications {
+    text-align: center;
+    margin-top: 20px;
+    color: #555555;
 }

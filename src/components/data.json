@@ -1,105 +1,138 @@
 {
-    "upcomingEvents": [
-        {
-          "id": 4,
-          "title": "Music Festival",
-          "date": "2024-07-10",
-          "location": "Downtown",
-          "description": "Enjoy live music from various artists."
-        },
-        {
-          "id": 5,
-          "title": "Tech Conference",
-          "date": "2024-07-20",
-          "location": "Convention Center",
-          "description": "Explore the latest in tech innovations."
-        }
-      ],
-      "pastEvents": [
-        {
-          "id": 6,
-          "title": "Food Expo",
-          "date": "2024-05-05",
-          "location": "Exhibition Hall",
-          "description": "Taste delicious food from around the world."
-        }
-      ],
+  "upcomingEvents": [
+    {
+      "id": 4,
+      "title": "Music Festival",
+      "date": "2024-07-10",
+      "location": "Downtown",
+      "description": "Enjoy live music from various artists."
+    },
+    {
+      "id": 5,
+      "title": "Tech Conference",
+      "date": "2024-07-20",
+      "location": "Convention Center",
+      "description": "Explore the latest in tech innovations."
+    }
+  ],
+  "pastEvents": [
+    {
+      "id": 6,
+      "title": "Food Expo",
+      "date": "2024-05-05",
+      "location": "Exhibition Hall",
+      "description": "Taste delicious food from around the world."
+    }
+  ],
+  "myEvents": {
+    "upcoming": [
+      {
+        "id": 7,
+        "title": "Startup Pitch",
+        "date": "2024-08-10",
+        "location": "Tech Hub",
+        "description": "Pitch your startup idea to potential investors."
+      },
+      {
+        "id": 8,
+        "title": "Coding Bootcamp",
+        "date": "2024-09-01",
+        "location": "Online",
+        "description": "Improve your coding skills with industry experts."
+      }
+    ],
+    "past": [
+      {
+        "id": 9,
+        "title": "Design Workshop",
+        "date": "2024-06-15",
+        "location": "Art School",
+        "description": "Learn the basics of graphic design."
+      },
+      {
+        "id": 10,
+        "title": "Networking Event",
+        "date": "2024-07-01",
+        "location": "Business Center",
+        "description": "Expand your professional network."
+      }
+    ]
+  },
   "eventDetails": {
-      "title": "Event Title",
-      "description": "Event Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "location": "Example City",
-      "date": "01/01/2025",
-      "time": "10:00 AM",
-      "participants": [
-          {
-              "id": 1,
-              "name": "Participant Name",
-              "email": "participant@example.com"
-          }
-      ],
-      "comments": [
-          {
-              "id": 1,
-              "author": "Comment Author",
-              "content": "Comment Content"
-          }
-      ]
+    "title": "Event Title",
+    "description": "Event Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "location": "Example City",
+    "date": "01/01/2025",
+    "time": "10:00 AM",
+    "participants": [
+      {
+        "id": 1,
+        "name": "Participant Name",
+        "email": "participant@example.com"
+      }
+    ],
+    "comments": [
+      {
+        "id": 1,
+        "author": "Comment Author",
+        "content": "Comment Content"
+      }
+    ]
   },
   "notifications": [
     {
-        "id": 1,
-        "message": "New message from John Doe",
-        "timestamp": "2 minutes ago"
+      "id": 1,
+      "message": "New message from John Doe",
+      "timestamp": "2 minutes ago"
     },
     {
-        "id": 2,
-        "message": "Event 'Upcoming Event 1' has been updated.",
-        "timestamp": "5 minutes ago"
+      "id": 2,
+      "message": "Event 'Upcoming Event 1' has been updated.",
+      "timestamp": "5 minutes ago"
     }
-],
+  ],
   "messages": [
     {
-        "id": 1,
-        "from": "John Doe",
-        "content": "Hello, how are you?"
+      "id": 1,
+      "from": "John Doe",
+      "content": "Hello, how are you?"
     },
     {
       "id": 3,
-      "from": " Ahmad ",
+      "from": "Ahmad",
       "content": "Hello, how are you?"
-  },
+    },
     {
-        "id": 2,
-        "from": "Jane Smith",
-        "content": "Hi there!"
+      "id": 2,
+      "from": "Jane Smith",
+      "content": "Hi there!"
     }
-],
-"profile": {
-  "name": "User's Name",
-  "bio": "User's Bio",
-  "profilePicture": "profile.jpg",
-  "eventsParticipated": 10,
-  "upcomingEvents": 2,
-  "pastEvents": 8
-},
+  ],
+  "profile": {
+    "name": "User's Name",
+    "bio": "User's Bio",
+    "profilePicture": "profile.jpg",
+    "eventsParticipated": 10,
+    "upcomingEvents": 2,
+    "pastEvents": 8
+  },
   "activities": [
-      {
-          "id": 4,
-          "title": "Activity 1",
-          "date": "01/01/2024",
-          "location": "City",
-          "category": "Category 1"
-      },
-      {
-          "id": 5,
-          "title": "Activity 2",
-          "date": "02/01/2024",
-          "location": "Town",
-          "category": "Category 2"
-      }
+    {
+      "id": 1,
+      "title": "Activity 1",
+      "category": "Category 1",
+      "date": "2024-06-01",
+      "location": "Location 1"
+    },
+    {
+      "id": 2,
+      "title": "Activity 2",
+      "category": "Category 2",
+      "date": "2024-06-02",
+      "location": "Location 2"
+    }
   ],
   "createdEvents": [],
-  
   "featuredEvents": [
     {
       "id": 1,
@@ -121,26 +154,33 @@
       "date": "2024-06-20",
       "location": "Art Center",
       "description": "Learn new art techniques at our workshop."
+    },
+    {
+      "id": 4,
+      "title": "Community Cleanup",
+      "date": "2026-06-01",
+      "location": " Park",
+      "description": "a community cleanup event."
     }
-  ], 
-"participants": [
-  {
+  ],
+  "participants": [
+    {
       "id": 1,
       "name": "Participant 1",
       "status": "Pending"
-  },
-  {
+    },
+    {
       "id": 2,
       "name": "Participant 2",
       "status": "Accepted"
+    }
+  ],
+  "settings": {
+    "email": "user@example.com",
+    "notificationPreferences": {},
+    "privacySettings": {}
+  },
+  "authentication": {
+    "isLoggedIn": false
   }
-],
-"settings": {
-  "email": "user@example.com",
-  "notificationPreferences": {},
-  "privacySettings": {}
-},
-"authentication": {
-  "isLoggedIn": false
-}
 }

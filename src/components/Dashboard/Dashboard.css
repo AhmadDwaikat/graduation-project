@@ -1,64 +1,81 @@
+/* Container for the entire dashboard */
 .dashboard-container {
     padding: 20px;
-    background-color: #f0f4f8;
-    color: #333;
-    font-family: 'Arial, sans-serif';
+    margin: auto;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Title of the dashboard */
 .title {
     margin-bottom: 20px;
+    font-weight: 600;
+    color: #333333;
+    text-align: center;
 }
 
+/* Quick links section */
 .quick-links {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
+/* Style for quick link buttons */
 .quick-link-button {
-    background-color: #3f51b5;
+    background-color: #007bff;
     color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-transform: none;
+    transition: background-color 0.3s;
 }
 
+.quick-link-button:hover {
+    background-color: #0056b3;
+}
+
+/* Section titles for different event categories */
 .section-title {
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.activity-grid {
+    margin-top: 30px;
     margin-bottom: 20px;
+    font-weight: 500;
+    color: #333333;
 }
 
+/* Grid container for events */
+.activity-grid {
+    margin-bottom: 30px;
+}
+
+/* Individual event card */
 .activity-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .activity-card:hover {
-    transform: scale(1.02);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Title of each event */
 .activity-title {
-    font-weight: bold;
-    color: #3f51b5;
+    font-weight: 600;
+    margin-bottom: 10px;
 }
 
+/* Details of each event */
 .activity-details {
-    color: #555;
+    color: #555555;
 }
 
-.notifications {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-}
-
-.statistics {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+/* No data message */
+.no-data {
+    text-align: center;
+    margin-top: 20px;
+    color: #999999;
 }

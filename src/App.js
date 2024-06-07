@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header'; // Import the Header component
+import Header from './components/Header';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
 import Login from './components/LogIn';
@@ -14,12 +14,12 @@ import Notifications from './components/Notifications';
 import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
-import { EventProvider } from './context/EventContext'; // Import the EventProvider
+import { EventProvider } from './context/EventContext';
 
 const App = () => {
   return (
     <Router>
-      <EventProvider> {/* Wrap the entire app or part of it with EventProvider */}
+      <EventProvider>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />

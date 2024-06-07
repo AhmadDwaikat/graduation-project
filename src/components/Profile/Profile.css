@@ -1,32 +1,55 @@
+/* Container for the profile page */
 .profile-container {
     padding: 20px;
+    margin: auto;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Profile card styling */
 .profile-card {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
 }
 
+/* Profile avatar styling */
 .profile-avatar {
     width: 100px;
     height: 100px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
+/* Profile name styling */
 .profile-name {
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
+/* Profile bio styling */
 .profile-bio {
     margin-bottom: 20px;
+    color: #555555;
 }
 
-.edit-button {
-    margin-top: 20px;
-}
-
-.section-title {
+/* Profile edit field styling */
+.profile-edit-field {
     margin-bottom: 20px;
+}
+
+/* Save and cancel button styling */
+.save-button,
+.cancel-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Section title styling */
+.section-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }

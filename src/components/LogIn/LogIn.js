@@ -1,54 +1,68 @@
-// SignIn.js
 import React from 'react';
-import { Typography, Container, TextField, Button} from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { Typography, Container, TextField, Button, Link } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import '..//SignUpLogin.css';
-import eventData from '../data.json'; // Import the temporary data
+import { useEvent } from '../../context/EventContext';
+import './Login.css'; // Import the new CSS file
 
-const SignIn = () => {
+const LogIn = () => {
+    const { dispatch } = useEvent();
     const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleSignIn = () => {
-        // Here you would handle your sign in logic (authentication)
-        // For now, we'll just navigate to the Dashboard page
-        eventData.authentication.isLoggedIn = true;
+    const onSubmit = (data) => {
+        dispatch({ type: 'log_in', payload: data });
         navigate('/dashboard');
     };
 
     return (
         <Container maxWidth="sm" className="signup-login-container">
-            <Typography variant="h4" className="title">
-                Sign In
-            </Typography>
-            <form className="signin-form">
+            <Typography variant="h4" className="title">Log In</Typography>
+            <form className="signin-form" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <TextField
+                    {...register('email', {
+                        required: 'Email is required',
+                        pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: 'Invalid email address' }
+                    })}
                     label="Email"
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ''}
+                    aria-invalid={!!errors.email}
+                    aria-describedby="email-error"
                 />
                 <TextField
+                    {...register('password', {
+                        required: 'Password is required',
+                        minLength: { value: 6, message: 'Password must be at least 6 characters' }
+                    })}
                     label="Password"
                     variant="outlined"
                     type="password"
                     fullWidth
                     margin="normal"
+                    error={!!errors.password}
+                    helperText={errors.password ? errors.password.message : ''}
+                    aria-invalid={!!errors.password}
+                    aria-describedby="password-error"
                 />
                 <Button
                     variant="contained"
                     color="primary"
                     fullWidth
-                    onClick={handleSignIn}
+                    type="submit"
                     className="signin-button"
                 >
-                    Sign In
+                    Log In
                 </Button>
             </form>
             <Typography variant="body2" className="switch-auth">
-                Don't have an account? <RouterLink to="/signup">Sign Up</RouterLink>
+                Don't have an account? <Link component={RouterLink} to="/signup">Sign Up</Link>
             </Typography>
         </Container>
     );
 };
 
-export default SignIn;
+export default LogIn;

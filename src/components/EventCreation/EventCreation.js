@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useEvent } from '../../context/EventContext';
 import './EventCreation.css';
-import eventData from '../data.json'; // Import the temporary data
 
 const EventCreation = () => {
+    const { state, dispatch } = useEvent();
     const [eventTitle, setEventTitle] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
@@ -11,10 +12,29 @@ const EventCreation = () => {
     const [time, setTime] = useState('');
     const [participantLimit, setParticipantLimit] = useState('');
     const [category, setCategory] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!eventTitle) newErrors.eventTitle = 'Event title is required';
+        if (!description) newErrors.description = 'Description is required';
+        if (!location) newErrors.location = 'Location is required';
+        if (!date) newErrors.date = 'Date is required';
+        if (!time) newErrors.time = 'Time is required';
+        if (!participantLimit) newErrors.participantLimit = 'Participant limit is required';
+        if (!category) newErrors.category = 'Category is required';
+        return newErrors;
+    };
 
     const handleCreateEvent = () => {
+        const newErrors = validateForm();
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
         const newEvent = {
-            id: eventData.createdEvents.length + 1,
+            id: state.createdEvents.length + 1,
             title: eventTitle,
             description,
             location,
@@ -24,15 +44,7 @@ const EventCreation = () => {
             category
         };
 
-        const updatedEventData = {
-            ...eventData,
-            createdEvents: [...eventData.createdEvents, newEvent]
-        };
-
-        // Update the data.json file with the new event
-        // This is a simplified example, in a real application you would use a backend API
-        // or another method to persist the data
-        console.log(updatedEventData);
+        dispatch({ type: 'create_event', payload: newEvent });
 
         // Clear the form fields after creating the event
         setEventTitle('');
@@ -42,6 +54,7 @@ const EventCreation = () => {
         setTime('');
         setParticipantLimit('');
         setCategory('');
+        setErrors({});
     };
 
     return (
@@ -58,6 +71,8 @@ const EventCreation = () => {
                     className="form-field"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
+                    error={!!errors.eventTitle}
+                    helperText={errors.eventTitle}
                 />
                 <TextField
                     required
@@ -69,6 +84,8 @@ const EventCreation = () => {
                     className="form-field"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    error={!!errors.description}
+                    helperText={errors.description}
                 />
                 <TextField
                     required
@@ -78,6 +95,8 @@ const EventCreation = () => {
                     className="form-field"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
+                    error={!!errors.location}
+                    helperText={errors.location}
                 />
                 <TextField
                     required
@@ -91,6 +110,8 @@ const EventCreation = () => {
                     }}
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    error={!!errors.date}
+                    helperText={errors.date}
                 />
                 <TextField
                     required
@@ -104,6 +125,8 @@ const EventCreation = () => {
                     }}
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
+                    error={!!errors.time}
+                    helperText={errors.time}
                 />
                 <TextField
                     required
@@ -114,8 +137,10 @@ const EventCreation = () => {
                     className="form-field"
                     value={participantLimit}
                     onChange={(e) => setParticipantLimit(e.target.value)}
+                    error={!!errors.participantLimit}
+                    helperText={errors.participantLimit}
                 />
-                <FormControl fullWidth variant="outlined" className="form-field">
+                <FormControl fullWidth variant="outlined" className="form-field" error={!!errors.category}>
                     <InputLabel>Category</InputLabel>
                     <Select
                         label="Category"
@@ -126,6 +151,7 @@ const EventCreation = () => {
                         <MenuItem value="category2">Category 2</MenuItem>
                         <MenuItem value="category3">Category 3</MenuItem>
                     </Select>
+                    {errors.category && <Typography color="error">{errors.category}</Typography>}
                 </FormControl>
                 <Button
                     variant="contained"

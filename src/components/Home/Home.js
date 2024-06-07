@@ -1,35 +1,50 @@
-import React from 'react';
-import { Typography, Grid, Card, CardContent, TextField, Button, Link } from '@mui/material';
+import React, { useState } from 'react';
+import { useEvent } from '../../context/EventContext';
+import { Typography, Container, TextField, Button, Grid, Card, CardContent, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import './Home.css';
-import eventData from '../data.json'; // Import the temporary data
 
 const Home = () => {
-    const { featuredEvents } = eventData;
+    const { state } = useEvent();
+    const { featuredEvents } = state;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredEvents, setFilteredEvents] = useState(featuredEvents);
+
+    const handleSearch = () => {
+        const filtered = featuredEvents.filter(event =>
+            event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            event.location.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredEvents(filtered);
+    };
 
     return (
-        <div className="home-container">
-            <Typography variant="h4" className="title">
+        <Container maxWidth="lg" className="home-container">
+            <Typography variant="h4" className="title" gutterBottom>
                 Welcome to Social Activity App
             </Typography>
-            <div className="search-container">
+            <form className="search-form" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                 <TextField
                     label="Search for Events"
                     variant="outlined"
-                    className="search-bar"
+                    fullWidth
+                    margin="normal"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <Button variant="contained" color="primary" className="search-button">
+                <Button variant="contained" color="primary" type="submit" className="search-button">
                     Search
                 </Button>
-            </div>
+            </form>
             <Typography variant="body1" gutterBottom>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
             </Typography>
-            <Typography variant="h5" className="title">
+            <Typography variant="h5" className="title" gutterBottom>
                 Featured Events
             </Typography>
             <Grid container spacing={2} className="featured-events">
-                {featuredEvents.map((event) => (
+                {filteredEvents.map((event) => (
                     <Grid item xs={12} sm={6} md={4} key={event.id}>
                         <Card className="featured-event-card">
                             <CardContent className="card-content">
@@ -58,7 +73,7 @@ const Home = () => {
             <Typography variant="body1" className="login-signup">
                 New user? <Link component={RouterLink} to="/signup">Sign up</Link>
             </Typography>
-        </div>
+        </Container>
     );
 };
 

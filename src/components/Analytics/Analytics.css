@@ -1,17 +1,33 @@
+/* Container for the entire analytics dashboard */
 .analytics-container {
     padding: 20px;
+    margin: auto;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Title of the analytics dashboard */
 .title {
     margin-bottom: 20px;
+    font-weight: 600;
+    color: #333333;
+    text-align: center;
 }
 
-.statistics-card,
-.engagement-card,
-.reports-card {
+/* Card styles */
+.statistics-card, .engagement-card, .reports-card {
     margin-bottom: 20px;
 }
 
+/* Chart titles */
 .chart-title {
+    font-weight: 500;
     margin-bottom: 10px;
+}
+
+/* General typography styles */
+.typography-body {
+    color: #555555;
 }

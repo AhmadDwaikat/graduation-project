@@ -1,21 +1,37 @@
+/* Container for the settings page */
 .settings-container {
     padding: 20px;
+    margin-top: 20px;
 }
 
+/* Title styling */
 .title {
+    text-align: center;
     margin-bottom: 20px;
+    font-weight: 600;
 }
 
+/* Form styling */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Account settings card styling */
 .account-settings-card,
 .notification-settings-card,
 .privacy-settings-card {
     margin-bottom: 20px;
 }
 
+/* Section title styling */
 .section-title {
     margin-bottom: 10px;
+    font-weight: 600;
 }
 
+/* Save button styling */
 .save-button {
-    margin-top: 10px;
+    margin-top: 20px;
 }

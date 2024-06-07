@@ -1,34 +1,48 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Button, IconButton } from '@mui/material';
-import { Share, PersonAdd, PersonRemove } from '@mui/icons-material';
-import { useEvent } from '../../context/EventContext'; // Import the useEvent hook
+import { Typography, Card, CardContent, Button } from '@mui/material';
+import { PersonAdd, PersonRemove } from '@mui/icons-material';
+import { useEvent } from '../../context/EventContext';
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    LinkedinShareButton,
+    FacebookMessengerShareButton,
+    FacebookIcon,
+    TwitterIcon,
+    LinkedinIcon,
+    FacebookMessengerIcon
+} from 'react-share';
 import './EventDetail.css';
-import eventData from '../data.json'; // Import the temporary data
+import eventData from '../data.json';
 
 const EventDetail = () => {
     const { id } = useParams();
-    const { state, dispatch } = useEvent(); // Use the context
+    const { state, dispatch } = useEvent();
 
-    // Find the event based on the id parameter from the URL
-    const event = eventData.featuredEvents.find(event => event.id === parseInt(id)) ||
+    const event = state.featuredEvents.find(event => event.id === parseInt(id)) ||
+                  state.myEvents.find(event => event.id === parseInt(id)) ||
+                  eventData.featuredEvents.find(event => event.id === parseInt(id)) ||
                   eventData.upcomingEvents.find(event => event.id === parseInt(id)) ||
                   eventData.pastEvents.find(event => event.id === parseInt(id));
 
-    // Handle no event found case
     if (!event) {
         return <Typography variant="h6">Event not found</Typography>;
     }
 
-    // Function to handle joining an event
+    const joinedEvents = state.joinedEvents || [];
+
     const handleJoinEvent = () => {
-        dispatch({ type: 'join_event', payload: { id: event.id } });
+        console.log('Joining event:', event.id); // Debugging log
+        dispatch({ type: 'join_event', payload: event.id });
     };
 
-    // Function to handle leaving an event
     const handleLeaveEvent = () => {
-        dispatch({ type: 'leave_event', payload: { id: event.id } });
+        console.log('Leaving event:', event.id); // Debugging log
+        dispatch({ type: 'leave_event', payload: event.id });
     };
+
+    const isJoined = joinedEvents.includes(event.id);
 
     return (
         <div className="event-detail-container">
@@ -50,18 +64,28 @@ const EventDetail = () => {
                         {event.description}
                     </Typography>
                     <div className="action-buttons">
-                        {state.joined ? (
-                            <Button variant="contained" color="secondary" startIcon={<PersonRemove />} onClick={handleLeaveEvent}>
-                                Leave Event
-                            </Button>
-                        ) : (
-                            <Button variant="contained" color="primary" startIcon={<PersonAdd />} onClick={handleJoinEvent}>
-                                Join Event
-                            </Button>
-                        )}
-                        <IconButton aria-label="share">
-                            <Share />
-                        </IconButton>
+                        <Button
+                            variant="contained"
+                            color={isJoined ? "secondary" : "primary"}
+                            startIcon={isJoined ? <PersonRemove /> : <PersonAdd />}
+                            onClick={isJoined ? handleLeaveEvent : handleJoinEvent}
+                        >
+                            {isJoined ? "Leave Event" : "Join Event"}
+                        </Button>
+                        <div className="share-buttons">
+                            <FacebookShareButton url={window.location.href} quote={event.title}>
+                                <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+                            <TwitterShareButton url={window.location.href} title={event.title}>
+                                <TwitterIcon size={32} round />
+                            </TwitterShareButton>
+                            <LinkedinShareButton url={window.location.href} title={event.title}>
+                                <LinkedinIcon size={32} round />
+                            </LinkedinShareButton>
+                            <FacebookMessengerShareButton url={window.location.href} appId="YOUR_APP_ID">
+                                <FacebookMessengerIcon size={32} round />
+                            </FacebookMessengerShareButton>
+                        </div>
                     </div>
                 </CardContent>
             </Card>

@@ -1,54 +1,60 @@
+/* Container for the entire event detail page */
 .event-detail-container {
     padding: 20px;
+    margin: auto;
+    max-width: 800px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Title of the event detail page */
 .title {
     margin-bottom: 20px;
+    font-weight: 600;
+    color: #333333;
+    text-align: center;
 }
 
+/* Event card styles */
 .event-card {
     margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
 }
 
+/* Event title styles */
 .event-title {
-    font-size: 24px;
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
+/* Event details styles */
+.event-details {
+    margin-bottom: 10px;
+    color: #555555;
+}
+
+/* Event description styles */
 .event-description {
     margin-bottom: 20px;
 }
 
-.event-details {
-    margin-bottom: 10px;
-}
-
+/* Action buttons container */
 .action-buttons {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.join-button {
-    margin-right: 10px;
+/* Share buttons container */
+.share-buttons {
+    display: flex;
+    gap: 10px;
 }
 
-.participant-grid {
-    margin-bottom: 20px;
-}
-
-.participant-card {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
-.participant-name {
-    font-weight: bold;
-}
-
-.comments {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
+/* Section title styles */
+.section-title {
+    margin-top: 20px;
+    font-weight: 500;
+    color: #333333;
 }
