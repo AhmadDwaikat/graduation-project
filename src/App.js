@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
@@ -15,6 +15,7 @@ import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
 import { EventProvider } from './context/EventContext';
+import ProtectedRoute from './components/ProtectedRoute'; // Custom component to protect routes
 
 const App = () => {
   return (
@@ -25,16 +26,86 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/event-creation" element={<EventCreation />} />
-          <Route path="/event-detail/:id" element={<EventDetail />} />
-          <Route path="/participant-management" element={<ParticipantManagement />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/activity-library" element={<ActivityLibrary />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/event-creation"
+            element={
+              <ProtectedRoute>
+                <EventCreation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/event-detail/:id"
+            element={
+              <ProtectedRoute>
+                <EventDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/participant-management"
+            element={
+              <ProtectedRoute>
+                <ParticipantManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/activity-library"
+            element={
+              <ProtectedRoute>
+                <ActivityLibrary />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <Notifications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute>
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <Analytics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </EventProvider>
     </Router>

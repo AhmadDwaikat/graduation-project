@@ -1,25 +1,26 @@
-// server.js
 const express = require('express');
-const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
-const { errorHandler } = require('./middleware/errorMiddleware');
-
-// Centralize dotenv.config() here
-dotenv.config();
-
-connectDB();
+const cors = require('cors');
 
 const app = express();
 
+// Connect to the database
+connectDB();
+
+// Middleware to parse JSON
 app.use(express.json());
 
-app.use('/api/users', userRoutes);
+// Middleware to handle CORS
+app.use(cors());
+
+// Use routes
+app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 
-// Error handling middleware
-app.use(errorHandler);
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -1,70 +1,54 @@
-/* Container for the home page */
+/* Home.css */
 .home-container {
     padding: 20px;
     margin-top: 20px;
-}
-
-/* Title styling */
-.title {
-    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .title {
     margin-bottom: 20px;
-    font-weight: 600;
-}
-
-/* Search form styling */
-.search-form {
+  }
+  
+  .overview {
+    margin-bottom: 20px;
+  }
+  
+  .search-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-/* Search button styling */
-.search-button {
+  }
+  
+  .search-button {
     margin-top: 10px;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    text-transform: none;
-    transition: background-color 0.3s;
-}
-
-.search-button:hover {
-    background-color: #0056b3;
-}
-
-/* Featured events styling */
-.featured-events {
+  }
+  
+  .featured-events {
     margin-top: 20px;
-}
-
-/* Featured event card styling */
-.featured-event-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-
-.featured-event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Event title styling */
-.event-title {
-    font-weight: 600;
+  }
+  
+  .featured-event-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-title {
+    font-weight: bold;
     margin-bottom: 10px;
-}
-
-/* Event details styling */
-.event-details {
-    margin-bottom: 10px;
-    color: #555555;
-}
-
-/* Login and signup link styling */
-.login-signup {
+  }
+  
+  .event-details {
+    margin-bottom: 5px;
+  }
+  
+  .login-signup {
+    margin-top: 20px;
     text-align: center;
-    margin-top: 20px;
-}
+  }
+  

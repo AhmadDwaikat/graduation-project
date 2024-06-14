@@ -13,8 +13,20 @@ const EventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  time: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  participantLimit: {
+    type: Number,
     required: true,
   },
   creator: {

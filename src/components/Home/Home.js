@@ -24,6 +24,10 @@ const Home = () => {
             <Typography variant="h4" className="title" gutterBottom>
                 Welcome to Social Activity App
             </Typography>
+            <Typography variant="body1" className="overview" gutterBottom>
+                Welcome to the Social Activity Participation Application, your ultimate platform for discovering, creating, and managing social activities! Our application is designed to bring people together by facilitating the organization and participation in a wide range of events. Whether you are looking to join a local workshop, volunteer for a community service, or plan a trip with friends, our platform offers the tools you need to make it happen seamlessly.
+            </Typography>
+            
             <form className="search-form" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                 <TextField
                     label="Search for Events"
@@ -37,9 +41,6 @@ const Home = () => {
                     Search
                 </Button>
             </form>
-            <Typography variant="body1" gutterBottom>
-                    social Activity
-            </Typography>
             <Typography variant="h5" className="title" gutterBottom>
                 Featured Events
             </Typography>

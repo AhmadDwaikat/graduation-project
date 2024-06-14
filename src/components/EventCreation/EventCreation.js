@@ -1,168 +1,141 @@
-import React, { useState } from 'react';
-import { Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Typography, Container, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import './EventCreation.css';
 
 const EventCreation = () => {
-    const { state, dispatch } = useEvent();
-    const [eventTitle, setEventTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [location, setLocation] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [participantLimit, setParticipantLimit] = useState('');
-    const [category, setCategory] = useState('');
-    const [errors, setErrors] = useState({});
+    const { dispatch } = useEvent();
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
 
-    const validateForm = () => {
-        const newErrors = {};
-        if (!eventTitle) newErrors.eventTitle = 'Event title is required';
-        if (!description) newErrors.description = 'Description is required';
-        if (!location) newErrors.location = 'Location is required';
-        if (!date) newErrors.date = 'Date is required';
-        if (!time) newErrors.time = 'Time is required';
-        if (!participantLimit) newErrors.participantLimit = 'Participant limit is required';
-        if (!category) newErrors.category = 'Category is required';
-        return newErrors;
-    };
-
-    const handleCreateEvent = () => {
-        const newErrors = validateForm();
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
+    const onSubmit = async (data) => {
+        clearErrors(); // Clear any previous errors
+        console.log('Submitting event creation form with data:', data);
+        try {
+            const response = await fetch('http://localhost:5000/api/events/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            console.log('Response from server:', result);
+            if (response.ok) {
+                dispatch({ type: 'create_event', payload: result });
+                navigate('/dashboard'); // Redirect to dashboard page
+            } else {
+                console.error(result.message);
+                setError('apiError', { type: 'manual', message: result.message });
+            }
+        } catch (error) {
+            console.error('Error creating event:', error);
+            setError('apiError', { type: 'manual', message: 'An unexpected error occurred. Please try again later.' });
         }
-
-        const newEvent = {
-            id: state.createdEvents.length + 1,
-            title: eventTitle,
-            description,
-            location,
-            date,
-            time,
-            participantLimit,
-            category
-        };
-
-        dispatch({ type: 'create_event', payload: newEvent });
-
-        // Clear the form fields after creating the event
-        setEventTitle('');
-        setDescription('');
-        setLocation('');
-        setDate('');
-        setTime('');
-        setParticipantLimit('');
-        setCategory('');
-        setErrors({});
     };
 
     return (
-        <div className="event-creation-container">
-            <Typography variant="h4" className="title">
-                Create New Event
-            </Typography>
-            <form className="event-form" autoComplete="off">
+        <Container maxWidth="sm" className="create-event-container">
+            <Typography variant="h4" className="title">Create Event</Typography>
+            <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
                 <TextField
-                    required
-                    label="Event Title"
-                    fullWidth
+                    {...register('title', { required: 'Title is required' })}
+                    label="Title"
                     variant="outlined"
-                    className="form-field"
-                    value={eventTitle}
-                    onChange={(e) => setEventTitle(e.target.value)}
-                    error={!!errors.eventTitle}
-                    helperText={errors.eventTitle}
+                    fullWidth
+                    margin="normal"
+                    error={!!errors.title}
+                    helperText={errors.title ? errors.title.message : ''}
                 />
                 <TextField
-                    required
+                    {...register('description', { required: 'Description is required' })}
                     label="Description"
-                    fullWidth
                     variant="outlined"
-                    multiline
-                    rows={4}
-                    className="form-field"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    fullWidth
+                    margin="normal"
                     error={!!errors.description}
-                    helperText={errors.description}
+                    helperText={errors.description ? errors.description.message : ''}
                 />
                 <TextField
-                    required
-                    label="Location"
-                    fullWidth
-                    variant="outlined"
-                    className="form-field"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    error={!!errors.location}
-                    helperText={errors.location}
-                />
-                <TextField
-                    required
+                    {...register('date', { required: 'Date is required' })}
                     label="Date"
                     type="date"
-                    fullWidth
                     variant="outlined"
-                    className="form-field"
+                    fullWidth
+                    margin="normal"
+                    error={!!errors.date}
+                    helperText={errors.date ? errors.date.message : ''}
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    error={!!errors.date}
-                    helperText={errors.date}
                 />
                 <TextField
-                    required
+                    {...register('time', { required: 'Time is required' })}
                     label="Time"
                     type="time"
-                    fullWidth
                     variant="outlined"
-                    className="form-field"
+                    fullWidth
+                    margin="normal"
+                    error={!!errors.time}
+                    helperText={errors.time ? errors.time.message : ''}
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    error={!!errors.time}
-                    helperText={errors.time}
                 />
                 <TextField
-                    required
+                    {...register('location', { required: 'Location is required' })}
+                    label="Location"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    error={!!errors.location}
+                    helperText={errors.location ? errors.location.message : ''}
+                />
+                <TextField
+                    {...register('participantLimit', { required: 'Participant limit is required' })}
                     label="Participant Limit"
                     type="number"
-                    fullWidth
                     variant="outlined"
-                    className="form-field"
-                    value={participantLimit}
-                    onChange={(e) => setParticipantLimit(e.target.value)}
+                    fullWidth
+                    margin="normal"
                     error={!!errors.participantLimit}
-                    helperText={errors.participantLimit}
+                    helperText={errors.participantLimit ? errors.participantLimit.message : ''}
                 />
-                <FormControl fullWidth variant="outlined" className="form-field" error={!!errors.category}>
+                <FormControl fullWidth variant="outlined" margin="normal" error={!!errors.category}>
                     <InputLabel>Category</InputLabel>
                     <Select
+                        {...register('category', { required: 'Category is required' })}
                         label="Category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
+                        defaultValue=""
+                        error={!!errors.category}
                     >
-                        <MenuItem value="category1">Category 1</MenuItem>
-                        <MenuItem value="category2">Category 2</MenuItem>
-                        <MenuItem value="category3">Category 3</MenuItem>
+                        <MenuItem value="Sports">Sports</MenuItem>
+                        <MenuItem value="Volunteering">Volunteering</MenuItem>
+                        <MenuItem value="Music">Music</MenuItem>
+                        <MenuItem value="Art">Art</MenuItem>
+                        <MenuItem value="Education">Education</MenuItem>
                     </Select>
-                    {errors.category && <Typography color="error">{errors.category}</Typography>}
+                    {errors.category && <Typography color="error">{errors.category.message}</Typography>}
                 </FormControl>
+                {errors.apiError && (
+                    <Typography color="error" variant="body2">
+                        {errors.apiError.message}
+                    </Typography>
+                )}
                 <Button
                     variant="contained"
                     color="primary"
-                    className="submit-button"
-                    onClick={handleCreateEvent}
+                    fullWidth
+                    type="submit"
+                    className="create-event-button"
                 >
                     Create Event
                 </Button>
             </form>
-        </div>
+        </Container>
     );
 };
 

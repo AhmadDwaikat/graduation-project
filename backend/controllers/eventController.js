@@ -1,86 +1,92 @@
 const Event = require('../models/Event');
 
 // Create a new event
-const createEvent = async (req, res) => {
-  const { name, date, description } = req.body;
+exports.createEvent = async (req, res) => {
+  const { title, description, date, time, category, location, participantLimit } = req.body;
 
   try {
-    const event = new Event({ name, date, description });
-    await event.save();
-    res.status(201).json(event);
+    const event = new Event({
+      title,
+      description,
+      date,
+      time,
+      category,
+      location,
+      participantLimit,
+      creator: req.user.id, // Assuming you have user authentication in place
+    });
+
+    const savedEvent = await event.save();
+    res.status(201).json({ success: true, data: savedEvent });
   } catch (error) {
-    console.error(`Error creating event: ${error.message}`);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error creating event:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
 // Get all events
-const getEvents = async (req, res) => {
+exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find();
-    res.status(200).json(events);
+    res.status(200).json({ success: true, data: events });
   } catch (error) {
     console.error(`Error fetching events: ${error.message}`);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
 // Get a single event
-const getEvent = async (req, res) => {
+exports.getEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ success: false, message: 'Event not found' });
     }
-    res.status(200).json(event);
+    res.status(200).json({ success: true, data: event });
   } catch (error) {
     console.error(`Error fetching event: ${error.message}`);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
 // Update an event
-const updateEvent = async (req, res) => {
-  const { name, date, description } = req.body;
+exports.updateEvent = async (req, res) => {
+  const { title, description, date, time, category, location, participantLimit } = req.body;
 
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
-    event.name = name || event.name;
-    event.date = date || event.date;
+    event.title = title || event.title;
     event.description = description || event.description;
+    event.date = date || event.date;
+    event.time = time || event.time;
+    event.category = category || event.category;
+    event.location = location || event.location;
+    event.participantLimit = participantLimit || event.participantLimit;
 
     await event.save();
-    res.status(200).json(event);
+    res.status(200).json({ success: true, data: event });
   } catch (error) {
     console.error(`Error updating event: ${error.message}`);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
 // Delete an event
-const deleteEvent = async (req, res) => {
+exports.deleteEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
     await event.remove();
-    res.status(200).json({ message: 'Event removed' });
+    res.status(200).json({ success: true, message: 'Event removed' });
   } catch (error) {
     console.error(`Error deleting event: ${error.message}`);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
-};
-
-module.exports = {
-  createEvent,
-  getEvents,
-  getEvent,
-  updateEvent,
-  deleteEvent,
 };

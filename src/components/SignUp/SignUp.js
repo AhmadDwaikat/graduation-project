@@ -1,19 +1,47 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Typography, Container, TextField, Button } from '@mui/material';
+import { Typography, Container, TextField, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
-import './SignUp.css'; // Import the new CSS file
+import './SignUp.css';
 
 const SignUp = () => {
     const { dispatch } = useEvent();
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
 
-    const onSubmit = (data) => {
-        dispatch({ type: 'sign_up', payload: data });
-        navigate('/dashboard');
+    const onSubmit = async (data) => {
+        clearErrors(); // Clear any previous errors
+        console.log('Submitting sign-up form with data:', data);
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', { // Ensure this URL matches your backend route
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            console.log('Response from server:', result);
+            if (response.ok) {
+                dispatch({ type: 'login', payload: result });
+                navigate('/dashboard');
+            } else {
+                if (result.errors) {
+                    result.errors.forEach(error => {
+                        setError(error.param, { type: 'manual', message: error.msg });
+                    });
+                } else {
+                    console.error(result.message);
+                    setError('apiError', { type: 'manual', message: result.message });
+                }
+            }
+        } catch (error) {
+            console.error('Error signing up:', error);
+            setError('apiError', { type: 'manual', message: 'An unexpected error occurred. Please try again later.' });
+        }
     };
+    
 
     return (
         <Container maxWidth="sm" className="signup-login-container">
@@ -53,6 +81,11 @@ const SignUp = () => {
                     error={!!errors.password}
                     helperText={errors.password ? errors.password.message : ''}
                 />
+                {errors.apiError && (
+                    <Typography color="error" variant="body2">
+                        {errors.apiError.message}
+                    </Typography>
+                )}
                 <Button
                     variant="contained"
                     color="primary"
@@ -64,7 +97,7 @@ const SignUp = () => {
                 </Button>
             </form>
             <Typography variant="body2" className="switch-auth">
-                Already have an account? <a href="/login">Login</a>
+                Already have an account? <Link href="/login">Login</Link>
             </Typography>
         </Container>
     );
