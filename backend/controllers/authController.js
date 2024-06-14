@@ -104,3 +104,47 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+// Get user information
+exports.getUserInfo = async (req, res) => {
+  try {
+    console.log('Fetching user information for user:', req.user.id);
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    console.log('User information fetched successfully:', user);
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    console.error('Error fetching user information:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
+// Update user information
+exports.updateUserInfo = async (req, res) => {
+  const { name, bio, profilePicture } = req.body;
+
+  try {
+    console.log('Updating user information for user:', req.user.id);
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.name = name || user.name;
+    user.bio = bio || user.bio;
+    user.profilePicture = profilePicture || user.profilePicture;
+
+    const updatedUser = await user.save();
+    console.log('User information updated successfully:', updatedUser);
+    res.status(200).json({ success: true, data: updatedUser });
+  } catch (error) {
+    console.error('Error updating user information:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};

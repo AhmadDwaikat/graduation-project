@@ -28,6 +28,7 @@ const Header = () => {
                     <Button color="inherit" component={RouterLink} to="/notifications">Notifications</Button>
                     <Button color="inherit" component={RouterLink} to="/messages">Messages</Button>
                     <Button color="inherit" component={RouterLink} to="/analytics">Analytics</Button>
+                    
                     {!state.isAuthenticated && (
                         <>
                             <Button color="inherit" component={RouterLink} to="/signup">Sign Up</Button>

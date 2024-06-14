@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Typography } from '@mui/material';
 import './Login.css';
+
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [apiError, setApiError] = useState('');
@@ -36,7 +37,10 @@ const Login = () => {
       <Typography variant="h4" gutterBottom>Login</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          {...register('email', { required: 'Email is required', pattern: /^\S+@\S+$/i })}
+          {...register('email', { 
+            required: 'Email is required', 
+            pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
+          })}
           label="Email"
           variant="outlined"
           fullWidth
@@ -45,7 +49,9 @@ const Login = () => {
           helperText={errors.email ? errors.email.message : ''}
         />
         <TextField
-          {...register('password', { required: 'Password is required' })}
+          {...register('password', { 
+            required: 'Password is required' 
+          })}
           label="Password"
           type="password"
           variant="outlined"

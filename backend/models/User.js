@@ -15,6 +15,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  bio: {
+    type: String,
+  },
+  profilePicture: {
+    type: String,
+  },
 });
 
 // Hash password before saving
@@ -30,4 +36,10 @@ UserSchema.pre('save', async function (next) {
     next(err);
   }
 });
+
+// Method to compare password
+UserSchema.methods.comparePassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
 module.exports = mongoose.model('User', UserSchema);
