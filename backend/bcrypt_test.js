@@ -1,21 +1,28 @@
 const bcrypt = require('bcryptjs');
 
-const password = 'password123';
+// Check bcryptjs version
+console.log('bcryptjs version:', bcrypt.version);
+
+// Sample password
+const password = '123456';
 
 // Hash the password
-bcrypt.hash(password, 12, (err, hashedPassword) => {
-  if (err) {
-    console.error(`Error hashing password: ${err.message}`);
-  } else {
-    console.log(`Hashed password: ${hashedPassword}`);
+bcrypt.genSalt(10, (err, salt) => {
+  if (err) throw err;
 
-    // Compare the password
-    bcrypt.compare(password, hashedPassword, (compareErr, isMatch) => {
-      if (compareErr) {
-        console.error(`Error comparing passwords: ${compareErr.message}`);
-      } else {
-        console.log(`Passwords match: ${isMatch}`);
-      }
+  bcrypt.hash(password, salt, (err, hash) => {
+    if (err) throw err;
+
+    console.log('Hashed Password:', hash);
+
+    // Simulate storing and retrieving the hash from the database
+    const storedHash = hash;
+
+    // Compare the provided password with the stored hash
+    bcrypt.compare(password, storedHash, (err, isMatch) => {
+      if (err) throw err;
+
+      console.log('Password Match:', isMatch); // Should output true
     });
-  }
+  });
 });
