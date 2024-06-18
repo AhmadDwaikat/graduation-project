@@ -115,3 +115,13 @@ exports.deleteEvent = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+// Get events not created by the logged-in user
+exports.getNonCreatedEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ creator: { $ne: req.user.id } });
+    res.status(200).json({ success: true, data: events });
+  } catch (error) {
+    console.error('Error fetching non-created events:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};

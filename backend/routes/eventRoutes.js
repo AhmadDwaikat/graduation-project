@@ -6,11 +6,15 @@ const {
   updateEvent,
   deleteEvent,
   getUserEvents,
+  getNonCreatedEvents,
 } = require('../controllers/eventController');
 const validateEvent = require('../middleware/validationMiddleware');
 const auth = require('../middleware/authMiddleware');
 
 const router = express.Router();
+
+// Get events not created by the user
+router.get('/non-created', auth, getNonCreatedEvents);
 
 // Create event route
 router.post('/create', auth, validateEvent, createEvent);

@@ -12,10 +12,11 @@ const initialState = {
   messages: [],
   analytics: {},
   settings: {},
-  joinedEvents: [], // Ensure this is initialized as an empty array
+  joinedEvents: [],
   createdEvents: [],
   participants: [],
-  profile: {}
+  profile: {},
+  nonCreatedEvents: [],
 };
 
 // Define a reducer function to handle actions
@@ -46,15 +47,17 @@ function reducer(state, action) {
     case 'join_event':
       return {
         ...state,
-        joinedEvents: [...state.joinedEvents, action.payload]
+        joinedEvents: [...state.joinedEvents, action.payload],
       };
     case 'leave_event':
       return {
         ...state,
-        joinedEvents: state.joinedEvents.filter(id => id !== action.payload)
+        joinedEvents: state.joinedEvents.filter((id) => id !== action.payload),
       };
     case 'create_event':
       return { ...state, createdEvents: [...state.createdEvents, action.payload] };
+    case 'set_non_created_events':
+      return { ...state, nonCreatedEvents: action.payload };
     default:
       return state;
   }
@@ -82,11 +85,7 @@ export const EventProvider = ({ children }) => {
 
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
-  return (
-    <EventContext.Provider value={value}>
-      {children}
-    </EventContext.Provider>
-  );
+  return <EventContext.Provider value={value}>{children}</EventContext.Provider>;
 };
 
 // Custom hook to use the event context

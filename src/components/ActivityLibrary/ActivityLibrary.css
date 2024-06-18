@@ -50,3 +50,8 @@
 .activity-details {
     color: #555555;
 }
+.event-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
