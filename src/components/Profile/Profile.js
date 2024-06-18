@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Container, Typography, TextField, Avatar, List, ListItem, Button, Card, CardContent } from '@mui/material';
+import { Container, Typography, TextField, Avatar, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
+import './Profile.css';
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -157,58 +158,63 @@ const Profile = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Typography variant="h4" gutterBottom>Profile</Typography>
-      {fetchError && (
-        <Typography color="error" variant="body2">
-          {fetchError}
-        </Typography>
-      )}
-      {updateError && (
-        <Typography color="error" variant="body2">
-          {updateError}
-        </Typography>
-      )}
-      {successMessage && (
-        <Typography color="primary" variant="body2">
-          {successMessage}
-        </Typography>
-      )}
-      <Avatar src={user.profilePicture} alt={user.name} style={{ width: 200, height: 200, marginBottom: 20 }} />
-      <TextField
-        name="name"
-        label="Name"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={user.name}
-        onChange={handleInputChange}
-      />
-      <TextField
-        name="bio"
-        label="Bio"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={user.bio}
-        onChange={handleInputChange}
-      />
-      <input
-        accept="image/*"
-        type="file"
-        name="profilePicture"
-        onChange={handleInputChange}
-        style={{ marginBottom: 20 }}
-      />
-      <Button variant="contained" color="primary" onClick={handleUpdate} style={{ marginBottom: 20 }}>
-        Update Profile
-      </Button>
+    <Container maxWidth="md" className="profile-container">
+      <Card className="profile-card">
+        <Avatar src={user.profilePicture} alt={user.name} className="profile-avatar" />
+        <Typography variant="h5" className="profile-name">{user.name}</Typography>
+        <Typography variant="body1" className="profile-bio">{user.bio}</Typography>
+        <TextField
+          name="name"
+          label="Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={user.name}
+          onChange={handleInputChange}
+          className="profile-edit-field"
+        />
+        <TextField
+          name="bio"
+          label="Bio"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={user.bio}
+          onChange={handleInputChange}
+          className="profile-edit-field"
+        />
+        <input
+          accept="image/*"
+          type="file"
+          name="profilePicture"
+          onChange={handleInputChange}
+          style={{ marginBottom: 20 }}
+        />
+        <Button variant="contained" color="primary" onClick={handleUpdate} className="save-button">
+          Update Profile
+        </Button>
+        {fetchError && (
+          <Typography color="error" variant="body2">
+            {fetchError}
+          </Typography>
+        )}
+        {updateError && (
+          <Typography color="error" variant="body2">
+            {updateError}
+          </Typography>
+        )}
+        {successMessage && (
+          <Typography color="primary" variant="body2">
+            {successMessage}
+          </Typography>
+        )}
+      </Card>
 
-      <Typography variant="h5" gutterBottom>User Events</Typography>
-      <List>
+      <Typography variant="h5" className="section-title">User Events</Typography>
+      <Grid container spacing={2}>
         {events.map(event => (
-          <ListItem key={event._id} divider>
-            <Card style={{ width: '100%' }}>
+          <Grid item xs={12} sm={6} md={4} key={event._id}>
+            <Card className="event-card">
               <CardContent>
                 <Typography variant="h6" component="div">
                   <Link to={`/events/${event._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -231,16 +237,21 @@ const Profile = () => {
                   Category: {event.category}
                 </Typography>
               </CardContent>
+              <CardActions>
+                <Button size="small" color="primary" component={Link} to={`/events/${event._id}`} className="view-button">
+                  View
+                </Button>
+              </CardActions>
             </Card>
-          </ListItem>
+          </Grid>
         ))}
-      </List>
+      </Grid>
 
-      <Typography variant="h5" gutterBottom>User Reviews</Typography>
-      <List>
+      <Typography variant="h5" className="section-title" style={{ marginTop: 40 }}>User Reviews</Typography>
+      <Grid container spacing={2}>
         {reviews.map(review => (
-          <ListItem key={review._id} divider>
-            <Card style={{ width: '100%' }}>
+          <Grid item xs={12} sm={6} md={4} key={review._id}>
+            <Card className="review-card">
               <CardContent>
                 <Typography variant="h6" component="div">
                   {review.title}
@@ -253,9 +264,9 @@ const Profile = () => {
                 </Typography>
               </CardContent>
             </Card>
-          </ListItem>
+          </Grid>
         ))}
-      </List>
+      </Grid>
     </Container>
   );
 };

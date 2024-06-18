@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Container, Typography } from '@mui/material';
+import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import './Login.css';
 
 const Login = () => {
@@ -33,42 +33,49 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>Login</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register('email', { 
-            required: 'Email is required', 
-            pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
-          })}
-          label="Email"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.email}
-          helperText={errors.email ? errors.email.message : ''}
-        />
-        <TextField
-          {...register('password', { 
-            required: 'Password is required' 
-          })}
-          label="Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.password}
-          helperText={errors.password ? errors.password.message : ''}
-        />
-        {apiError && (
-          <Typography color="error" variant="body2">
-            {apiError}
-          </Typography>
-        )}
-        <Button variant="contained" color="primary" type="submit" fullWidth>
-          Login
-        </Button>
-      </form>
+    <Container maxWidth="sm" className="signup-login-container">
+      <Box className="login-container">
+        <Typography variant="h4" className="title">Login</Typography>
+        <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
+          <TextField
+            {...register('email', { 
+              required: 'Email is required', 
+              pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
+            })}
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            error={!!errors.email}
+            helperText={errors.email ? errors.email.message : ''}
+            className="input-field"
+          />
+          <TextField
+            {...register('password', { 
+              required: 'Password is required' 
+            })}
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            error={!!errors.password}
+            helperText={errors.password ? errors.password.message : ''}
+            className="input-field"
+          />
+          {apiError && (
+            <Typography color="error" variant="body2" className="error-message">
+              {apiError}
+            </Typography>
+          )}
+          <Button variant="contained" color="primary" type="submit" fullWidth className="signin-button">
+            Login
+          </Button>
+        </form>
+        <Typography variant="body2" className="switch-auth">
+          Don't have an account? <span onClick={() => navigate('/signup')}>Sign Up</span>
+        </Typography>
+      </Box>
     </Container>
   );
 };

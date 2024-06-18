@@ -9,6 +9,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
+    color: #333333;
 }
 
 /* Form styling */
@@ -18,20 +19,49 @@
     gap: 20px;
 }
 
-/* Account settings card styling */
-.account-settings-card,
-.notification-settings-card,
-.privacy-settings-card {
+/* Card styling */
+.settings-card {
     margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Section title styling */
 .section-title {
     margin-bottom: 10px;
     font-weight: 600;
+    color: #333333;
 }
 
 /* Save button styling */
 .save-button {
     margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-transform: none;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+/* Error and success message styling */
+.alert-message {
+    margin-bottom: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .settings-container {
+        padding: 10px;
+    }
+
+    .save-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }

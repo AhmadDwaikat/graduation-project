@@ -2,6 +2,10 @@
 .signup-login-container {
     padding: 20px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Title styling */
@@ -16,6 +20,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
 /* Sign up button styling */
@@ -43,4 +48,31 @@
 .switch-auth {
     text-align: center;
     margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.switch-auth:hover {
+    color: #0056b3;
+}
+
+/* Input styling */
+.input-field {
+    margin-bottom: 20px;
+}
+
+/* Container styling */
+.signup-container {
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+@media (min-width: 768px) {
+    .signup-container {
+        width: 400px;
+    }
 }

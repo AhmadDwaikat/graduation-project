@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Typography, Container, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Typography, Container, TextField, Button, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import './EventCreation.css';
@@ -38,9 +38,9 @@ const EventCreation = () => {
     };
 
     return (
-        <Container maxWidth="sm" className="create-event-container">
+        <Container maxWidth="sm" className="event-creation-container">
             <Typography variant="h4" className="title">Create Event</Typography>
-            <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                     {...register('title', { required: 'Title is required' })}
                     label="Title"
@@ -49,6 +49,7 @@ const EventCreation = () => {
                     margin="normal"
                     error={!!errors.title}
                     helperText={errors.title ? errors.title.message : ''}
+                    className="input-field"
                 />
                 <TextField
                     {...register('description', { required: 'Description is required' })}
@@ -58,6 +59,7 @@ const EventCreation = () => {
                     margin="normal"
                     error={!!errors.description}
                     helperText={errors.description ? errors.description.message : ''}
+                    className="input-field"
                 />
                 <TextField
                     {...register('date', { required: 'Date is required' })}
@@ -71,6 +73,7 @@ const EventCreation = () => {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    className="input-field"
                 />
                 <TextField
                     {...register('time', { required: 'Time is required' })}
@@ -84,6 +87,7 @@ const EventCreation = () => {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    className="input-field"
                 />
                 <TextField
                     {...register('location', { required: 'Location is required' })}
@@ -93,6 +97,7 @@ const EventCreation = () => {
                     margin="normal"
                     error={!!errors.location}
                     helperText={errors.location ? errors.location.message : ''}
+                    className="input-field"
                 />
                 <TextField
                     {...register('participantLimit', { required: 'Participant limit is required' })}
@@ -103,8 +108,9 @@ const EventCreation = () => {
                     margin="normal"
                     error={!!errors.participantLimit}
                     helperText={errors.participantLimit ? errors.participantLimit.message : ''}
+                    className="input-field"
                 />
-                <FormControl fullWidth variant="outlined" margin="normal" error={!!errors.category}>
+                <FormControl fullWidth variant="outlined" margin="normal" className="input-field">
                     <InputLabel>Category</InputLabel>
                     <Select
                         {...register('category', { required: 'Category is required' })}
@@ -118,10 +124,10 @@ const EventCreation = () => {
                         <MenuItem value="Art">Art</MenuItem>
                         <MenuItem value="Education">Education</MenuItem>
                     </Select>
-                    {errors.category && <Typography color="error">{errors.category.message}</Typography>}
+                    {errors.category && <Typography color="error" className="error-message">{errors.category.message}</Typography>}
                 </FormControl>
                 {errors.apiError && (
-                    <Typography color="error" variant="body2">
+                    <Typography color="error" variant="body2" className="error-message">
                         {errors.apiError.message}
                     </Typography>
                 )}
@@ -130,7 +136,7 @@ const EventCreation = () => {
                     color="primary"
                     fullWidth
                     type="submit"
-                    className="create-event-button"
+                    className="submit-button"
                 >
                     Create Event
                 </Button>

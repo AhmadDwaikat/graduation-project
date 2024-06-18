@@ -53,8 +53,8 @@ const Settings = () => {
           Settings
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} className="settings-form">
-          {serverError && <Alert severity="error" style={{ marginBottom: '20px' }}>{serverError}</Alert>}
-          {successMessage && <Alert severity="success" style={{ marginBottom: '20px' }}>{successMessage}</Alert>}
+          {serverError && <Alert severity="error" className="alert-message">{serverError}</Alert>}
+          {successMessage && <Alert severity="success" className="alert-message">{successMessage}</Alert>}
           <PasswordSettingsCard register={register} errors={errors} />
           <NotificationSettingsCard />
           <PrivacySettingsCard />
@@ -65,7 +65,7 @@ const Settings = () => {
 };
 
 const PasswordSettingsCard = ({ register, errors }) => (
-  <Card className="password-settings-card">
+  <Card className="settings-card">
     <CardContent>
       <Typography variant="h6" className="section-title">
         Change Password
@@ -108,7 +108,7 @@ const PasswordSettingsCard = ({ register, errors }) => (
 );
 
 const NotificationSettingsCard = () => (
-  <Card className="notification-settings-card">
+  <Card className="settings-card">
     <CardContent>
       <Typography variant="h6" className="section-title">
         Notification Preferences
@@ -119,7 +119,7 @@ const NotificationSettingsCard = () => (
 );
 
 const PrivacySettingsCard = () => (
-  <Card className="privacy-settings-card">
+  <Card className="settings-card">
     <CardContent>
       <Typography variant="h6" className="section-title">
         Privacy Settings

@@ -18,7 +18,7 @@
 
 /* Form field styles */
 .form-field {
-    margin-bottom: 30px; /* Increased margin for more space between fields */
+    margin-bottom: 20px;
 }
 
 /* Submit button styles */
@@ -34,4 +34,14 @@
 
 .submit-button:hover {
     background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+}
+
+/* Input field styling */
+.input-field {
+    margin-bottom: 20px;
 }
