@@ -25,7 +25,7 @@ const SignUp = () => {
             console.log('Response from server:', result);
             if (response.ok) {
                 dispatch({ type: 'login', payload: result });
-                navigate('/dashboard');
+                navigate('/login');
             } else {
                 if (result.errors) {
                     result.errors.forEach(error => {

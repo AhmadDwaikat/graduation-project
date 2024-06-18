@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, List, ListItem, ListItemText, Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Container, Typography, TextField, Avatar, List, ListItem, Button, Card, CardContent } from '@mui/material';
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -13,7 +14,7 @@ const Profile = () => {
   const [fetchError, setFetchError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [newTitles, setNewTitles] = useState({}); // Manage new titles for each event
+  const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     fetchUserInfo();
@@ -94,72 +95,16 @@ const Profile = () => {
     }
   };
 
-  const deleteEvent = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found');
-        return;
-      }
-
-      await axios.delete(`http://localhost:5000/api/events/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      setEvents(events.filter(event => event._id !== id));
-    } catch (err) {
-      console.error('Error deleting event:', err.response ? err.response.data : err.message);
-    }
-  };
-
-  const changeEvent = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found');
-        return;
-      }
-
-      const updatedEvent = { title: newTitles[id] || 'Updated Title' };
-
-      console.log('Sending update request for event ID:', id, 'with new title:', updatedEvent.title);
-
-      const response = await axios.put(`http://localhost:5000/api/events/${id}`, updatedEvent, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      console.log('Event updated response:', response.data);
-
-      // Clear the input field after updating
-      setNewTitles(prevState => ({
-        ...prevState,
-        [id]: ''
-      }));
-
-      // Refetch events to update the list
-      fetchUserEvents();
-    } catch (err) {
-      console.error('Error updating event:', err.response ? err.response.data : err.message);
-    }
-  };
-
-  const handleTitleChange = (id, value) => {
-    setNewTitles(prevState => ({
-      ...prevState,
-      [id]: value
-    }));
-  };
-
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    const { name, value, files } = e.target;
+    if (name === 'profilePicture') {
+      setProfileImage(files[0]);
+    } else {
+      setUser(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleUpdate = async () => {
@@ -172,7 +117,29 @@ const Profile = () => {
         return;
       }
 
-      const response = await axios.put('http://localhost:5000/api/auth/me', user, {
+      let profilePictureUrl = user.profilePicture;
+      if (profileImage) {
+        const formData = new FormData();
+        formData.append('file', profileImage);
+
+        const uploadResponse = await axios.post('http://localhost:5000/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (uploadResponse.data && uploadResponse.data.success) {
+          profilePictureUrl = uploadResponse.data.url;
+        } else {
+          setUpdateError('Failed to upload profile picture');
+          return;
+        }
+      }
+
+      const updatedUser = { ...user, profilePicture: profilePictureUrl };
+
+      const response = await axios.put('http://localhost:5000/api/auth/me', updatedUser, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -180,6 +147,7 @@ const Profile = () => {
 
       if (response.data && response.data.success) {
         setSuccessMessage('Profile updated successfully');
+        setUser(updatedUser);
       } else {
         setUpdateError('Failed to update profile');
       }
@@ -206,7 +174,7 @@ const Profile = () => {
           {successMessage}
         </Typography>
       )}
-      <Avatar src={user.profilePicture} alt={user.name} style={{ width: 100, height: 100, marginBottom: 20 }} />
+      <Avatar src={user.profilePicture} alt={user.name} style={{ width: 200, height: 200, marginBottom: 20 }} />
       <TextField
         name="name"
         label="Name"
@@ -225,14 +193,12 @@ const Profile = () => {
         value={user.bio}
         onChange={handleInputChange}
       />
-      <TextField
+      <input
+        accept="image/*"
+        type="file"
         name="profilePicture"
-        label="Profile Picture URL"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={user.profilePicture}
         onChange={handleInputChange}
+        style={{ marginBottom: 20 }}
       />
       <Button variant="contained" color="primary" onClick={handleUpdate} style={{ marginBottom: 20 }}>
         Update Profile
@@ -242,46 +208,30 @@ const Profile = () => {
       <List>
         {events.map(event => (
           <ListItem key={event._id} divider>
-            <ListItemText 
-              primary={event.title} 
-              secondary={
-                <>
-                  <Typography component="span" variant="body2">
-                    {event.description}
-                  </Typography>
-                  <br />
-                  <Typography component="span" variant="body2">
-                    {new Date(event.date).toLocaleDateString()}
-                  </Typography>
-                  <br />
-                  <Typography component="span" variant="body2">
-                    {event.time}
-                  </Typography>
-                  <br />
-                  <Typography component="span" variant="body2">
-                    {event.location}
-                  </Typography>
-                  <br />
-                  <Typography component="span" variant="body2">
-                    {event.category}
-                  </Typography>
-                </>
-              }
-            />
-            <Button onClick={() => deleteEvent(event._id)} variant="contained" color="secondary">
-              Delete
-            </Button>
-            <TextField 
-              label="New Title"
-              value={newTitles[event._id] || ''}
-              onChange={(e) => handleTitleChange(event._id, e.target.value)}
-              variant="outlined"
-              size="small"
-              style={{ marginLeft: '10px' }}
-            />
-            <Button onClick={() => changeEvent(event._id)} variant="contained" color="primary" style={{ marginLeft: '10px' }}>
-              Change
-            </Button>
+            <Card style={{ width: '100%' }}>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  <Link to={`/events/${event._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    {event.title}
+                  </Link>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {event.description}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Date: {new Date(event.date).toLocaleDateString()}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Time: {event.time}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Location: {event.location}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Category: {event.category}
+                </Typography>
+              </CardContent>
+            </Card>
           </ListItem>
         ))}
       </List>
@@ -290,20 +240,19 @@ const Profile = () => {
       <List>
         {reviews.map(review => (
           <ListItem key={review._id} divider>
-            <ListItemText
-              primary={review.title}
-              secondary={
-                <>
-                  <Typography component="span" variant="body2">
-                    {review.comment}
-                  </Typography>
-                  <br />
-                  <Typography component="span" variant="body2">
-                    Rating: {review.rating}
-                  </Typography>
-                </>
-              }
-            />
+            <Card style={{ width: '100%' }}>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  {review.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {review.comment}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Rating: {review.rating}
+                </Typography>
+              </CardContent>
+            </Card>
           </ListItem>
         ))}
       </List>

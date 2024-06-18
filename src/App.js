@@ -14,7 +14,6 @@ import Notifications from './components/Notifications';
 import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
-
 import { EventProvider } from './context/EventContext';
 import ProtectedRoute from './components/ProtectedRoute'; // Custom component to protect routes
 
@@ -45,6 +44,14 @@ const App = () => {
           />
           <Route
             path="/event-detail/:id"
+            element={
+              <ProtectedRoute>
+                <EventDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/events/:id"
             element={
               <ProtectedRoute>
                 <EventDetail />

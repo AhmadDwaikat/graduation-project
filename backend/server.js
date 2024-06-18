@@ -1,7 +1,9 @@
 const express = require('express');
+const path = require('path');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const uploadRoute = require('./routes/upload');
 const cors = require('cors');
 
 const app = express();
@@ -18,6 +20,10 @@ app.use(cors());
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/upload', uploadRoute);
+
+// Static folder for serving uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = process.env.PORT || 5000;
 

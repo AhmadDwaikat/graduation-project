@@ -1,31 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography, Card, CardContent, TextField, Button, Container, Paper, Alert } from '@mui/material';
-import { useEvent } from '../../context/EventContext';
+
 import './Settings.css';
 
 const Settings = () => {
-  const { state, dispatch } = useEvent();
-  const { email } = state.settings;
+  const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    // Fetch user data if needed for other parts of the settings
+  }, []);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      email: email,
       currentPassword: '',
       newPassword: '',
     }
   });
 
-  const [serverError, setServerError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-
   const onSubmit = async (data) => {
-    console.log('Settings Data:', data);
-
-    // Update settings
-    dispatch({ type: 'update_settings', payload: data });
-
-    // Change password
     try {
       const response = await fetch('http://localhost:5000/api/auth/change-password', {
         method: 'PUT',
@@ -41,7 +35,8 @@ const Settings = () => {
         setSuccessMessage('Password updated successfully');
         setServerError('');
       } else {
-        setServerError(result.message);
+        console.error('Error changing password:', result);
+        setServerError(result.message || 'Failed to change password');
         setSuccessMessage('');
       }
     } catch (error) {
@@ -60,7 +55,7 @@ const Settings = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="settings-form">
           {serverError && <Alert severity="error" style={{ marginBottom: '20px' }}>{serverError}</Alert>}
           {successMessage && <Alert severity="success" style={{ marginBottom: '20px' }}>{successMessage}</Alert>}
-          <AccountSettingsCard register={register} errors={errors} />
+          <PasswordSettingsCard register={register} errors={errors} />
           <NotificationSettingsCard />
           <PrivacySettingsCard />
         </form>
@@ -69,26 +64,12 @@ const Settings = () => {
   );
 };
 
-const AccountSettingsCard = ({ register, errors }) => (
-  <Card className="account-settings-card">
+const PasswordSettingsCard = ({ register, errors }) => (
+  <Card className="password-settings-card">
     <CardContent>
       <Typography variant="h6" className="section-title">
-        Account Settings
+        Change Password
       </Typography>
-      <TextField
-        {...register('email', {
-          required: 'Email is required',
-          pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: 'Invalid email address' }
-        })}
-        label="Email"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        error={!!errors.email}
-        helperText={errors.email ? errors.email.message : ''}
-        aria-invalid={!!errors.email}
-        aria-describedby="email-error"
-      />
       <TextField
         {...register('currentPassword', {
           required: 'Current password is required',

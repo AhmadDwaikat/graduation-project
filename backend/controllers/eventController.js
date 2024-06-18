@@ -38,9 +38,8 @@ exports.getEvents = async (req, res) => {
 // Get all events created by the logged-in user
 exports.getUserEvents = async (req, res) => {
   try {
-    console.log('Fetching events for user ID:', req.user.id); // Log the user ID
+    
     const events = await Event.find({ creator: req.user.id });
-    console.log('Fetched events:', events); // Log the fetched events
     res.status(200).json({ success: true, data: events });
   } catch (error) {
     console.error('Error fetching user events:', error.message);

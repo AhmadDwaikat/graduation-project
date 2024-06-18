@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,8 +19,13 @@ const UserSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
+    validate: {
+      validator: function(v) {
+        return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(v);
+      },
+      message: props => `${props.value} is not a valid URL!`
+    },
   },
 });
-
 
 module.exports = mongoose.model('User', UserSchema);
