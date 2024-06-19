@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid URL!`
     },
   },
+  joinedEvents: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event'
+  }],
 });
 
 module.exports = mongoose.model('User', UserSchema);

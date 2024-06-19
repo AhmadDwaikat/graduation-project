@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect, useMemo } from 'react';
+import axios from 'axios';
 import mockData from '../components/data.json';
 
-// Define the initial state of your context
 const initialState = {
   user: null,
   isAuthenticated: false,
@@ -19,7 +19,6 @@ const initialState = {
   nonCreatedEvents: [],
 };
 
-// Define a reducer function to handle actions
 function reducer(state, action) {
   switch (action.type) {
     case 'login':
@@ -30,6 +29,8 @@ function reducer(state, action) {
       return { ...state, featuredEvents: action.payload };
     case 'set_my_events':
       return { ...state, myEvents: action.payload };
+    case 'set_user':
+      return { ...state, user: action.payload };
     case 'set_activities':
       return { ...state, activities: action.payload };
     case 'set_analytics':
@@ -63,15 +64,32 @@ function reducer(state, action) {
   }
 }
 
-// Create the Context
 const EventContext = createContext();
 
-// Create a Context Provider component
 export const EventProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    // Load mock data here
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await axios.get('http://localhost:5000/api/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.data && response.data.success) {
+          dispatch({ type: 'set_user', payload: response.data.data });
+        }
+      } catch (err) {
+        console.error('Error fetching user info:', err);
+      }
+    };
+
+    fetchUserInfo();
     dispatch({ type: 'set_featured_events', payload: mockData.featuredEvents });
     dispatch({ type: 'set_my_events', payload: mockData.myEvents.upcoming });
     dispatch({ type: 'set_activities', payload: mockData.activities });
@@ -88,7 +106,6 @@ export const EventProvider = ({ children }) => {
   return <EventContext.Provider value={value}>{children}</EventContext.Provider>;
 };
 
-// Custom hook to use the event context
 export const useEvent = () => {
   const context = useContext(EventContext);
   if (context === undefined) {

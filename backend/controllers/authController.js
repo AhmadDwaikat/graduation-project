@@ -39,13 +39,8 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    
-
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log('Password Match:', isMatch);
-
     if (!isMatch) {
-      
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
@@ -54,7 +49,6 @@ exports.loginUser = async (req, res) => {
 
     res.status(200).json({ token });
   } catch (error) {
-    
     res.status(500).json({ message: 'Server error during login' });
   }
 };
@@ -117,4 +111,3 @@ exports.changePassword = async (req, res) => {
     res.status(500).json({ message: 'Server error while changing password' });
   }
 };
-

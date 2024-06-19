@@ -14,6 +14,7 @@ import Notifications from './components/Notifications';
 import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
+import UpdateEvent from './components/UpdateEvent'; // Import the UpdateEvent component
 import { EventProvider } from './context/EventContext';
 import ProtectedRoute from './components/ProtectedRoute'; // Custom component to protect routes
 
@@ -51,10 +52,10 @@ const App = () => {
             }
           />
           <Route
-            path="/events/:id"
+            path="/event-update/:id"
             element={
               <ProtectedRoute>
-                <EventDetail />
+                <UpdateEvent />
               </ProtectedRoute>
             }
           />

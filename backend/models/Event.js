@@ -34,6 +34,18 @@ const EventSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  participants: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  ratings: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rating: { type: Number, required: true },
+  }],
+  comments: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    comment: { type: String, required: true },
+  }],
 });
 
 module.exports = mongoose.model('Event', EventSchema);

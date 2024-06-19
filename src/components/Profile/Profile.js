@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Typography, TextField, Avatar, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
+import { useEvent } from '../../context/EventContext';
 import './Profile.css';
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    name: '',
-    bio: '',
-    profilePicture: '',
-  });
+  const { state, dispatch } = useEvent();
+  const { user } = state;
   const [events, setEvents] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [fetchError, setFetchError] = useState('');
@@ -18,35 +16,9 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
-    fetchUserInfo();
     fetchUserEvents();
     fetchUserReviews();
   }, []);
-
-  const fetchUserInfo = async () => {
-    setFetchError('');
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setFetchError('No token found');
-        return;
-      }
-
-      const response = await axios.get('http://localhost:5000/api/auth/me', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      if (response.data && response.data.success) {
-        setUser(response.data.data);
-      } else {
-        setFetchError('Failed to fetch user information');
-      }
-    } catch (err) {
-      setFetchError('Error fetching user information');
-    }
-  };
 
   const fetchUserEvents = async () => {
     try {
@@ -58,8 +30,8 @@ const Profile = () => {
 
       const response = await axios.get('http://localhost:5000/api/events/user', {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data && response.data.success) {
@@ -82,8 +54,8 @@ const Profile = () => {
 
       const response = await axios.get('http://localhost:5000/api/reviews/user', {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data && response.data.success) {
@@ -101,10 +73,13 @@ const Profile = () => {
     if (name === 'profilePicture') {
       setProfileImage(files[0]);
     } else {
-      setUser(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
+      dispatch({
+        type: 'set_user',
+        payload: {
+          ...user,
+          [name]: value,
+        },
+      });
     }
   };
 
@@ -126,8 +101,8 @@ const Profile = () => {
         const uploadResponse = await axios.post('http://localhost:5000/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (uploadResponse.data && uploadResponse.data.success) {
@@ -142,13 +117,13 @@ const Profile = () => {
 
       const response = await axios.put('http://localhost:5000/api/auth/me', updatedUser, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data && response.data.success) {
         setSuccessMessage('Profile updated successfully');
-        setUser(updatedUser);
+        dispatch({ type: 'set_user', payload: updatedUser });
       } else {
         setUpdateError('Failed to update profile');
       }
@@ -217,7 +192,7 @@ const Profile = () => {
             <Card className="event-card">
               <CardContent>
                 <Typography variant="h6" component="div">
-                  <Link to={`/events/${event._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link to={`/event-update/${event._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {event.title}
                   </Link>
                 </Typography>
@@ -238,8 +213,8 @@ const Profile = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary" component={Link} to={`/events/${event._id}`} className="view-button">
-                  View
+                <Button size="small" color="primary" component={Link} to={`/event-update/${event._id}`} className="view-button">
+                  Update
                 </Button>
               </CardActions>
             </Card>
