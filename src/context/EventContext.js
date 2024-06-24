@@ -89,8 +89,24 @@ export const EventProvider = ({ children }) => {
       }
     };
 
+    const fetchHighRatedEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/events/high-rated', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (response.data && response.data.success) {
+          dispatch({ type: 'set_featured_events', payload: response.data.data });
+        }
+      } catch (err) {
+        console.error('Error fetching high-rated events:', err);
+      }
+    };
+
     fetchUserInfo();
-    dispatch({ type: 'set_featured_events', payload: mockData.featuredEvents });
+    fetchHighRatedEvents();
     dispatch({ type: 'set_my_events', payload: mockData.myEvents.upcoming });
     dispatch({ type: 'set_activities', payload: mockData.activities });
     dispatch({ type: 'set_analytics', payload: mockData.analytics });

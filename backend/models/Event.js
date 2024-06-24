@@ -46,6 +46,7 @@ const EventSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     comment: { type: String, required: true },
   }],
+  averageRating: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('Event', EventSchema);

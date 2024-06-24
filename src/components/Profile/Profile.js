@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Typography, TextField, Avatar, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
@@ -15,12 +15,31 @@ const Profile = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [profileImage, setProfileImage] = useState(null);
 
-  useEffect(() => {
-    fetchUserEvents();
-    fetchUserReviews();
-  }, []);
+  const fetchUserInfo = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setFetchError('No token found');
+        return;
+      }
 
-  const fetchUserEvents = async () => {
+      const response = await axios.get('http://localhost:5000/api/auth/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data && response.data.success) {
+        dispatch({ type: 'set_user', payload: response.data.data });
+      } else {
+        setFetchError('Failed to fetch user information');
+      }
+    } catch (err) {
+      setFetchError('Error fetching user information');
+    }
+  }, [dispatch]);
+
+  const fetchUserEvents = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -42,9 +61,9 @@ const Profile = () => {
     } catch (err) {
       setFetchError('Error fetching user events');
     }
-  };
+  }, []);
 
-  const fetchUserReviews = async () => {
+  const fetchUserReviews = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -66,7 +85,13 @@ const Profile = () => {
     } catch (err) {
       setFetchError('Error fetching user reviews');
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchUserInfo();
+    fetchUserEvents();
+    fetchUserReviews();
+  }, [fetchUserInfo, fetchUserEvents, fetchUserReviews]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -135,16 +160,16 @@ const Profile = () => {
   return (
     <Container maxWidth="md" className="profile-container">
       <Card className="profile-card">
-        <Avatar src={user.profilePicture} alt={user.name} className="profile-avatar" />
-        <Typography variant="h5" className="profile-name">{user.name}</Typography>
-        <Typography variant="body1" className="profile-bio">{user.bio}</Typography>
+        <Avatar src={user?.profilePicture} alt={user?.name} className="profile-avatar" />
+        <Typography variant="h5" className="profile-name">{user?.name}</Typography>
+        <Typography variant="body1" className="profile-bio">{user?.bio}</Typography>
         <TextField
           name="name"
           label="Name"
           variant="outlined"
           fullWidth
           margin="normal"
-          value={user.name}
+          value={user?.name || ''}
           onChange={handleInputChange}
           className="profile-edit-field"
         />
@@ -154,7 +179,7 @@ const Profile = () => {
           variant="outlined"
           fullWidth
           margin="normal"
-          value={user.bio}
+          value={user?.bio || ''}
           onChange={handleInputChange}
           className="profile-edit-field"
         />

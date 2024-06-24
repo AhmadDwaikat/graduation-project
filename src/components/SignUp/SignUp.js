@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'; // Removed unused useState import
 import { useForm } from 'react-hook-form';
-import { Typography, Container, TextField, Button, Link, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useEvent } from '../../context/EventContext';
+import { useNavigate, Link } from 'react-router-dom'; // Added Link import
+import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { useEvent } from '../../context/EventContext'; // Added useEvent import
 import './SignUp.css';
 
 const SignUp = () => {
@@ -100,7 +100,7 @@ const SignUp = () => {
                     </Button>
                 </form>
                 <Typography variant="body2" className="switch-auth">
-                    Already have an account? <Link href="/login">Login</Link>
+                    Already have an account? <Link to="/login">Login</Link>
                 </Typography>
             </Box>
         </Container>

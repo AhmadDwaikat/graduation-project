@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useEvent } from '../../context/EventContext';
-import { Typography, Container, TextField, Button, Grid, Card, CardContent, Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography, Container, TextField, Grid, Card, CardContent, Link } from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
     const { state } = useEvent();
-    const { featuredEvents } = state;
+    const { featuredEvents, isAuthenticated } = state;
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredEvents, setFilteredEvents] = useState(featuredEvents);
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const navigate = useNavigate();
 
-    const handleSearch = () => {
+    useEffect(() => {
+        setFilteredEvents(featuredEvents);
+    }, [featuredEvents]);
+
+    useEffect(() => {
         const filtered = featuredEvents.filter(event =>
             event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.location.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredEvents(filtered);
+    }, [searchTerm, featuredEvents]);
+
+    const handleEventClick = (eventId) => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else {
+            navigate(`/event-detail/${eventId}`);
+        }
     };
 
     return (
@@ -28,7 +41,7 @@ const Home = () => {
                 Welcome to the Social Activity Participation Application, your ultimate platform for discovering, creating, and managing social activities! Our application is designed to bring people together by facilitating the organization and participation in a wide range of events. Whether you are looking to join a local workshop, volunteer for a community service, or plan a trip with friends, our platform offers the tools you need to make it happen seamlessly.
             </Typography>
             
-            <form className="search-form" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+            <form className="search-form" onSubmit={(e) => { e.preventDefault(); }}>
                 <TextField
                     label="Search for Events"
                     variant="outlined"
@@ -37,31 +50,31 @@ const Home = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <Button variant="contained" color="primary" type="submit" className="search-button">
-                    Search
-                </Button>
             </form>
             <Typography variant="h5" className="title" gutterBottom>
                 Featured Events
             </Typography>
             <Grid container spacing={2} className="featured-events">
                 {filteredEvents.map((event) => (
-                    <Grid item xs={12} sm={6} md={4} key={event.id}>
-                        <Card className="featured-event-card">
+                    <Grid item xs={12} sm={6} md={4} key={event._id}>
+                        <Card className="featured-event-card" onClick={() => handleEventClick(event._id)}>
                             <CardContent className="card-content">
                                 <Typography variant="h6" className="event-title">
-                                    <Link component={RouterLink} to={`/event-detail/${event.id}`}>
+                                    <Link component="button" onClick={() => handleEventClick(event._id)}>
                                         {event.title}
                                     </Link>
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" className="event-details">
-                                    Date: {event.date}
+                                    Date: {new Date(event.date).toLocaleDateString()}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" className="event-details">
                                     Location: {event.location}
                                 </Typography>
                                 <Typography variant="body2" className="event-details">
                                     Description: {event.description}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" className="event-details">
+                                    Average Rating: {event.averageRating}
                                 </Typography>
                             </CardContent>
                         </Card>

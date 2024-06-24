@@ -210,6 +210,7 @@ exports.getUserPastEvents = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 // Submit or update a rating
 exports.rateEvent = async (req, res) => {
   try {
@@ -227,6 +228,10 @@ exports.rateEvent = async (req, res) => {
     } else {
       event.ratings.push({ user: req.user.id, rating });  // Add new rating
     }
+
+    // Calculate average rating
+    const totalRatings = event.ratings.reduce((acc, r) => acc + r.rating, 0);
+    event.averageRating = totalRatings / event.ratings.length;
 
     await event.save();
 
@@ -253,6 +258,18 @@ exports.commentEvent = async (req, res) => {
     res.status(200).json({ success: true, message: 'Comment submitted successfully' });
   } catch (error) {
     console.error('Error submitting comment:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Get high-rated events that the user did not create
+exports.getHighRatedEvents = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const events = await Event.find({ creator: { $ne: userId } }).sort({ averageRating: -1 }).limit(10);
+    res.status(200).json({ success: true, data: events });
+  } catch (error) {
+    console.error('Error fetching high-rated events:', error.message);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };

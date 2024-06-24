@@ -12,23 +12,37 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
+    const [featuredEvents, setFeaturedEvents] = useState([]);
     const [error, setError] = useState('');
 
+    // Fetch events when component mounts
     useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    setError('No token found');
+                    setLoading(false);
+                    return;
+                }
+
                 const upcomingResponse = await axios.get('http://localhost:5000/api/events/user/upcoming', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const pastResponse = await axios.get('http://localhost:5000/api/events/user/past', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+                const featuredResponse = await axios.get('http://localhost:5000/api/events/high-rated', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
 
-                if (upcomingResponse.data.success && pastResponse.data.success) {
-                    setUpcomingEvents(upcomingResponse.data.data);
-                    setPastEvents(pastResponse.data.data);
-                    dispatch({ type: 'set_my_events', payload: [...upcomingResponse.data.data, ...pastResponse.data.data] });
+                if (upcomingResponse.data.success && pastResponse.data.success && featuredResponse.data.success) {
+                    setUpcomingEvents(upcomingResponse.data.data || []);
+                    setPastEvents(pastResponse.data.data || []);
+                    setFeaturedEvents(featuredResponse.data.data || []);
+                    dispatch({ type: 'set_my_events', payload: [...(upcomingResponse.data.data || []), ...(pastResponse.data.data || [])] });
+                } else {
+                    setError('Failed to fetch events');
                 }
             } catch (err) {
                 setError('Error fetching events: ' + err.message);
@@ -55,7 +69,7 @@ const Dashboard = () => {
         <Container className="dashboard-container">
             <Typography variant="h4" className="title">Dashboard</Typography>
             <QuickLinks onCreateNewEvent={handleCreateNewEvent} />
-            <EventSection title="Featured Events" events={[]} onEventClick={handleEventClick} />
+            <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
             <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
             <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
         </Container>
@@ -79,34 +93,45 @@ QuickLinks.propTypes = {
     onCreateNewEvent: PropTypes.func.isRequired,
 };
 
-const EventSection = ({ title, events, onEventClick }) => (
-    <>
-        <Typography variant="h5" className="section-title">{title}</Typography>
-        <Grid container spacing={4} className="activity-grid">
-            {events && events.length > 0 ? (
-                events.map(event => (
-                    <Grid item xs={12} sm={6} md={4} key={event._id}>
-                        <Card className="activity-card" onClick={() => onEventClick(event._id)}>
-                            <CardContent>
-                                <Typography variant="h6" className="activity-title">{event.title}</Typography>
-                                <Typography variant="body2" color="textSecondary" className="activity-details">
-                                    Date: {new Date(event.date).toLocaleDateString()}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" className="activity-details">
-                                    Location: {event.location}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))
-            ) : (
-                <Typography variant="body2" color="textSecondary" className="no-data">
-                    No {title.toLowerCase()} available.
-                </Typography>
-            )}
-        </Grid>
-    </>
-);
+const EventSection = ({ title, events, onEventClick }) => {
+    // Check if events is defined and an array
+    if (!Array.isArray(events)) {
+        console.error(`Invalid events data for ${title}:`, events);
+        return null;
+    }
+
+    return (
+        <>
+            <Typography variant="h5" className="section-title">{title}</Typography>
+            <Grid container spacing={4} className="activity-grid">
+                {events.length > 0 ? (
+                    events.map(event => (
+                        <Grid item xs={12} sm={6} md={4} key={event._id}>
+                            <Card className="activity-card" onClick={() => onEventClick(event._id)}>
+                                <CardContent>
+                                    <Typography variant="h6" className="activity-title">{event.title}</Typography>
+                                    <Typography variant="body2" color="textSecondary" className="activity-details">
+                                        Date: {new Date(event.date).toLocaleDateString()}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" className="activity-details">
+                                        Location: {event.location}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" className="activity-details">
+                                        Rating: {event.averageRating}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))
+                ) : (
+                    <Typography variant="body2" color="textSecondary" className="no-data">
+                        No {title.toLowerCase()} available.
+                    </Typography>
+                )}
+            </Grid>
+        </>
+    );
+};
 
 EventSection.propTypes = {
     title: PropTypes.string.isRequired,
@@ -116,6 +141,7 @@ EventSection.propTypes = {
             title: PropTypes.string.isRequired,
             date: PropTypes.string.isRequired,
             location: PropTypes.string.isRequired,
+            averageRating: PropTypes.number,
         })
     ).isRequired,
     onEventClick: PropTypes.func.isRequired,
