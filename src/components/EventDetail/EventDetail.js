@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating } from '@mui/material';
+import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia } from '@mui/material';
 import { PersonAdd, PersonRemove } from '@mui/icons-material';
 import {
   FacebookShareButton,
@@ -256,6 +256,18 @@ const EventDetail = () => {
           ))}
         </div>
       </div>
+      <Typography variant="h5" className="section-title">
+        Images
+      </Typography>
+      <Grid container spacing={2}>
+        {event.images.map((image, index) => (
+          <Grid item key={index}>
+            <Card>
+              <CardMedia component="img" height="140" image={`http://localhost:5000/${image}`} alt={`Image ${index + 1}`} />
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

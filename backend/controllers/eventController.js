@@ -1,6 +1,7 @@
 const Event = require('../models/Event');
 const User = require('../models/User');
-
+const fs = require('fs');
+const path = require('path');
 // Create a new event
 exports.createEvent = async (req, res) => {
   const { title, description, date, time, category, location, participantLimit } = req.body;
@@ -271,5 +272,113 @@ exports.getHighRatedEvents = async (req, res) => {
   } catch (error) {
     console.error('Error fetching high-rated events:', error.message);
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
+// Get organizer event detail
+exports.getOrganizerEventDetail = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+      .populate('participants', 'name')
+      .populate('ratings.user', 'name')
+      .populate('comments.user', 'name');
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (event.creator.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to view this event' });
+    }
+
+    res.status(200).json({ success: true, data: event });
+  } catch (error) {
+    console.error('Error fetching organizer event detail:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+exports.addMediaToEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      console.error('Event not found');
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (event.creator.toString() !== req.user.id) {
+      console.error('Unauthorized to update this event');
+      return res.status(403).json({ success: false, message: 'Unauthorized to update this event' });
+    }
+
+    const media = req.files.map(file => ({
+      path: file.path.replace(/\\/g, '/'), // Ensure consistent path format
+      mimetype: file.mimetype,
+    }));
+
+    media.forEach(file => {
+      if (file.mimetype.startsWith('image/')) {
+        event.images.push(file.path);
+      } else if (file.mimetype.startsWith('video/')) {
+        event.videos.push(file.path);
+      }
+    });
+
+    await event.save();
+
+    console.log('Media added successfully:', media);
+    res.status(200).json({ success: true, data: event });
+  } catch (error) {
+    console.error('Error adding media to event:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Delete media (image or video)
+exports.deleteMedia = async (req, res) => {
+  const { type, file } = req.params;
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (event.creator.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized request' });
+    }
+
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+    const filePath = path.join(uploadsDir, file);
+    console.log(`Attempting to delete ${type}: ${filePath}`);
+
+    const mediaArray = type === 'image' ? event.images : event.videos;
+    const fileIndex = mediaArray.findIndex((media) => media.endsWith(file));
+
+    if (fileIndex > -1) {
+      if (type === 'image') {
+        event.images.splice(fileIndex, 1);
+      } else {
+        event.videos.splice(fileIndex, 1);
+      }
+
+      fs.unlink(filePath, async (err) => {
+        if (err) {
+          console.error(`Error deleting file ${filePath}:`, err.message);
+          return res.status(500).json({ success: false, message: `Error deleting file: ${err.message}` });
+        } else {
+          console.log(`File ${filePath} deleted successfully`);
+          await event.save();
+          return res.status(200).json({ success: true, data: event, message: `${type} deleted successfully` });
+        }
+      });
+    } else {
+      console.error(`${type} not found in event: ${file}`);
+      return res.status(404).json({ success: false, message: `${type} not found in event` });
+    }
+  } catch (error) {
+    console.error(`Error deleting ${type}:`, error.message);
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 };

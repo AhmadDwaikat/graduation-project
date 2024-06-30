@@ -39,14 +39,24 @@ const EventSchema = new mongoose.Schema({
     ref: 'User',
   }],
   ratings: [{
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    rating: { type: Number, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    rating: Number,
   }],
   comments: [{
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    comment: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    comment: String,
   }],
-  averageRating: { type: Number, default: 0 },
+  averageRating: {
+    type: Number,
+  },
+  images: [String],
+  videos: [String],
 });
 
 module.exports = mongoose.model('Event', EventSchema);

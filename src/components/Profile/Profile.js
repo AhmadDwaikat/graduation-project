@@ -9,7 +9,6 @@ const Profile = () => {
   const { state, dispatch } = useEvent();
   const { user } = state;
   const [events, setEvents] = useState([]);
-  const [reviews, setReviews] = useState([]);
   const [fetchError, setFetchError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -63,35 +62,10 @@ const Profile = () => {
     }
   }, []);
 
-  const fetchUserReviews = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setFetchError('No token found');
-        return;
-      }
-
-      const response = await axios.get('http://localhost:5000/api/reviews/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data && response.data.success) {
-        setReviews(response.data.data);
-      } else {
-        setFetchError('Failed to fetch user reviews');
-      }
-    } catch (err) {
-      setFetchError('Error fetching user reviews');
-    }
-  }, []);
-
   useEffect(() => {
     fetchUserInfo();
     fetchUserEvents();
-    fetchUserReviews();
-  }, [fetchUserInfo, fetchUserEvents, fetchUserReviews]);
+  }, [fetchUserInfo, fetchUserEvents]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -153,7 +127,7 @@ const Profile = () => {
         setUpdateError('Failed to update profile');
       }
     } catch (err) {
-      setUpdateError('Error updating profile');
+      setUpdateError('Error updating profile: ' + err.message);
     }
   };
 
@@ -217,9 +191,7 @@ const Profile = () => {
             <Card className="event-card">
               <CardContent>
                 <Typography variant="h6" component="div">
-                  <Link to={`/event-update/${event._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    {event.title}
-                  </Link>
+                  {event.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {event.description}
@@ -238,31 +210,16 @@ const Profile = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary" component={Link} to={`/event-update/${event._id}`} className="view-button">
-                  Update
+                <Button 
+                  size="small" 
+                  color="primary" 
+                  component={Link} 
+                  to={`/event-organizer/${event._id}`} 
+                  className="view-button"
+                >
+                  EVENT DETAIL
                 </Button>
               </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Typography variant="h5" className="section-title" style={{ marginTop: 40 }}>User Reviews</Typography>
-      <Grid container spacing={2}>
-        {reviews.map(review => (
-          <Grid item xs={12} sm={6} md={4} key={review._id}>
-            <Card className="review-card">
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  {review.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {review.comment}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Rating: {review.rating}
-                </Typography>
-              </CardContent>
             </Card>
           </Grid>
         ))}

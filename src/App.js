@@ -3,20 +3,22 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
-import Login from './components/LogIn/LogIn'; // Ensure this matches the actual file name
+import Login from './components/LogIn'; 
 import Dashboard from './components/Dashboard';
 import EventCreation from './components/EventCreation';
 import EventDetail from './components/EventDetail';
-import ParticipantManagement from './components/ParticipantManagement';
+import OrganizerEventDetail from './components/OrganizerEventDetail';
+import ParticipantManagement from './components/ParticipantManagement'; 
 import Profile from './components/Profile';
 import ActivityLibrary from './components/ActivityLibrary';
 import Notifications from './components/Notifications';
 import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
-import UpdateEvent from './components/UpdateEvent'; // Import the UpdateEvent component
+import UpdateEvent from './components/UpdateEvent'; 
 import { EventProvider } from './context/EventContext';
-import ProtectedRoute from './components/ProtectedRoute'; // Custom component to protect routes
+import ProtectedRoute from './components/ProtectedRoute'; 
+import ParticipantManagementPage from './components/ParticipantManagement'; 
 
 const App = () => {
   return (
@@ -25,6 +27,10 @@ const App = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/event-detail/:id" element={<EventDetail />} />
+          <Route path="/event-organizer/:id" element={<OrganizerEventDetail />} />
+          <Route path="/event/:eventId/participants" element={<ParticipantManagementPage />} /> {/* Use eventId as the parameter */}
+
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} /> {/* Ensure this matches the actual file name */}
           <Route

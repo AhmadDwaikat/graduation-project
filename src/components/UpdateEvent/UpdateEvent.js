@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Typography, TextField, Button, Alert, CircularProgress } from '@mui/material';
+import axios from 'axios';
+import { Container, Typography, TextField, Button } from '@mui/material';
 import './UpdateEvent.css';
 
 const UpdateEvent = () => {
@@ -14,27 +14,27 @@ const UpdateEvent = () => {
     time: '',
     category: '',
     location: '',
-    participantLimit: ''
+    participantLimit: '',
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    const fetchEventDetails = async () => {
+    const fetchEvent = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/events/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/events/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
         if (response.data && response.data.success) {
           setEvent(response.data.data);
-        } else {
-          setError('Event not found');
         }
-      } catch (err) {
-        setError('Error fetching event details: ' + err.message);
+      } catch (error) {
+        console.error('Error fetching event details:', error.message);
       }
     };
 
-    fetchEventDetails();
+    fetchEvent();
   }, [id]);
 
   const handleChange = (e) => {
@@ -43,114 +43,113 @@ const UpdateEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
     try {
-      const token = localStorage.getItem('token');
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:5000/api/events/${id}`,
         event,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
-      setSuccess('Event updated successfully');
-      setError('');
-      setTimeout(() => navigate('/profile'), 2000); // Redirect to profile page after 2 seconds
-    } catch (err) {
-      setError('Error updating event: ' + (err.response?.data?.message || err.message));
-      setSuccess('');
-    } finally {
-      setLoading(false);
+
+      if (response.data && response.data.success) {
+        navigate(`/event-organizer/${id}`);
+      }
+    } catch (error) {
+      console.error('Error updating event:', error.message);
     }
   };
 
   return (
-    <div className="update-event-container">
-      <Typography variant="h4" className="title">Update Event</Typography>
-      {error && <Alert severity="error">{error}</Alert>}
-      {success && <Alert severity="success">{success}</Alert>}
+    <Container maxWidth="lg" className="update-event-container">
+      <Typography variant="h4" className="title" gutterBottom>
+        Update Event
+      </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
           label="Title"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="title"
           value={event.title}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
         />
         <TextField
           label="Description"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="description"
           value={event.description}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
         />
         <TextField
           label="Date"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="date"
           type="date"
           value={event.date}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          InputLabelProps={{ shrink: true }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
           label="Time"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="time"
           type="time"
           value={event.time}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          InputLabelProps={{ shrink: true }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
           label="Category"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="category"
           value={event.category}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
         />
         <TextField
           label="Location"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="location"
           value={event.location}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
         />
         <TextField
           label="Participant Limit"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           name="participantLimit"
           type="number"
           value={event.participantLimit}
           onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={loading}
-          fullWidth
-        >
-          {loading ? <CircularProgress size={24} /> : 'Update Event'}
+        <Button 
+          variant="contained" 
+          color="primary" 
+          type="submit" 
+          style={{ marginTop: '20px' }}>
+          Update Event
         </Button>
       </form>
-    </div>
+    </Container>
   );
 };
 

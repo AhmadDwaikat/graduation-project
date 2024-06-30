@@ -23,7 +23,6 @@ const Header = () => {
                     <Button color="inherit" component={RouterLink} to="/notifications">Notifications</Button>
                     <Button color="inherit" component={RouterLink} to="/messages">Messages</Button>
                     <Button color="inherit" component={RouterLink} to="/analytics">Analytics</Button>
-                    <Button color="inherit" component={RouterLink} to="/participant-management">Participant Management</Button>
                     <Button color="inherit" component={RouterLink} to="/">Home</Button>
                     <Button color="inherit" component={RouterLink} to="/dashboard">Dashboard</Button>
                     <Button color="inherit" component={RouterLink} to="/activity-library">Activity Library</Button>

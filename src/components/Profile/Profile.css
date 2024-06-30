@@ -18,11 +18,12 @@
 
 /* Profile avatar styling */
 .profile-avatar {
-    width: 300px;  /* Significantly increased size */
-    height: 300px; /* Significantly increased size */
+    width: 200px;
+    height: 200px;
     margin-bottom: 20px;
     border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
 }
 
 /* Profile name styling */
@@ -78,8 +79,8 @@
     }
 
     .profile-avatar {
-        width: 200px; /* Adjust size for smaller screens */
-        height: 200px; /* Adjust size for smaller screens */
+        width: 150px; /* Adjust size for smaller screens */
+        height: 150px; /* Adjust size for smaller screens */
     }
 
     .profile-name {

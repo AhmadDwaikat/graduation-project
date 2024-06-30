@@ -82,9 +82,11 @@ exports.updateUserInfo = async (req, res) => {
     const updatedUser = await user.save();
     res.status(200).json({ success: true, data: updatedUser });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error while updating user information' });
+    console.error('Error updating user information:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 
 // Change user password
 exports.changePassword = async (req, res) => {

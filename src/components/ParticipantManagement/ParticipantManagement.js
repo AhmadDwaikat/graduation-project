@@ -1,89 +1,162 @@
-import React from 'react';
-import { Typography, Grid, Card, CardContent, IconButton } from '@mui/material';
-import { Check, Close, Notifications, Message } from '@mui/icons-material';
-import { useEvent } from '../../context/EventContext';
-import './ParticipantManagement.css';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Avatar } from '@mui/material';
+import './ParticipantManagementPage.css';
 
-const ParticipantManagement = () => {
-    const { state, dispatch } = useEvent();
-    const { participants } = state;
+const ParticipantManagementPage = () => {
+  const { eventId } = useParams(); // This should get the eventId from the URL parameters
+  const [participants, setParticipants] = useState([]);
+  const [fetchError, setFetchError] = useState('');
+  const [actionError, setActionError] = useState('');
+  const [actionSuccess, setActionSuccess] = useState('');
 
-    const handleAccept = (participantId) => {
-        const updatedParticipants = participants.map(participant =>
-            participant.id === participantId ? { ...participant, status: 'Accepted' } : participant
-        );
-        dispatch({ type: 'set_participants', payload: updatedParticipants });
-    };
+  const fetchParticipants = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setFetchError('No token found');
+        return;
+      }
 
-    const handleReject = (participantId) => {
-        const updatedParticipants = participants.map(participant =>
-            participant.id === participantId ? { ...participant, status: 'Rejected' } : participant
-        );
-        dispatch({ type: 'set_participants', payload: updatedParticipants });
-    };
+      const response = await axios.get(`http://localhost:5000/api/events/${eventId}/participants`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const handleSendNotification = (participantId) => {
-        console.log(`Notification sent to participant ${participantId}`);
-    };
+      if (response.data && response.data.success) {
+        setParticipants(response.data.data);
+      } else {
+        console.error('Failed to fetch participants:', response.data.message);
+        setFetchError('Failed to fetch participants');
+      }
+    } catch (err) {
+      console.error('Error fetching participants:', err);
+      setFetchError('Error fetching participants');
+    }
+  }, [eventId]);
 
-    const handleSendMessage = (participantId) => {
-        console.log(`Message sent to participant ${participantId}`);
-    };
+  useEffect(() => {
+    fetchParticipants();
+  }, [fetchParticipants]);
 
-    return (
-        <div className="participant-management-container">
-            <Typography variant="h4" className="title">
-                Participant Management
-            </Typography>
-            {participants.length === 0 ? (
-                <Typography variant="body1" className="no-participants">
-                    No participants to display.
+  const handleAction = async (participantId, action) => {
+    setActionError('');
+    setActionSuccess('');
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setActionError('No token found');
+        return;
+      }
+
+      const response = await axios.put(
+        `http://localhost:5000/api/events/${eventId}/participants/${participantId}`,
+        { action },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data && response.data.success) {
+        setActionSuccess('Action successful');
+        fetchParticipants(); // Refresh the list after action
+      } else {
+        console.error('Action failed:', response.data.message);
+        setActionError('Action failed');
+      }
+    } catch (err) {
+      console.error('Error performing action:', err);
+      setActionError('Error performing action: ' + err.message);
+    }
+  };
+
+  const handleSendMessage = (participantId) => {
+    // Implement message sending functionality here
+  };
+
+  const handleSendNotification = (participantId) => {
+    // Implement notification sending functionality here
+  };
+
+  return (
+    <Container maxWidth="lg" className="participant-management-container">
+      <Typography variant="h4" className="title" gutterBottom>
+        Participant Management
+      </Typography>
+      {fetchError && (
+        <Typography color="error" variant="body2">
+          {fetchError}
+        </Typography>
+      )}
+      {actionError && (
+        <Typography color="error" variant="body2">
+          {actionError}
+        </Typography>
+      )}
+      {actionSuccess && (
+        <Typography color="primary" variant="body2">
+          {actionSuccess}
+        </Typography>
+      )}
+      <Grid container spacing={2}>
+        {participants.map(participant => (
+          <Grid item xs={12} sm={6} md={4} key={participant._id}>
+            <Card className="participant-card">
+              <CardContent>
+                <Avatar
+                  src={`http://localhost:5000/${participant.profilePicture}`}
+                  alt={participant.name}
+                  className="participant-avatar"
+                />
+                <Typography variant="h6" component="div">
+                  {participant.name}
                 </Typography>
-            ) : (
-                <Grid container spacing={2} className="participant-grid">
-                    {participants.map((participant) => (
-                        <ParticipantCard
-                            key={participant.id}
-                            participant={participant}
-                            onAccept={handleAccept}
-                            onReject={handleReject}
-                            onSendNotification={handleSendNotification}
-                            onSendMessage={handleSendMessage}
-                        />
-                    ))}
-                </Grid>
-            )}
-        </div>
-    );
+                <Typography variant="body2" color="text.secondary">
+                  Status: {participant.status}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {participant.status === 'pending' && (
+                  <>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => handleAction(participant._id, 'accept')}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      onClick={() => handleAction(participant._id, 'reject')}
+                    >
+                      Reject
+                    </Button>
+                  </>
+                )}
+                <Button
+                  size="small"
+                  onClick={() => handleSendMessage(participant._id)}
+                >
+                  Send Message
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => handleSendNotification(participant._id)}
+                >
+                  Send Notification
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
 };
 
-const ParticipantCard = ({ participant, onAccept, onReject, onSendNotification, onSendMessage }) => (
-    <Grid item xs={12} sm={6} md={4}>
-        <Card className="participant-card">
-            <CardContent>
-                <Typography variant="body1" className="participant-name">
-                    {participant.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" className="participant-details">
-                    Status: {participant.status}
-                </Typography>
-                <div className="action-buttons">
-                    <IconButton aria-label="accept" color="primary" onClick={() => onAccept(participant.id)}>
-                        <Check />
-                    </IconButton>
-                    <IconButton aria-label="reject" color="secondary" onClick={() => onReject(participant.id)}>
-                        <Close />
-                    </IconButton>
-                    <IconButton aria-label="send-notification" onClick={() => onSendNotification(participant.id)}>
-                        <Notifications />
-                    </IconButton>
-                    <IconButton aria-label="send-message" onClick={() => onSendMessage(participant.id)}>
-                        <Message />
-                    </IconButton>
-                </div>
-            </CardContent>
-        </Card>
-    </Grid>
-);
-
-export default ParticipantManagement;
+export default ParticipantManagementPage;

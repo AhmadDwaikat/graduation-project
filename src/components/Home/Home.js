@@ -6,7 +6,7 @@ import './Home.css';
 
 const Home = () => {
     const { state } = useEvent();
-    const { featuredEvents, isAuthenticated } = state;
+    const { featuredEvents, isAuthenticated, user } = state;
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredEvents, setFilteredEvents] = useState([]);
     const navigate = useNavigate();
@@ -24,9 +24,11 @@ const Home = () => {
         setFilteredEvents(filtered);
     }, [searchTerm, featuredEvents]);
 
-    const handleEventClick = (eventId) => {
+    const handleEventClick = (eventId, isOrganizer) => {
         if (!isAuthenticated) {
             navigate('/login');
+        } else if (isOrganizer) {
+            navigate(`/event-organizer/${eventId}`);
         } else {
             navigate(`/event-detail/${eventId}`);
         }
@@ -57,10 +59,10 @@ const Home = () => {
             <Grid container spacing={2} className="featured-events">
                 {filteredEvents.map((event) => (
                     <Grid item xs={12} sm={6} md={4} key={event._id}>
-                        <Card className="featured-event-card" onClick={() => handleEventClick(event._id)}>
+                        <Card className="featured-event-card" onClick={() => handleEventClick(event._id, event.creator === user._id)}>
                             <CardContent className="card-content">
                                 <Typography variant="h6" className="event-title">
-                                    <Link component="button" onClick={() => handleEventClick(event._id)}>
+                                    <Link component="button" onClick={() => handleEventClick(event._id, event.creator === user._id)}>
                                         {event.title}
                                     </Link>
                                 </Typography>

@@ -90,7 +90,7 @@ const SearchFilter = ({ searchTerm, onSearchChange, filterCategory, onCategoryCh
       onChange={onSearchChange}
       fullWidth
     />
-    <FormControl variant="outlined" className="filter-field" fullWidth style={{ marginTop: '1rem' }}>
+    <FormControl variant="outlined" className="filter-field" fullWidth>
       <InputLabel>Filter by Category</InputLabel>
       <Select
         value={filterCategory}
