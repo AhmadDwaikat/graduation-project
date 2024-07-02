@@ -5,7 +5,7 @@ import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Av
 import './ParticipantManagementPage.css';
 
 const ParticipantManagementPage = () => {
-  const { eventId } = useParams(); // This should get the eventId from the URL parameters
+  const { eventId } = useParams();
   const [participants, setParticipants] = useState([]);
   const [fetchError, setFetchError] = useState('');
   const [actionError, setActionError] = useState('');
@@ -104,49 +104,60 @@ const ParticipantManagementPage = () => {
       )}
       <Grid container spacing={2}>
         {participants.map(participant => (
-          <Grid item xs={12} sm={6} md={4} key={participant._id}>
+          <Grid item xs={12} sm={6} md={4} key={participant.user._id}>
             <Card className="participant-card">
               <CardContent>
                 <Avatar
-                  src={`http://localhost:5000/${participant.profilePicture}`}
-                  alt={participant.name}
+                  src={`http://localhost:5000/${participant.user.profilePicture}`}
+                  alt={participant.user.name}
                   className="participant-avatar"
                 />
                 <Typography variant="h6" component="div">
-                  {participant.name}
+                  {participant.user.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Status: {participant.status}
                 </Typography>
               </CardContent>
               <CardActions>
-                {participant.status === 'pending' && (
+                {participant.status === 'requested' && (
                   <>
                     <Button
                       size="small"
                       color="primary"
-                      onClick={() => handleAction(participant._id, 'accept')}
+                      onClick={() => handleAction(participant.user._id, 'approve')}
                     >
-                      Accept
+                      Approve
                     </Button>
                     <Button
                       size="small"
                       color="secondary"
-                      onClick={() => handleAction(participant._id, 'reject')}
+                      onClick={() => handleAction(participant.user._id, 'reject')}
                     >
                       Reject
                     </Button>
                   </>
                 )}
+                {participant.status === 'approved' && (
+                  <>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      onClick={() => handleAction(participant.user._id, 'remove')}
+                    >
+                      Remove
+                    </Button>
+                  </>
+                )}
                 <Button
                   size="small"
-                  onClick={() => handleSendMessage(participant._id)}
+                  onClick={() => handleSendMessage(participant.user._id)}
                 >
                   Send Message
                 </Button>
                 <Button
                   size="small"
-                  onClick={() => handleSendNotification(participant._id)}
+                  onClick={() => handleSendNotification(participant.user._id)}
                 >
                   Send Notification
                 </Button>

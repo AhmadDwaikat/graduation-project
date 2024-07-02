@@ -35,8 +35,15 @@ const EventSchema = new mongoose.Schema({
     required: true,
   },
   participants: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    status: {
+      type: String,
+      enum: ['requested', 'approved', 'rejected'],
+      default: 'requested',
+    }
   }],
   ratings: [{
     user: {

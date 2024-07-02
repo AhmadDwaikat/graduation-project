@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia } from '@mui/material';
-import { PersonAdd, PersonRemove } from '@mui/icons-material';
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  FacebookMessengerShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  LinkedinIcon,
-  FacebookMessengerIcon
-} from 'react-share';
+import { PersonAdd, PersonRemove, Cancel, Message } from '@mui/icons-material';
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, FacebookMessengerShareButton, FacebookIcon, TwitterIcon, LinkedinIcon, FacebookMessengerIcon } from 'react-share';
 import { useEvent } from '../../context/EventContext';
 import './EventDetail.css';
 
 const EventDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { state: { user }, dispatch } = useEvent();
   const [event, setEvent] = useState(null);
-  const [isJoined, setIsJoined] = useState(false);
+  const [isRequested, setIsRequested] = useState(!!user?.requestedEvents?.find(({ event }) => event === id));
+  const [isApproved, setIsApproved] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
@@ -30,26 +23,45 @@ const EventDetail = () => {
   const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
+    const isEventRequested = !!user?.requestedEvents?.find(({ event }) => event === id);
+    setIsRequested(isEventRequested);
+  }, [user, id]);
+
+  useEffect(() => {
+    if (!user) return;
+
     const fetchEventDetails = async () => {
       try {
+        console.log(`Fetching event details for eventId: ${id}`);
         const response = await axios.get(`http://localhost:5000/api/events/${id}`);
         if (response.data && response.data.success) {
-          setEvent(response.data.data);
-          setComments(response.data.data.comments || []);
-          setRatings(response.data.data.ratings || []);
+          const eventData = response.data.data;
+          console.log('Event details fetched:', eventData);
+          setEvent(eventData);
+          setComments(eventData.comments || []);
+          setRatings(eventData.ratings || []);
 
-          if (user && response.data.data.participants?.includes(user._id)) {
-            setIsJoined(true);
+          const participant = eventData.participants.find(p => p.user && p.user._id === user._id);
+          if (participant) {
+            if (participant.status === 'requested') {
+              setIsRequested(true);
+              setIsApproved(false);
+            } else if (participant.status === 'approved') {
+              setIsRequested(false);
+              setIsApproved(true);
+            }
           }
 
-          const userRating = response.data.data.ratings.find(r => r.user._id === user._id);
+          const userRating = eventData.ratings.find(r => r.user && r.user._id === user._id);
           if (userRating) {
             setRating(userRating.rating);
           }
         } else {
+          console.error('Event not found');
           setError('Event not found');
         }
       } catch (err) {
+        console.error('Error fetching event details:', err.message);
         setError('Error fetching event details: ' + err.message);
       }
     };
@@ -57,18 +69,18 @@ const EventDetail = () => {
     fetchEventDetails();
   }, [id, user]);
 
-  useEffect(() => {
-    if (user?.joinedEvents.includes(id)) {
-      setIsJoined(true);
+  const handleRequestJoinEvent = async () => {
+    if (!user) {
+      setError('User not authenticated');
+      return;
     }
-  }, [user, id]);
 
-  const handleJoinEvent = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
+      console.log(`Requesting to join eventId: ${id}`);
       await axios.put(
-        `http://localhost:5000/api/events/${id}/join`,
+        `http://localhost:5000/api/events/${id}/request`,
         {},
         {
           headers: {
@@ -76,12 +88,48 @@ const EventDetail = () => {
           },
         }
       );
-      setIsJoined(true);
-      setSuccess('Successfully joined the event');
+      setIsRequested(true);
+      setSuccess('Join request sent successfully');
       setError('');
-      dispatch({ type: 'join_event', payload: id });
     } catch (err) {
-      setError('Error joining event: ' + (err.response?.data?.message || err.message));
+      console.error('Error sending join request:', err.response?.data?.message || err.message);
+      if (err.response && err.response.data.message === 'Join request already sent') {
+        setIsRequested(true);
+        setError('Join request already sent');
+      } else {
+        setError('Error sending join request: ' + (err.response?.data?.message || err.message));
+        setSuccess('');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUnsendRequestJoinEvent = async () => {
+    if (!user) {
+      setError('User not authenticated');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      console.log(`Unsend join request for eventId: ${id}`);
+      await axios.put(
+        `http://localhost:5000/api/events/${id}/unsend-request`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsRequested(false);
+      setSuccess('Join request unsent successfully');
+      setError('');
+    } catch (err) {
+      console.error('Error unsending join request:', err.response?.data?.message || err.message);
+      setError('Error unsending join request: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     } finally {
       setLoading(false);
@@ -89,9 +137,15 @@ const EventDetail = () => {
   };
 
   const handleLeaveEvent = async () => {
+    if (!user) {
+      setError('User not authenticated');
+      return;
+    }
+
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
+      console.log(`Leaving eventId: ${id}`);
       await axios.put(
         `http://localhost:5000/api/events/${id}/leave`,
         {},
@@ -101,12 +155,19 @@ const EventDetail = () => {
           },
         }
       );
-      setIsJoined(false);
-      setSuccess('Successfully left the event');
+      setIsApproved(false);
+      setSuccess('Left event successfully');
       setError('');
       dispatch({ type: 'leave_event', payload: id });
     } catch (err) {
-      setError('Error leaving event: ' + (err.response?.data?.message || err.message));
+      console.error('Error leaving event:', err.response?.data?.message || err.message);
+      if (err.response && err.response.data.message === 'User not part of this event') {
+        setIsRequested(false);
+        setIsApproved(false);
+        setError('User not part of this event');
+      } else {
+        setError('Error leaving event: ' + (err.response?.data?.message || err.message));
+      }
       setSuccess('');
     } finally {
       setLoading(false);
@@ -116,6 +177,7 @@ const EventDetail = () => {
   const handleRatingSubmit = async () => {
     try {
       const token = localStorage.getItem('token');
+      console.log(`Submitting rating: ${rating} for eventId: ${id}`);
       await axios.post(
         `http://localhost:5000/api/events/${id}/rate`,
         { rating },
@@ -125,7 +187,7 @@ const EventDetail = () => {
           },
         }
       );
-      const existingRating = ratings.find(r => r.user._id === user._id);
+      const existingRating = ratings.find(r => r.user && r.user._id === user._id);
       if (existingRating) {
         existingRating.rating = rating;
         setRatings([...ratings]);
@@ -135,6 +197,7 @@ const EventDetail = () => {
       setSuccess('Rating submitted successfully');
       setError('');
     } catch (err) {
+      console.error('Error submitting rating:', err.response?.data?.message || err.message);
       setError('Error submitting rating: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     }
@@ -143,6 +206,7 @@ const EventDetail = () => {
   const handleCommentSubmit = async () => {
     try {
       const token = localStorage.getItem('token');
+      console.log(`Submitting comment: ${comment} for eventId: ${id}`);
       await axios.post(
         `http://localhost:5000/api/events/${id}/comment`,
         { comment },
@@ -157,8 +221,46 @@ const EventDetail = () => {
       setSuccess('Comment submitted successfully');
       setError('');
     } catch (err) {
+      console.error('Error submitting comment:', err.response?.data?.message || err.message);
       setError('Error submitting comment: ' + (err.response?.data?.message || err.message));
       setSuccess('');
+    }
+  };
+
+  const handleOpenChat = async () => {
+    if (!event || !event.creator || !event.creator._id) {
+      console.error('Event or organizer ID is undefined');
+      setError('Event or organizer ID is undefined');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const organizerId = event.creator._id;
+      const existingConversationId = user.conversations?.[organizerId];
+
+      if (existingConversationId) {
+        console.log(`Existing conversation found: ${existingConversationId}`);
+        navigate(`/chat/${existingConversationId}`);
+      } else {
+        console.log('No existing conversation found, creating new one');
+        const response = await axios.post(
+          'http://localhost:5000/api/chat/conversation',
+          { userId: organizerId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+        const newConversation = response.data.data;
+        console.log('New conversation created:', newConversation);
+        navigate(`/chat/${newConversation._id}`);
+        dispatch({ type: 'update_conversations', payload: { organizerId, conversationId: newConversation._id } });
+      }
+    } catch (err) {
+      console.error('Error opening chat:', err.response?.data?.message || err.message);
+      setError('Error opening chat: ' + (err.response?.data?.message || err.message));
     }
   };
 
@@ -188,14 +290,46 @@ const EventDetail = () => {
             {event.description}
           </Typography>
           <div className="action-buttons">
+            {!isRequested && !isApproved && (
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<PersonAdd />}
+                onClick={handleRequestJoinEvent}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : 'Send Request'}
+              </Button>
+            )}
+            {isRequested && !isApproved && (
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<Cancel />}
+                onClick={handleUnsendRequestJoinEvent}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : 'Unsend Request'}
+              </Button>
+            )}
+            {isApproved && (
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<PersonRemove />}
+                onClick={handleLeaveEvent}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : 'Leave Event'}
+              </Button>
+            )}
             <Button
               variant="contained"
-              color={isJoined ? 'secondary' : 'primary'}
-              startIcon={isJoined ? <PersonRemove /> : <PersonAdd />}
-              onClick={isJoined ? handleLeaveEvent : handleJoinEvent}
-              disabled={loading}
+              color="primary"
+              startIcon={<Message />}
+              onClick={handleOpenChat}
             >
-              {loading ? <CircularProgress size={24} /> : isJoined ? 'Leave Event' : 'Join Event'}
+              Chat with Organizer
             </Button>
             <div className="share-buttons">
               <FacebookShareButton url={window.location.href} quote={event.title}>

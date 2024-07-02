@@ -87,7 +87,6 @@ exports.updateUserInfo = async (req, res) => {
   }
 };
 
-
 // Change user password
 exports.changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;

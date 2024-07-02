@@ -20,15 +20,26 @@ const UserSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(v);
       },
-      message: props => `${props.value} is not a valid URL!`
+      message: (props) => `${props.value} is not a valid URL!`
     },
   },
   joinedEvents: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event'
+  }],
+  requestedEvents: [{
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event'
+    },
+    status: {
+      type: String,
+      enum: ['requested', 'joined'],
+      default: 'requested',
+    },
   }],
 });
 

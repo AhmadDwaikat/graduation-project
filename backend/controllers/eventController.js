@@ -2,6 +2,7 @@ const Event = require('../models/Event');
 const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
+
 // Create a new event
 exports.createEvent = async (req, res) => {
   const { title, description, date, time, category, location, participantLimit } = req.body;
@@ -127,8 +128,77 @@ exports.getNonCreatedEvents = async (req, res) => {
   }
 };
 
-// Join an event
-exports.joinEvent = async (req, res) => {
+// Request to join an event
+exports.requestJoinEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+
+    if (!event) {
+      console.error('Event not found');
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      console.error('User not found');
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const existingRequest = event.participants.find(p => p.user && p.user.toString() === req.user.id);
+    if (existingRequest) {
+      return res.status(400).json({ success: false, message: 'Join request already sent' });
+    }
+
+    event.participants.push({ user: req.user.id, status: 'requested' });
+    user.requestedEvents = user.requestedEvents || [];
+    user.requestedEvents.push({ event: event._id, status: 'requested' });
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request sent successfully' });
+  } catch (error) {
+    console.error('Error sending join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error sending join request: ' + error.message });
+  }
+};
+
+// Approve a user's join request
+exports.approveJoinRequest = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
+    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
+
+    if (!participant || !userRequest) {
+      return res.status(400).json({ success: false, message: 'Join request not found' });
+    }
+
+    participant.status = 'approved';
+    userRequest.status = 'joined';
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request approved successfully' });
+  } catch (error) {
+    console.error('Error approving join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error approving join request: ' + error.message });
+  }
+};
+
+// Unsend request to join an event
+exports.unsendRequestJoinEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     const user = await User.findById(req.user.id);
@@ -137,20 +207,32 @@ exports.joinEvent = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
-    if (event.participants.includes(req.user.id)) {
-      return res.status(400).json({ success: false, message: 'User already joined this event' });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    event.participants.push(req.user.id);
-    user.joinedEvents.push(event._id);
+    user.requestedEvents = user.requestedEvents || [];
+    const participantIndex = event.participants.findIndex(p => p.user && p.user.toString() === req.user.id && p.status === 'requested');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'requested');
+
+    if (participantIndex === -1) {
+      return res.status(400).json({ success: false, message: 'No pending join request found' });
+    }
+
+    if (userRequestIndex === -1) {
+      return res.status(400).json({ success: false, message: 'Join request not found in user database' });
+    }
+
+    event.participants.splice(participantIndex, 1);
+    user.requestedEvents.splice(userRequestIndex, 1);
 
     await event.save();
     await user.save();
 
-    res.status(200).json({ success: true, message: 'Joined event successfully' });
+    res.status(200).json({ success: true, message: 'Join request unsent successfully' });
   } catch (error) {
-    console.error('Error joining event:', error.message);
-    res.status(500).json({ success: false, message: 'Error joining event: ' + error.message });
+    console.error('Error unsending join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error unsending join request: ' + error.message });
   }
 };
 
@@ -164,15 +246,15 @@ exports.leaveEvent = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
-    const participantIndex = event.participants.indexOf(req.user.id);
-    const eventIndex = user.joinedEvents.indexOf(event._id);
+    const participantIndex = event.participants.findIndex(p => p.user.toString() === req.user.id && p.status === 'approved');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
 
     if (participantIndex === -1) {
       return res.status(400).json({ success: false, message: 'User not part of this event' });
     }
 
     event.participants.splice(participantIndex, 1);
-    user.joinedEvents.splice(eventIndex, 1);
+    user.requestedEvents.splice(userRequestIndex, 1);
 
     await event.save();
     await user.save();
@@ -380,5 +462,49 @@ exports.deleteMedia = async (req, res) => {
   } catch (error) {
     console.error(`Error deleting ${type}:`, error.message);
     return res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+// Remove a participant from an event
+exports.removeParticipant = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const participantIndex = event.participants.findIndex(p => p.user.toString() === req.params.userId && p.status === 'approved');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
+
+    if (participantIndex === -1) {
+      return res.status(400).json({ success: false, message: 'User not part of this event' });
+    }
+
+    event.participants.splice(participantIndex, 1);
+    user.requestedEvents.splice(userRequestIndex, 1);
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Participant removed successfully' });
+  } catch (error) {
+    console.error('Error removing participant:', error.message);
+    res.status(500).json({ success: false, message: 'Error removing participant: ' + error.message });
+  }
+};
+
+// Get all events
+exports.getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.status(200).json({ success: true, data: events });
+  } catch (error) {
+    console.error('Error fetching all events:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
