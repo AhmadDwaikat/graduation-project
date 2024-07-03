@@ -37,38 +37,56 @@ const Login = () => {
       <Box className="login-container">
         <Typography variant="h4" className="title">Login</Typography>
         <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
-          <TextField
-            {...register('email', { 
-              required: 'Email is required', 
-              pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
-            })}
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
-            className="input-field"
-          />
-          <TextField
-            {...register('password', { 
-              required: 'Password is required' 
-            })}
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ''}
-            className="input-field"
-          />
+          <Box className="input-container">
+            <TextField
+              {...register('email', { 
+                required: 'Email is required', 
+                pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
+              })}
+              label="Email"
+              variant="outlined"
+              margin="normal"
+              error={!!errors.email}
+              helperText={errors.email ? errors.email.message : ''}
+              className="input-field"
+              sx={{ width: '200px' }} // Adjust the width to make the field smaller
+            />
+            <TextField
+              {...register('password', { 
+                required: 'Password is required' 
+              })}
+              label="Password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password ? errors.password.message : ''}
+              className="input-field"
+              sx={{ width: '200px' }} // Adjust the width to make the field smaller
+            />
+          </Box>
           {apiError && (
             <Typography color="error" variant="body2" className="error-message">
               {apiError}
             </Typography>
           )}
-          <Button variant="contained" color="primary" type="submit" fullWidth className="signin-button">
+          <Button
+            variant="outlined"
+            type="submit"
+            className="signin-button"
+            sx={{
+              padding: '5px 10px',
+              fontSize: '12px',
+              border: '1px solid black',
+              color: 'gold',
+              '&:hover': {
+                border: '1px solid black',
+                color: 'lightgoldenrodyellow',
+                backgroundColor: 'transparent',
+              },
+              width: '200px' // Adjust the width to match the input fields
+            }}
+          >
             Login
           </Button>
         </form>

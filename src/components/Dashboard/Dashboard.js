@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Typography, Grid, Card, CardContent, Button, CircularProgress, Container } from '@mui/material';
+import { Typography, Grid, Card, CardContent, CircularProgress, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
+import DashboardHeader from './DashboardHeader';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -15,7 +16,6 @@ const Dashboard = () => {
     const [featuredEvents, setFeaturedEvents] = useState([]);
     const [error, setError] = useState('');
 
-    // Fetch events when component mounts
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -54,7 +54,6 @@ const Dashboard = () => {
         fetchEvents();
     }, [dispatch]);
 
-    const handleCreateNewEvent = () => navigate('/event-creation');
     const handleEventClick = (id) => navigate(`/event-detail/${id}`);
 
     if (loading) {
@@ -66,35 +65,19 @@ const Dashboard = () => {
     }
 
     return (
-        <Container className="dashboard-container">
-            <Typography variant="h4" className="title">Dashboard</Typography>
-            <QuickLinks onCreateNewEvent={handleCreateNewEvent} />
-            <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
-            <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
-            <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
-        </Container>
+        <>
+            <DashboardHeader />
+            <Container className="dashboard-container">
+                <Typography variant="h4" className="title">Dashboard</Typography>
+                <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
+                <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
+                <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
+            </Container>
+        </>
     );
 };
 
-const QuickLinks = ({ onCreateNewEvent }) => (
-    <div className="quick-links">
-        <Button
-            variant="contained"
-            color="primary"
-            className="quick-link-button"
-            onClick={onCreateNewEvent}
-        >
-            Create New Event
-        </Button>
-    </div>
-);
-
-QuickLinks.propTypes = {
-    onCreateNewEvent: PropTypes.func.isRequired,
-};
-
 const EventSection = ({ title, events, onEventClick }) => {
-    // Check if events is defined and an array
     if (!Array.isArray(events)) {
         console.error(`Invalid events data for ${title}:`, events);
         return null;

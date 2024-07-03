@@ -1,47 +1,58 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
+import useHeaderContent from './useHeaderContent';
 
 const Header = () => {
-    const navigate = useNavigate();
-    const { state, dispatch } = useEvent();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state, dispatch } = useEvent();
+  const { title, links } = useHeaderContent();
 
-    const handleLogout = () => {
-        dispatch({ type: 'logout' });
-        navigate('/login');
-    };
+  const handleLogout = () => {
+    dispatch({ type: 'logout' });
+    navigate('/login');
+  };
 
-    return (
-        <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    Social Activity App
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    
-                    <Button color="inherit" component={RouterLink} to="/notifications">Notifications</Button>
-                    <Button color="inherit" component={RouterLink} to="/messages">Messages</Button>
-                    <Button color="inherit" component={RouterLink} to="/analytics">Analytics</Button>
-                    <Button color="inherit" component={RouterLink} to="/">Home</Button>
-                    <Button color="inherit" component={RouterLink} to="/dashboard">Dashboard</Button>
-                    <Button color="inherit" component={RouterLink} to="/activity-library">Activity Library</Button>
-                    <Button color="inherit" component={RouterLink} to="/profile">Profile</Button>
-                    <Button color="inherit" component={RouterLink} to="/settings">Settings</Button>
-                    <Button color="inherit" component={RouterLink} to="/event-creation">Create Event</Button>
-                    {!state.isAuthenticated && (
-                        <>
-                            <Button color="inherit" component={RouterLink} to="/signup">Sign Up</Button>
-                            <Button color="inherit" component={RouterLink} to="/login">Login</Button>
-                        </>
-                    )}
-                    {state.isAuthenticated && (
-                        <Button color="inherit" onClick={handleLogout}>Logout</Button>
-                    )}
-                </Box>
-            </Toolbar>
-        </AppBar>
-    );
+  // Return null if the path is home (i.e., '/')
+  if (location.pathname === '/') {
+    return null;
+  }
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        {title && (
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+        )}
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {links.map((link) => (
+            <Button key={link.to} color="inherit" component={RouterLink} to={link.to}>
+              {link.label}
+            </Button>
+          ))}
+          {!state.isAuthenticated && location.pathname !== '/login' && location.pathname !== '/signup' && (
+            <>
+              <Button color="inherit" component={RouterLink} to="/signup">
+                Sign Up
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/login">
+                Login
+              </Button>
+            </>
+          )}
+          {state.isAuthenticated && (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 export default Header;
