@@ -5,6 +5,7 @@ const authRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const uploadRoute = require('./routes/upload');
 const cors = require('cors');
+const recommendationRoutes = require('./routes/recommendationRoutes'); // Corrected
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/upload', uploadRoute);
+app.use('/api', recommendationRoutes); // Corrected
 
 // Static folder for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

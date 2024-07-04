@@ -17,6 +17,7 @@ const initialState = {
   participants: [],
   profile: {},
   nonCreatedEvents: [],
+  recommendedEvents: [],  // Add recommendedEvents to the initial state
 };
 
 function reducer(state, action) {
@@ -59,6 +60,8 @@ function reducer(state, action) {
       return { ...state, createdEvents: [...state.createdEvents, action.payload] };
     case 'set_non_created_events':
       return { ...state, nonCreatedEvents: action.payload };
+    case 'set_recommended_events':  // Add case to set recommended events
+      return { ...state, recommendedEvents: action.payload };
     default:
       return state;
   }
@@ -105,8 +108,28 @@ export const EventProvider = ({ children }) => {
       }
     };
 
+    const fetchRecommendedEvents = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await axios.get('http://localhost:5000/api/recommendations', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.data && response.data.success) {
+          dispatch({ type: 'set_recommended_events', payload: response.data.data });
+        }
+      } catch (err) {
+        console.error('Error fetching recommended events:', err);
+      }
+    };
+
     fetchUserInfo();
     fetchHighRatedEvents();
+    fetchRecommendedEvents();
     dispatch({ type: 'set_my_events', payload: mockData.myEvents.upcoming });
     dispatch({ type: 'set_activities', payload: mockData.activities });
     dispatch({ type: 'set_analytics', payload: mockData.analytics });

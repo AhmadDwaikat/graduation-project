@@ -5,7 +5,7 @@ const path = require('path');
 
 // Create a new event
 exports.createEvent = async (req, res) => {
-  const { title, description, date, time, category, location, participantLimit } = req.body;
+  const { title, description, date, time, eventType, category, location, participantLimit } = req.body;
 
   try {
     const event = new Event({
@@ -13,17 +13,19 @@ exports.createEvent = async (req, res) => {
       description,
       date,
       time,
+      eventType,
       category,
       location,
       participantLimit,
-      creator: req.user.id,
+      creator: req.user.id, // Ensure the creator field is populated
     });
 
-    const savedEvent = await event.save();
-    res.status(201).json({ success: true, data: savedEvent });
+    await event.save();
+
+    res.status(201).json(event);
   } catch (error) {
-    console.error('Error creating event:', error.message);
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error('Error creating event:', error);
+    res.status(500).json({ message: 'Server error during event creation' });
   }
 };
 

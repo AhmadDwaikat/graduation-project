@@ -14,6 +14,7 @@ const Dashboard = () => {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
     const [featuredEvents, setFeaturedEvents] = useState([]);
+    const [recommendedEvents, setRecommendedEvents] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -26,20 +27,18 @@ const Dashboard = () => {
                     return;
                 }
 
-                const upcomingResponse = await axios.get('http://localhost:5000/api/events/user/upcoming', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const pastResponse = await axios.get('http://localhost:5000/api/events/user/past', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const featuredResponse = await axios.get('http://localhost:5000/api/events/high-rated', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const [upcomingResponse, pastResponse, featuredResponse, recommendedResponse] = await Promise.all([
+                    axios.get('http://localhost:5000/api/events/user/upcoming', { headers: { Authorization: `Bearer ${token}` } }),
+                    axios.get('http://localhost:5000/api/events/user/past', { headers: { Authorization: `Bearer ${token}` } }),
+                    axios.get('http://localhost:5000/api/events/high-rated', { headers: { Authorization: `Bearer ${token}` } }),
+                    axios.get('http://localhost:5000/api/recommendations', { headers: { Authorization: `Bearer ${token}` } })
+                ]);
 
-                if (upcomingResponse.data.success && pastResponse.data.success && featuredResponse.data.success) {
-                    setUpcomingEvents(upcomingResponse.data.data || []);
-                    setPastEvents(pastResponse.data.data || []);
-                    setFeaturedEvents(featuredResponse.data.data || []);
+                if (upcomingResponse.data.success && pastResponse.data.success && featuredResponse.data.success && recommendedResponse.data.success) {
+                    setUpcomingEvents(upcomingResponse.data.data.slice(0, 6) || []);
+                    setPastEvents(pastResponse.data.data.slice(0, 6) || []);
+                    setFeaturedEvents(featuredResponse.data.data.slice(0, 6) || []);
+                    setRecommendedEvents(recommendedResponse.data.data.slice(0, 6) || []);
                     dispatch({ type: 'set_my_events', payload: [...(upcomingResponse.data.data || []), ...(pastResponse.data.data || [])] });
                 } else {
                     setError('Failed to fetch events');
@@ -69,6 +68,7 @@ const Dashboard = () => {
             <DashboardHeader />
             <Container className="dashboard-container">
                 <Typography variant="h4" className="title">Dashboard</Typography>
+                <EventSection title="Recommended Events" events={recommendedEvents} onEventClick={handleEventClick} />
                 <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
                 <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
                 <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
@@ -100,7 +100,7 @@ const EventSection = ({ title, events, onEventClick }) => {
                                         Location: {event.location}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Rating: {event.averageRating}
+                                        Rating: {event.averageRating ? event.averageRating.toFixed(1) : 'N/A'}
                                     </Typography>
                                 </CardContent>
                             </Card>

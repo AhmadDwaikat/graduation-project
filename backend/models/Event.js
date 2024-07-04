@@ -17,6 +17,10 @@ const EventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  eventType: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: true,

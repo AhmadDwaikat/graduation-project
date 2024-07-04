@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 // Register a new user
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, interests } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -14,7 +14,7 @@ exports.registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    user = new User({ name, email, password: hashedPassword });
+    user = new User({ name, email, password: hashedPassword, interests });
 
     await user.save();
 
@@ -27,6 +27,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: 'Server error during registration' });
   }
 };
+
 
 // Login a user
 exports.loginUser = async (req, res) => {
