@@ -1,9 +1,9 @@
+// routes/eventRoutes.js
 const express = require('express');
 const multer = require('multer');
 const eventController = require('../controllers/eventController');
 const validateEvent = require('../middleware/validationMiddleware');
-const participantController = require('../controllers/participantController'); 
-
+const participantController = require('../controllers/participantController');
 const auth = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -37,10 +37,15 @@ router.get('/user/upcoming', auth, eventController.getUserUpcomingEvents);
 // Get past events that the user has participated in
 router.get('/user/past', auth, eventController.getUserPastEvents);
 
+// Routes for favorite events (ensure these are placed before the single event route)
+router.put('/add/:id', auth, eventController.addFavorite);
+router.put('/remove/:id', auth, eventController.removeFavorite);
+router.get('/favorites', auth, eventController.getFavorites);
+
 // Get all events route
 router.get('/', eventController.getEvents);
 
-// Get single event by ID route
+// Get single event by ID route (ensure this is placed after /favorites)
 router.get('/:id', eventController.getEvent);
 
 // Get organizer event detail route

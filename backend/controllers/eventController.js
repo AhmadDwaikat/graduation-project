@@ -510,3 +510,53 @@ exports.getAllEvents = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+// Add event to favorites
+exports.addFavorite = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const eventId = req.params.id;
+
+    if (!user.favorites.includes(eventId)) {
+      user.favorites.push(eventId);
+      await user.save();
+    }
+
+    res.status(200).json({ success: true, data: user.favorites });
+  } catch (error) {
+    console.error('Error adding favorite event:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Remove event from favorites
+exports.removeFavorite = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const eventId = req.params.id;
+
+    user.favorites = user.favorites.filter(fav => fav.toString() !== eventId);
+    await user.save();
+
+    res.status(200).json({ success: true, data: user.favorites });
+  } catch (error) {
+    console.error('Error removing favorite event:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Get user's favorite events
+exports.getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('favorites');
+    if (!user) {
+      console.error('User not found');
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    
+    res.status(200).json({ success: true, data: user.favorites });
+  } catch (error) {
+    console.error('Error fetching favorite events:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+

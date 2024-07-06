@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography, Card, CardContent, TextField, Button, Container, Paper, Alert } from '@mui/material';
-
 import './Settings.css';
 
 const Settings = () => {

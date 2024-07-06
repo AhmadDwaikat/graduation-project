@@ -171,10 +171,8 @@ const EventCreation = () => {
         )}
         <Button
           variant="contained"
-          color="primary"
           fullWidth
           type="submit"
-          class
           className="submit-button"
         >
           Create Event

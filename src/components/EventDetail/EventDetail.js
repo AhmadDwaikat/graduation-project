@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia } from '@mui/material';
-import { PersonAdd, PersonRemove, Cancel, Message } from '@mui/icons-material';
+import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions } from '@mui/material';
+import { PersonAdd, PersonRemove, Cancel, Message, Favorite, FavoriteBorder, Edit, Delete } from '@mui/icons-material';
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, FacebookMessengerShareButton, FacebookIcon, TwitterIcon, LinkedinIcon, FacebookMessengerIcon } from 'react-share';
 import { useEvent } from '../../context/EventContext';
+import RatingsBreakdown from './RatingsBreakdown';
 import './EventDetail.css';
 
 const EventDetail = () => {
@@ -14,6 +16,7 @@ const EventDetail = () => {
   const [event, setEvent] = useState(null);
   const [isRequested, setIsRequested] = useState(!!user?.requestedEvents?.find(({ event }) => event === id));
   const [isApproved, setIsApproved] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(user?.favorites?.includes(id));
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
@@ -21,6 +24,9 @@ const EventDetail = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [ratings, setRatings] = useState([]);
+  const [openImage, setOpenImage] = useState(null);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState('');
 
   useEffect(() => {
     const isEventRequested = !!user?.requestedEvents?.find(({ event }) => event === id);
@@ -204,6 +210,11 @@ const EventDetail = () => {
   };
 
   const handleCommentSubmit = async () => {
+    if (!comment.trim()) {
+      setError('Comment cannot be empty');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       console.log(`Submitting comment: ${comment} for eventId: ${id}`);
@@ -216,7 +227,7 @@ const EventDetail = () => {
           },
         }
       );
-      setComments([...comments, { user: { _id: user._id, name: user.name }, comment }]);
+      setComments([...comments, { user: { _id: user._id, name: user.name, profilePicture: user.profilePicture }, comment, createdAt: new Date() }]);
       setComment('');
       setSuccess('Comment submitted successfully');
       setError('');
@@ -224,6 +235,74 @@ const EventDetail = () => {
       console.error('Error submitting comment:', err.response?.data?.message || err.message);
       setError('Error submitting comment: ' + (err.response?.data?.message || err.message));
       setSuccess('');
+    }
+  };
+
+  const handleCommentEdit = async (commentId, commentText) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `http://localhost:5000/api/events/${id}/comment/${commentId}`,
+        { comment: commentText },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedComments = comments.map((c) =>
+        c._id === commentId ? { ...c, comment: commentText } : c
+      );
+      setComments(updatedComments);
+      setEditCommentId(null);
+      setEditCommentText('');
+      setSuccess('Comment updated successfully');
+      setError('');
+    } catch (err) {
+      console.error('Error updating comment:', err.response?.data?.message || err.message);
+      setError('Error updating comment: ' + (err.response?.data?.message || err.message));
+      setSuccess('');
+    }
+  };
+
+  const handleCommentDelete = async (commentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `http://localhost:5000/api/events/${id}/comment/${commentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedComments = comments.filter((c) => c._id !== commentId);
+      setComments(updatedComments);
+      setSuccess('Comment deleted successfully');
+      setError('');
+    } catch (err) {
+      console.error('Error deleting comment:', err.response?.data?.message || err.message);
+      setError('Error deleting comment: ' + (err.response?.data?.message || err.message));
+      setSuccess('');
+    }
+  };
+
+  const handleFavoriteToggle = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const url = `http://localhost:5000/api/events/${isFavorite ? 'remove' : 'add'}/${id}`;
+      await axios.put(url, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsFavorite(!isFavorite);
+      setError('');
+    } catch (err) {
+      setError('Error updating favorite status: ' + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -264,9 +343,23 @@ const EventDetail = () => {
     }
   };
 
+  const handleImageClick = (image) => {
+    setOpenImage(image);
+  };
+
+  const handleCloseImage = () => {
+    setOpenImage(null);
+  };
+
   if (!event) {
     return <Typography variant="h6">Event not found</Typography>;
   }
+
+  // Calculate rating counts
+  const ratingCounts = [5, 4, 3, 2, 1].map(value => ({
+    value,
+    count: ratings.filter(rating => rating.rating === value).length
+  }));
 
   return (
     <div className="event-detail-container">
@@ -331,6 +424,9 @@ const EventDetail = () => {
             >
               Chat with Organizer
             </Button>
+            <IconButton onClick={handleFavoriteToggle} disabled={loading}>
+              {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
+            </IconButton>
             <div className="share-buttons">
               <FacebookShareButton url={window.location.href} quote={event.title}>
                 <FacebookIcon size={32} round />
@@ -349,8 +445,29 @@ const EventDetail = () => {
         </CardContent>
       </Card>
       <Typography variant="h5" className="section-title">
+        Images
+      </Typography>
+      <Grid container spacing={2} className="media-gallery">
+        {event.images.map((image, index) => (
+          <Grid item key={index}>
+            <Card className="media-card" onClick={() => handleImageClick(image)}>
+              <CardMedia component="img" height="140" image={`http://localhost:5000/${image}`} alt={`Image ${index + 1}`} />
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <Dialog open={!!openImage} onClose={handleCloseImage} maxWidth="lg">
+        <DialogContent>
+          <img src={`http://localhost:5000/${openImage}`} alt="Selected" style={{ width: '100%' }} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseImage} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+      <Typography variant="h5" className="section-title">
         Ratings
       </Typography>
+      <RatingsBreakdown ratings={ratingCounts} />
       <div className="ratings-section">
         <Rating
           name="event-rating"
@@ -360,13 +477,6 @@ const EventDetail = () => {
         <Button onClick={handleRatingSubmit} variant="contained" color="primary">
           Submit Rating
         </Button>
-        <div className="existing-ratings">
-          {ratings.map((rating, index) => (
-            <Typography key={index} variant="body2">
-              {rating.user.name}: {rating.rating} stars
-            </Typography>
-          ))}
-        </div>
       </div>
       <Typography variant="h5" className="section-title">
         Comments
@@ -384,24 +494,61 @@ const EventDetail = () => {
         </Button>
         <div className="existing-comments">
           {comments.map((comment, index) => (
-            <Typography key={index} variant="body2">
-              {comment.user.name}: {comment.comment}
-            </Typography>
+            <Card key={index} className="comment-card">
+              <CardContent>
+                <Box display="flex" alignItems="center">
+                  <Avatar src={`http://localhost:5000/${comment.user.profilePicture}`} />
+                  <Box ml={2}>
+                    <Typography variant="body1">{comment.user.name}</Typography>
+                    <Typography variant="body2" color="textSecondary">{moment(comment.createdAt).format('LL')}</Typography>
+                  </Box>
+                </Box>
+                {editCommentId === comment._id ? (
+                  <Box>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      value={editCommentText}
+                      onChange={(e) => setEditCommentText(e.target.value)}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleCommentEdit(comment._id, editCommentText)}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        setEditCommentId(null);
+                        setEditCommentText('');
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
+                ) : (
+                  <Typography variant="body2" className="comment-text">{comment.comment}</Typography>
+                )}
+                {user._id === comment.user._id && (
+                  <Box display="flex" justifyContent="flex-end" mt={1}>
+                    <IconButton size="small" onClick={() => {
+                      setEditCommentId(comment._id);
+                      setEditCommentText(comment.comment);
+                    }}>
+                      <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton size="small" onClick={() => handleCommentDelete(comment._id)}>
+                      <Delete fontSize="small" />
+                    </IconButton>
+                  </Box>
+                )}
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
-      <Typography variant="h5" className="section-title">
-        Images
-      </Typography>
-      <Grid container spacing={2}>
-        {event.images.map((image, index) => (
-          <Grid item key={index}>
-            <Card>
-              <CardMedia component="img" height="140" image={`http://localhost:5000/${image}`} alt={`Image ${index + 1}`} />
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </div>
   );
 };

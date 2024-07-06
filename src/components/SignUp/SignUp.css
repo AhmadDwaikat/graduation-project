@@ -1,78 +1,61 @@
-/* Container for the sign-up page */
 .signup-login-container {
-    padding: 20px;
-    margin-top: 20px;
+    padding: 2rem;
+  }
+  
+  .signup-container {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .input-field {
+    margin-bottom: 1rem;
+  }
+  
+  .interest-instruction {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .selected-counter {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .interests-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .interests-list .MuiFormControlLabel-root {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* Title styling */
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-/* Form styling */
-.signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-}
-
-/* Sign up button styling */
-.signup-button {
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    text-transform: none;
-    transition: background-color 0.3s;
-}
-
-.signup-button:hover {
-    background-color: #0056b3;
-}
-
-/* Error message styling */
-.error-message {
-    color: red;
-}
-
-/* Switch auth link styling */
-.switch-auth {
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .interests-list .MuiFormControlLabel-root:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .signup-button {
+    margin-top: 1.5rem;
+  }
+  
+  .switch-auth {
+    margin-top: 1rem;
     text-align: center;
-    margin-top: 20px;
-    color: #007bff;
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.switch-auth:hover {
-    color: #0056b3;
-}
-
-/* Input styling */
-.input-field {
-    margin-bottom: 20px;
-}
-
-/* Container styling */
-.signup-container {
-    padding: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: #ffffff;
-}
-
-@media (min-width: 768px) {
-    .signup-container {
-        width: 400px;
-    }
-}
+  }
+  

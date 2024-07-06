@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import { Menu as MenuIcon, Mail as MailIcon, Notifications as NotificationsIcon, Event as EventIcon, LibraryBooks as LibraryBooksIcon, Assessment as AssessmentIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, ListItemIcon } from '@mui/material';
+import { Mail as MailIcon, Notifications as NotificationsIcon, Event as EventIcon, LibraryBooks as LibraryBooksIcon, Assessment as AssessmentIcon, Favorite as FavoriteIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon } from '@mui/icons-material'; // Added FavoriteIcon import
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,7 +8,6 @@ const DashboardHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [messagesCount, setMessagesCount] = useState(0);
   const [notificationsCount, setNotificationsCount] = useState(0);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState('');
   const navigate = useNavigate();
 
@@ -77,13 +76,6 @@ const DashboardHeader = () => {
     setAnchorEl(null);
   };
 
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -93,35 +85,27 @@ const DashboardHeader = () => {
     <AppBar position="static" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
-            <MenuIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h4" noWrap sx={{ fontWeight: 'bold' }}>
             Social Activity App
           </Typography>
-          <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-              onKeyDown={toggleDrawer(false)}
-            >
-              <List>
-                <ListItem button component={RouterLink} to="/event-creation">
-                  <ListItemIcon><EventIcon /></ListItemIcon>
-                  <ListItemText primary="Create Event" />
-                </ListItem>
-                <ListItem button component={RouterLink} to="/activity-library">
-                  <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
-                  <ListItemText primary="Activity Library" />
-                </ListItem>
-                <ListItem button component={RouterLink} to="/analytics">
-                  <ListItemIcon><AssessmentIcon /></ListItemIcon>
-                  <ListItemText primary="Analytics" />
-                </ListItem>
-              </List>
-            </Box>
-          </Drawer>
+          <Box sx={{ display: 'flex', ml: 3 }}>
+            <IconButton color="inherit" component={RouterLink} to="/event-creation">
+              <EventIcon sx={{ fontSize: 30 }} />
+              <Typography variant="body1" sx={{ ml: 1 }}>Create Event</Typography>
+            </IconButton>
+            <IconButton color="inherit" component={RouterLink} to="/activity-library">
+              <LibraryBooksIcon sx={{ fontSize: 30 }} />
+              <Typography variant="body1" sx={{ ml: 1 }}>Activity Library</Typography>
+            </IconButton>
+            <IconButton color="inherit" component={RouterLink} to="/analytics">
+              <AssessmentIcon sx={{ fontSize: 30 }} />
+              <Typography variant="body1" sx={{ ml: 1 }}>Analytics</Typography>
+            </IconButton>
+            <IconButton color="inherit" component={RouterLink} to="/favorites"> {/* Added Favorites link */}
+              <FavoriteIcon sx={{ fontSize: 30 }} />
+              <Typography variant="body1" sx={{ ml: 1 }}>Favorites</Typography>
+            </IconButton>
+          </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton color="inherit" component={RouterLink} to="/messages">

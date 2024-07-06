@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
@@ -29,6 +30,7 @@ import UpdateEventHeader from './components/UpdateEvent/UpdateEventHeader';
 import ParticipantManagementHeader from './components/ParticipantManagement/ParticipantManagementHeader';
 import LoginHeader from './components/LogIn/LoginHeader';
 import SignupHeader from './components/SignUp/SignupHeader';
+import Favorites from './components/Favorites/Favorites';  // Import the new Favorites component
 
 const App = () => {
   return (
@@ -51,6 +53,7 @@ const App = () => {
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><><SettingsHeader /><Settings /></></ProtectedRoute>} />
+          <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} /> 
         </Routes>
       </EventProvider>
     </Router>

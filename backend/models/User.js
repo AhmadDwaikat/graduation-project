@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event'
   }],
+  favorites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event',
+  }],
   requestedEvents: [{
     event: {
       type: mongoose.Schema.Types.ObjectId,

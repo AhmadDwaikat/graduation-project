@@ -5,24 +5,108 @@ import { TextField, Button, Container, Typography, Box, Checkbox, FormControlLab
 import { useEvent } from '../../context/EventContext';
 import './SignUp.css';
 
+// Updated interests list with emoji icons and names to match the provided image and extended interests
 const interestsList = [
-  "Soccer", "Basketball", "Tennis", "Running", "Yoga", "Swimming", "Cycling", "Hiking", "Martial Arts", "Golf",
-  "Concerts", "Music Festivals", "Open Mic Nights", "Classical Music", "Jazz", "Rock", "Pop", "EDM", "Hip-Hop", "Karaoke",
-  "Art Exhibitions", "Theater Performances", "Museums", "Literature and Book Clubs", "Poetry Readings", "Dance Performances",
-  "Cultural Festivals", "Photography", "Craft Workshops", "Historical Tours", "Tech Conferences", "Coding Bootcamps",
-  "Hackathons", "Start-up Meetups", "Gadget Expos", "Robotics", "AI and Machine Learning", "Virtual Reality",
-  "Game Development", "Blockchain and Cryptocurrency", "Food Festivals", "Wine Tasting", "Cooking Classes",
-  "Restaurant Openings", "Brewery Tours", "Street Food", "Vegan and Vegetarian Events", "Coffee Tastings", "Baking Workshops",
-  "Cocktail Mixing", "Fitness Classes", "Meditation", "Mental Health Workshops", "Nutrition Seminars", "Wellness Retreats",
-  "Spa Days", "Holistic Healing", "Running Clubs", "Health Fairs", "Personal Development", "Camping", "Rock Climbing",
-  "Scuba Diving", "Skiing and Snowboarding", "Surfing", "Wildlife Tours", "Kayaking", "Paragliding", "Fishing", "Eco-Tours",
-  "Charity Events", "Community Clean-ups", "Fundraisers", "Blood Drives", "Animal Shelter Volunteering", "Senior Care",
-  "Environmental Conservation", "Homeless Shelters", "Tutoring and Mentoring", "Political Activism", "Language Classes",
-  "Public Lectures", "Science Fairs", "Book Readings", "History Talks", "Skill-Building Workshops", "Online Courses",
-  "Educational Tours", "Art Classes", "Professional Development", "Esports Tournaments", "Board Game Nights", "RPG Sessions",
-  "Card Game Tournaments", "Video Game Meetups", "Cosplay Events", "Game Development Workshops", "Puzzle Hunts",
-  "Arcade Nights", "Fantasy Sports"
-
+  { name: "Soccer", icon: "⚽" },
+  { name: "Basketball", icon: "🏀" },
+  { name: "Tennis", icon: "🎾" },
+  { name: "Running", icon: "🏃" },
+  { name: "Yoga", icon: "🧘" },
+  { name: "Swimming", icon: "🏊" },
+  { name: "Cycling", icon: "🚴" },
+  { name: "Hiking", icon: "🥾" },
+  { name: "Martial Arts", icon: "🥋" },
+  { name: "Golf", icon: "⛳" },
+  { name: "Concerts", icon: "🎤" },
+  { name: "Music Festivals", icon: "🎉" },
+  { name: "Open Mic Nights", icon: "🎙️" },
+  { name: "Classical Music", icon: "🎻" },
+  { name: "Jazz", icon: "🎷" },
+  { name: "Rock", icon: "🎸" },
+  { name: "Pop", icon: "🎧" },
+  { name: "EDM", icon: "🎛️" },
+  { name: "Hip-Hop", icon: "🎤" },
+  { name: "Karaoke", icon: "🎤" },
+  { name: "Art Exhibitions", icon: "🖼️" },
+  { name: "Theater Performances", icon: "🎭" },
+  { name: "Museums", icon: "🏛️" },
+  { name: "Literature and Book Clubs", icon: "📚" },
+  { name: "Poetry Readings", icon: "📖" },
+  { name: "Dance Performances", icon: "💃" },
+  { name: "Cultural Festivals", icon: "🎊" },
+  { name: "Photography", icon: "📸" },
+  { name: "Craft Workshops", icon: "🧶" },
+  { name: "Historical Tours", icon: "🏰" },
+  { name: "Tech Conferences", icon: "💻" },
+  { name: "Coding Bootcamps", icon: "👨‍💻" },
+  { name: "Hackathons", icon: "💡" },
+  { name: "Start-up Meetups", icon: "🚀" },
+  { name: "Gadget Expos", icon: "🔧" },
+  { name: "Robotics", icon: "🤖" },
+  { name: "AI and Machine Learning", icon: "🤖" },
+  { name: "Virtual Reality", icon: "🕶️" },
+  { name: "Game Development", icon: "🎮" },
+  { name: "Blockchain and Cryptocurrency", icon: "💰" },
+  { name: "Food Festivals", icon: "🍔" },
+  { name: "Wine Tasting", icon: "🍷" },
+  { name: "Cooking Classes", icon: "🍳" },
+  { name: "Restaurant Openings", icon: "🍽️" },
+  { name: "Brewery Tours", icon: "🍺" },
+  { name: "Street Food", icon: "🌯" },
+  { name: "Vegan and Vegetarian Events", icon: "🥗" },
+  { name: "Coffee Tastings", icon: "☕" },
+  { name: "Baking Workshops", icon: "🍰" },
+  { name: "Cocktail Mixing", icon: "🍸" },
+  { name: "Fitness Classes", icon: "🏋️" },
+  { name: "Meditation", icon: "🧘" },
+  { name: "Mental Health Workshops", icon: "🧠" },
+  { name: "Nutrition Seminars", icon: "🥦" },
+  { name: "Wellness Retreats", icon: "🌿" },
+  { name: "Spa Days", icon: "💆" },
+  { name: "Holistic Healing", icon: "👐" },
+  { name: "Running Clubs", icon: "🏃" },
+  { name: "Health Fairs", icon: "🏥" },
+  { name: "Personal Development", icon: "📈" },
+  { name: "Camping", icon: "🏕️" },
+  { name: "Rock Climbing", icon: "🧗" },
+  { name: "Scuba Diving", icon: "🤿" },
+  { name: "Skiing and Snowboarding", icon: "⛷️" },
+  { name: "Surfing", icon: "🏄" },
+  { name: "Wildlife Tours", icon: "🦁" },
+  { name: "Kayaking", icon: "🛶" },
+  { name: "Paragliding", icon: "🪂" },
+  { name: "Fishing", icon: "🎣" },
+  { name: "Eco-Tours", icon: "🌍" },
+  { name: "Charity Events", icon: "❤️" },
+  { name: "Community Clean-ups", icon: "🧹" },
+  { name: "Fundraisers", icon: "💵" },
+  { name: "Blood Drives", icon: "🩸" },
+  { name: "Animal Shelter Volunteering", icon: "🐾" },
+  { name: "Senior Care", icon: "👴" },
+  { name: "Environmental Conservation", icon: "🌳" },
+  { name: "Homeless Shelters", icon: "🏠" },
+  { name: "Tutoring and Mentoring", icon: "🎓" },
+  { name: "Political Activism", icon: "📢" },
+  { name: "Language Classes", icon: "🗣️" },
+  { name: "Public Lectures", icon: "🎤" },
+  { name: "Science Fairs", icon: "🔬" },
+  { name: "Book Readings", icon: "📖" },
+  { name: "History Talks", icon: "🏺" },
+  { name: "Skill-Building Workshops", icon: "🛠️" },
+  { name: "Online Courses", icon: "💻" },
+  { name: "Educational Tours", icon: "🎓" },
+  { name: "Art Classes", icon: "🎨" },
+  { name: "Professional Development", icon: "💼" },
+  { name: "Esports Tournaments", icon: "🎮" },
+  { name: "Board Game Nights", icon: "🎲" },
+  { name: "RPG Sessions", icon: "⚔️" },
+  { name: "Card Game Tournaments", icon: "🃏" },
+  { name: "Video Game Meetups", icon: "🎮" },
+  { name: "Cosplay Events", icon: "👗" },
+  { name: "Game Development Workshops", icon: "👨‍💻" },
+  { name: "Puzzle Hunts", icon: "🧩" },
+  { name: "Arcade Nights", icon: "🕹️" },
+  { name: "Fantasy Sports", icon: "🏈" }
 ];
 
 const SignUp = () => {
@@ -122,18 +206,22 @@ const SignUp = () => {
           <Typography variant="body1" className="interest-instruction">
             Select at least 20 interests:
           </Typography>
+          <Typography variant="body2" className="selected-counter">
+            {selectedInterests.length} / 20 selected
+          </Typography>
           <Box className="interests-list">
             {interestsList.map((interest) => (
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedInterests.includes(interest)}
+                    checked={selectedInterests.includes(interest.name)}
                     onChange={handleInterestChange}
-                    name={interest}
+                    name={interest.name}
                   />
                 }
-                label={interest}
-                key={interest}
+                label={<span>{interest.icon} {interest.name}</span>}
+                key={interest.name}
+                className="interest-item"
               />
             ))}
           </Box>

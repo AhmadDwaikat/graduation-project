@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, ListItemIcon, Button } from '@mui/material';
-import { Mail as MailIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon } from '@mui/icons-material';
+import { Mail as MailIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon, LibraryBooks as LibraryBooksIcon } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SettingsHeader = () => {
+const FavoritesHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [messagesCount, setMessagesCount] = useState(0);
   const [notificationsCount, setNotificationsCount] = useState(0);
@@ -92,6 +92,10 @@ const SettingsHeader = () => {
             <DashboardIcon sx={{ marginRight: 1 }} />
             Dashboard
           </Button>
+          <Button color="inherit" component={RouterLink} to="/activity-library" sx={{ marginLeft: 2 }}>
+            <LibraryBooksIcon sx={{ marginRight: 1 }} />
+            Activity Library
+          </Button>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton color="inherit" component={RouterLink} to="/messages">
@@ -131,6 +135,12 @@ const SettingsHeader = () => {
               </ListItemIcon>
               Profile
             </MenuItem>
+            <MenuItem component={RouterLink} to="/settings" onClick={handleClose} sx={{ fontSize: '1.1rem', padding: '10px 20px' }}>
+              <ListItemIcon>
+                <SettingsIcon fontSize="large" />
+              </ListItemIcon>
+              Settings
+            </MenuItem>
             <MenuItem onClick={handleLogout} sx={{ fontSize: '1.1rem', padding: '10px 20px' }}>
               <ListItemIcon>
                 <ExitToAppIcon fontSize="large" />
@@ -144,4 +154,4 @@ const SettingsHeader = () => {
   );
 };
 
-export default SettingsHeader;
+export default FavoritesHeader;
