@@ -1,0 +1,21 @@
+.user-events-container {
+    margin-top: 20px;
+  }
+  
+  .title {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .event-card {
+    cursor: pointer;
+  }
+  
+  .view-button {
+    margin-left: auto;
+  }
+  

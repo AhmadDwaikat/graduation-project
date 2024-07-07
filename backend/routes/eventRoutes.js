@@ -28,8 +28,8 @@ router.get('/non-created', auth, eventController.getNonCreatedEvents);
 // Create event route
 router.post('/create', auth, validateEvent, eventController.createEvent);
 
-// Route to fetch user-specific events
-router.get('/user', auth, eventController.getUserEvents);
+router.get('/user/upcoming', auth, eventController.getUserUpcomingEvents);
+router.get('/user/past', auth, eventController.getUserPastEvents);
 
 // Get upcoming events that the user has participated in
 router.get('/user/upcoming', auth, eventController.getUserUpcomingEvents);
@@ -77,5 +77,8 @@ router.get('/:eventId/participants', auth, participantController.getParticipants
 router.put('/:eventId/participants/:participantId', auth, participantController.updateParticipantStatus);
 router.post('/:eventId/participants/:participantId/notification', auth, participantController.sendNotification);
 router.post('/:eventId/participants/:participantId/message', auth, participantController.sendMessage);
+
+router.get('/user/created/upcoming', auth, eventController.getUserCreatedUpcomingEvents);
+router.get('/user/created/past', auth, eventController.getUserCreatedPastEvents);
 
 module.exports = router;

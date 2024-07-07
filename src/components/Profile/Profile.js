@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Container, Typography, TextField, Avatar, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
+import { Container, Typography, TextField, Avatar, Card, Button, MenuItem } from '@mui/material';
 import { useEvent } from '../../context/EventContext';
 import './Profile.css';
 
 const Profile = () => {
   const { state, dispatch } = useEvent();
   const { user } = state;
-  const [events, setEvents] = useState([]);
   const [fetchError, setFetchError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -38,34 +36,9 @@ const Profile = () => {
     }
   }, [dispatch]);
 
-  const fetchUserEvents = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setFetchError('No token found');
-        return;
-      }
-
-      const response = await axios.get('http://localhost:5000/api/events/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data && response.data.success) {
-        setEvents(response.data.data);
-      } else {
-        setFetchError('Failed to fetch user events');
-      }
-    } catch (err) {
-      setFetchError('Error fetching user events');
-    }
-  }, []);
-
   useEffect(() => {
     fetchUserInfo();
-    fetchUserEvents();
-  }, [fetchUserInfo, fetchUserEvents]);
+  }, [fetchUserInfo]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -131,11 +104,18 @@ const Profile = () => {
     }
   };
 
+  const handleUpdateInterests = () => {
+    // Navigate to the interests update page
+    // Ensure to set up the route for interests page in your application
+    window.location.href = '/interests';
+  };
+
   return (
     <Container maxWidth="md" className="profile-container">
       <Card className="profile-card">
         <Avatar src={user?.profilePicture} alt={user?.name} className="profile-avatar" />
         <Typography variant="h5" className="profile-name">{user?.name}</Typography>
+        <Typography variant="body2" className="profile-email">{user?.email}</Typography>
         <Typography variant="body1" className="profile-bio">{user?.bio}</Typography>
         <TextField
           name="name"
@@ -157,6 +137,42 @@ const Profile = () => {
           onChange={handleInputChange}
           className="profile-edit-field"
         />
+        <TextField
+          name="gender"
+          label="Gender"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          select
+          value={user?.gender || ''}
+          onChange={handleInputChange}
+          className="profile-edit-field"
+        >
+          <MenuItem value="Male">Male</MenuItem>
+          <MenuItem value="Female">Female</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
+        <TextField
+          name="age"
+          label="Age"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          type="number"
+          value={user?.age || ''}
+          onChange={handleInputChange}
+          className="profile-edit-field"
+        />
+        <TextField
+          name="location"
+          label="Location"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={user?.location || ''}
+          onChange={handleInputChange}
+          className="profile-edit-field"
+        />
         <input
           accept="image/*"
           type="file"
@@ -166,6 +182,9 @@ const Profile = () => {
         />
         <Button variant="contained" color="primary" onClick={handleUpdate} className="save-button">
           Update Profile
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleUpdateInterests} className="interests-button">
+          Update Interests
         </Button>
         {fetchError && (
           <Typography color="error" variant="body2">
@@ -183,47 +202,6 @@ const Profile = () => {
           </Typography>
         )}
       </Card>
-
-      <Typography variant="h5" className="section-title">User Events</Typography>
-      <Grid container spacing={2}>
-        {events.map(event => (
-          <Grid item xs={12} sm={6} md={4} key={event._id}>
-            <Card className="event-card">
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  {event.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {event.description}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Date: {new Date(event.date).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Time: {event.time}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Location: {event.location}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Category: {event.category}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button 
-                  size="small" 
-                  color="primary" 
-                  component={Link} 
-                  to={`/event-organizer/${event._id}`} 
-                  className="view-button"
-                >
-                  EVENT DETAIL
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </Container>
   );
 };

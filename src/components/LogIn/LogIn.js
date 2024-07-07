@@ -22,7 +22,22 @@ const Login = () => {
       const result = await response.json();
       if (response.ok) {
         localStorage.setItem('token', result.token);
-        navigate('/dashboard'); // Redirect to dashboard or any protected route
+
+        // Check if the user has selected interests
+        const userInfoResponse = await fetch('http://localhost:5000/api/auth/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${result.token}`,
+          },
+        });
+        const userInfo = await userInfoResponse.json();
+        if (userInfo.success) {
+          if (!userInfo.data.hasSelectedInterests) {
+            navigate('/interests');
+          } else {
+            navigate('/dashboard');
+          }
+        }
       } else {
         setApiError(result.message);
       }

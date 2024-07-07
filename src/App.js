@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
@@ -16,6 +15,7 @@ import Messages from './components/Messages';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
 import UpdateEvent from './components/UpdateEvent';
+import UserEvents from './components/UserEvents'; // Import the new UserEvents component
 import { EventProvider } from './context/EventContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import ParticipantManagementPage from './components/ParticipantManagement';
@@ -31,7 +31,7 @@ import ParticipantManagementHeader from './components/ParticipantManagement/Part
 import LoginHeader from './components/LogIn/LoginHeader';
 import SignupHeader from './components/SignUp/SignupHeader';
 import Favorites from './components/Favorites/Favorites';  // Import the new Favorites component
-
+import Interests from './components/Interests';
 const App = () => {
   return (
     <Router>
@@ -44,6 +44,7 @@ const App = () => {
           <Route path="/signup" element={<><SignupHeader /><SignUp /></>} />
           <Route path="/login" element={<><LoginHeader /><Login /></>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
           <Route path="/event-creation" element={<ProtectedRoute><><CreateEventHeader /><EventCreation /></></ProtectedRoute>} />
           <Route path="/activity-library" element={<ProtectedRoute><><ActivityLibraryHeader /><ActivityLibrary /></></ProtectedRoute>} />
           <Route path="/analytics" element={<ProtectedRoute><><AnalyticsHeader /><Analytics /></></ProtectedRoute>} />
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><><SettingsHeader /><Settings /></></ProtectedRoute>} />
           <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} /> 
+          <Route path="/user-events" element={<ProtectedRoute><UserEvents /></ProtectedRoute>} /> {/* Add new route for User Events */}
         </Routes>
       </EventProvider>
     </Router>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions } from '@mui/material';
+import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions, Divider } from '@mui/material';
 import { PersonAdd, PersonRemove, Cancel, Message, Favorite, FavoriteBorder, Edit, Delete } from '@mui/icons-material';
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, FacebookMessengerShareButton, FacebookIcon, TwitterIcon, LinkedinIcon, FacebookMessengerIcon } from 'react-share';
 import { useEvent } from '../../context/EventContext';
@@ -368,82 +368,90 @@ const EventDetail = () => {
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
-      <Card className="event-card">
-        <CardContent>
-          <Typography variant="h6" className="event-title">
-            {event.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" className="event-details">
-            Date: {new Date(event.date).toLocaleDateString()}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" className="event-details">
-            Location: {event.location}
-          </Typography>
-          <Typography variant="body2" className="event-description">
-            {event.description}
-          </Typography>
-          <div className="action-buttons">
-            {!isRequested && !isApproved && (
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<PersonAdd />}
-                onClick={handleRequestJoinEvent}
-                disabled={loading}
-              >
-                {loading ? <CircularProgress size={24} /> : 'Send Request'}
-              </Button>
-            )}
-            {isRequested && !isApproved && (
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<Cancel />}
-                onClick={handleUnsendRequestJoinEvent}
-                disabled={loading}
-              >
-                {loading ? <CircularProgress size={24} /> : 'Unsend Request'}
-              </Button>
-            )}
-            {isApproved && (
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<PersonRemove />}
-                onClick={handleLeaveEvent}
-                disabled={loading}
-              >
-                {loading ? <CircularProgress size={24} /> : 'Leave Event'}
-              </Button>
-            )}
+      <div className="event-details">
+        <Typography variant="h6" className="event-title">
+          {event.title}
+        </Typography>
+        <Divider />
+        <Typography variant="body2" color="textSecondary">
+          <strong>Date:</strong> {moment(event.date).format('LL')}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          <strong>Time:</strong> {moment(event.time, 'HH:mm').format('h:mm A')}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          <strong>Location:</strong> {event.location}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          <strong>Creator:</strong> {event.creator.name}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          <strong>Category:</strong> {event.category}
+        </Typography>
+        <Typography variant="body2" className="event-description">
+          {event.description}
+        </Typography>
+        <div className="action-buttons">
+          {!isRequested && !isApproved && (
             <Button
               variant="contained"
               color="primary"
-              startIcon={<Message />}
-              onClick={handleOpenChat}
+              startIcon={<PersonAdd />}
+              onClick={handleRequestJoinEvent}
+              disabled={loading}
             >
-              Chat with Organizer
+              {loading ? <CircularProgress size={24} /> : 'Send Request'}
             </Button>
-            <IconButton onClick={handleFavoriteToggle} disabled={loading}>
-              {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
-            </IconButton>
-            <div className="share-buttons">
-              <FacebookShareButton url={window.location.href} quote={event.title}>
-                <FacebookIcon size={32} round />
-              </FacebookShareButton>
-              <TwitterShareButton url={window.location.href} title={event.title}>
-                <TwitterIcon size={32} round />
-              </TwitterShareButton>
-              <LinkedinShareButton url={window.location.href} title={event.title}>
-                <LinkedinIcon size={32} round />
-              </LinkedinShareButton>
-              <FacebookMessengerShareButton url={window.location.href} appId="YOUR_APP_ID">
-                <FacebookMessengerIcon size={32} round />
-              </FacebookMessengerShareButton>
-            </div>
+          )}
+          {isRequested && !isApproved && (
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<Cancel />}
+              onClick={handleUnsendRequestJoinEvent}
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={24} /> : 'Unsend Request'}
+            </Button>
+          )}
+          {isApproved && (
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<PersonRemove />}
+              onClick={handleLeaveEvent}
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={24} /> : 'Leave Event'}
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Message />}
+            onClick={handleOpenChat}
+          >
+            Chat with Organizer
+          </Button>
+          <IconButton onClick={handleFavoriteToggle} disabled={loading}>
+            {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
+          </IconButton>
+          <div className="share-buttons">
+            <FacebookShareButton url={window.location.href} quote={event.title}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+            <TwitterShareButton url={window.location.href} title={event.title}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+            <LinkedinShareButton url={window.location.href} title={event.title}>
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+            <FacebookMessengerShareButton url={window.location.href} appId="YOUR_APP_ID">
+              <FacebookMessengerIcon size={32} round />
+            </FacebookMessengerShareButton>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       <Typography variant="h5" className="section-title">
         Images
       </Typography>

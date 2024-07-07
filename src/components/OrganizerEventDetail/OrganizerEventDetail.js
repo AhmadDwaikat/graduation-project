@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions } from '@mui/material'; // Ensure CardActions is imported
+import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions } from '@mui/material';
 import './OrganizerEventDetail.css';
 
 const OrganizerEventDetail = () => {
-  const { id } = useParams(); // This should get the eventId from the URL parameters
+  const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [mediaFiles, setMediaFiles] = useState([]);

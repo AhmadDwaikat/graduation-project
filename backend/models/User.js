@@ -16,7 +16,11 @@ const UserSchema = new mongoose.Schema({
   },
   interests: {
     type: [String],
-    required: true,
+    required: false,
+  },
+  hasSelectedInterests: {
+    type: Boolean,
+    default: false,
   },
   availability: String,
   bio: {
@@ -50,6 +54,16 @@ const UserSchema = new mongoose.Schema({
       default: 'requested',
     },
   }],
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+  },
+  age: {
+    type: Number,
+  },
+  location: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);

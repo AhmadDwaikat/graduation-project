@@ -55,6 +55,7 @@ exports.getUserEvents = async (req, res) => {
 exports.getEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id)
+      .populate('creator', 'name') // Populate creator's name
       .populate('ratings.user', 'name') // Populate user information in ratings
       .populate('comments.user', 'name'); // Populate user information in comments
 
@@ -560,3 +561,34 @@ exports.getFavorites = async (req, res) => {
   }
 };
 
+// Get upcoming events created by the logged-in user
+exports.getUserCreatedUpcomingEvents = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const events = await Event.find({ 
+      creator: userId, 
+      date: { $gte: new Date() } 
+    }).sort({ date: 1 });
+
+    res.status(200).json({ success: true, data: events });
+  } catch (error) {
+    console.error('Error fetching upcoming events:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Get past events created by the logged-in user
+exports.getUserCreatedPastEvents = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const events = await Event.find({ 
+      creator: userId, 
+      date: { $lt: new Date() } 
+    }).sort({ date: -1 });
+
+    res.status(200).json({ success: true, data: events });
+  } catch (error) {
+    console.error('Error fetching past events:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};

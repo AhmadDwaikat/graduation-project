@@ -2,7 +2,7 @@
 .event-detail-container {
   padding: 20px;
   margin: auto;
-  max-width: 800px;
+  max-width: 1000px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -19,6 +19,7 @@
 /* Event card styles */
 .event-card {
   margin-bottom: 20px;
+  box-shadow: none; /* Remove the border box */
 }
 
 /* Event title styles */
@@ -38,14 +39,6 @@
   margin-bottom: 20px;
 }
 
-/* Action buttons container */
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
 /* Share buttons container */
 .share-buttons {
   display: flex;
@@ -59,151 +52,59 @@
   color: #333333;
 }
 
-/* Media gallery styles */
-.media-gallery {
-  margin-top: 20px;
-}
-
-.media-card {
+/* Comment card styles */
+.comment-card {
+  margin-top: 10px;
   border-radius: 8px;
-  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }
 
-/* Ratings section styles */
+/* Rating section styles */
 .ratings-section {
-  margin-top: 20px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* Comments section styles */
+/* Existing comments section styles */
+.existing-comments {
+  margin-top: 20px;
+}
+
 .comments-section {
   margin-top: 20px;
 }
 
-.comment-card {
+.comments-section .comment-card {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section .comment-card .comment-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-.comment-text {
-  margin-top: 10px;
+.comments-section .comment-card .comment-header .avatar {
+  margin-right: 10px;
 }
 
-/* Avatar and username styles */
-.comment-card .MuiAvatar-root {
-  width: 40px;
-  height: 40px;
-}
-
-.comment-card .MuiTypography-root {
+.comments-section .comment-card .comment-body {
   font-size: 14px;
+  color: #333;
 }
 
-.comment-card .MuiTypography-colorTextSecondary {
+.comments-section .comment-card .comment-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
   font-size: 12px;
   color: #999;
 }
-/* Container for the entire event detail page */
-.event-detail-container {
-    padding: 20px;
-    margin: auto;
-    max-width: 800px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Title of the event detail page */
-  .title {
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #333333;
-    text-align: center;
-  }
-  
-  /* Event card styles */
-  .event-card {
-    margin-bottom: 20px;
-  }
-  
-  /* Event title styles */
-  .event-title {
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  
-  /* Event details styles */
-  .event-details {
-    margin-bottom: 10px;
-    color: #555555;
-  }
-  
-  /* Event description styles */
-  .event-description {
-    margin-bottom: 20px;
-  }
-  
-  /* Action buttons container */
-  .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  /* Share buttons container */
-  .share-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Section title styles */
-  .section-title {
-    margin-top: 20px;
-    font-weight: 500;
-    color: #333333;
-  }
-  
-  /* Media gallery styles */
-  .media-gallery {
-    margin-top: 20px;
-  }
-  
-  .media-card {
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  
-  /* Ratings section styles */
-  .ratings-section {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  /* Comments section styles */
-  .comments-section {
-    margin-top: 20px;
-  }
-  
-  .comment-card {
-    margin-bottom: 10px;
-  }
-  
-  .comment-text {
-    margin-top: 10px;
-  }
-  
-  /* Avatar and username styles */
-  .comment-card .MuiAvatar-root {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .comment-card .MuiTypography-root {
-    font-size: 14px;
-  }
-  
-  .comment-card .MuiTypography-colorTextSecondary {
-    font-size: 12px;
-    color: #999;
-  }

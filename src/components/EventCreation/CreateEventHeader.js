@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, ListItemIcon, Button } from '@mui/material';
-import { Mail as MailIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon } from '@mui/icons-material';
+import { Mail as MailIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon, Event as EventIcon } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -91,6 +91,10 @@ const CreateEventHeader = () => {
           <Button color="inherit" component={RouterLink} to="/dashboard" sx={{ marginLeft: 2 }}>
             <DashboardIcon sx={{ marginRight: 1 }} />
             Dashboard
+          </Button>
+          <Button color="inherit" component={RouterLink} to="/user-events" sx={{ marginLeft: 2 }}>
+            <EventIcon sx={{ marginRight: 1 }} />
+            My Events
           </Button>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

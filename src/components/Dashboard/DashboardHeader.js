@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, ListItemIcon } from '@mui/material';
-import { Mail as MailIcon, Notifications as NotificationsIcon, Event as EventIcon, LibraryBooks as LibraryBooksIcon, Assessment as AssessmentIcon, Favorite as FavoriteIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon } from '@mui/icons-material'; // Added FavoriteIcon import
+import { Mail as MailIcon, Notifications as NotificationsIcon, Event as EventIcon, LibraryBooks as LibraryBooksIcon, Assessment as AssessmentIcon, Favorite as FavoriteIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -101,9 +101,13 @@ const DashboardHeader = () => {
               <AssessmentIcon sx={{ fontSize: 30 }} />
               <Typography variant="body1" sx={{ ml: 1 }}>Analytics</Typography>
             </IconButton>
-            <IconButton color="inherit" component={RouterLink} to="/favorites"> {/* Added Favorites link */}
+            <IconButton color="inherit" component={RouterLink} to="/favorites">
               <FavoriteIcon sx={{ fontSize: 30 }} />
               <Typography variant="body1" sx={{ ml: 1 }}>Favorites</Typography>
+            </IconButton>
+            <IconButton color="inherit" component={RouterLink} to="/user-events">
+              <EventIcon sx={{ fontSize: 30 }} />
+              <Typography variant="body1" sx={{ ml: 1 }}>My Events</Typography>
             </IconButton>
           </Box>
         </Box>

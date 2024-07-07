@@ -28,7 +28,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 // Login a user
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -68,7 +67,7 @@ exports.getUserInfo = async (req, res) => {
 
 // Update user information
 exports.updateUserInfo = async (req, res) => {
-  const { name, bio, profilePicture } = req.body;
+  const { name, bio, profilePicture, gender, age, location } = req.body;
 
   try {
     const user = await User.findById(req.user.id);
@@ -79,6 +78,9 @@ exports.updateUserInfo = async (req, res) => {
     user.name = name || user.name;
     user.bio = bio || user.bio;
     user.profilePicture = profilePicture || user.profilePicture;
+    user.gender = gender || user.gender;
+    user.age = age || user.age;
+    user.location = location || user.location;
 
     const updatedUser = await user.save();
     res.status(200).json({ success: true, data: updatedUser });
@@ -110,5 +112,24 @@ exports.changePassword = async (req, res) => {
   } catch (error) {
     console.error('Error changing password:', error.message);
     res.status(500).json({ message: 'Server error while changing password' });
+  }
+};
+
+exports.updateInterests = async (req, res) => {
+  try {
+    const { interests } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.interests = interests;
+    user.hasSelectedInterests = true;
+    await user.save();
+
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    console.error('Error updating interests:', error.message);
+    res.status(500).json({ message: 'Server error while updating interests' });
   }
 };
