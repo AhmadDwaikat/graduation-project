@@ -97,6 +97,7 @@ const EventDetail = () => {
       setIsRequested(true);
       setSuccess('Join request sent successfully');
       setError('');
+      dispatch({ type: 'join_event', payload: id });
     } catch (err) {
       console.error('Error sending join request:', err.response?.data?.message || err.message);
       if (err.response && err.response.data.message === 'Join request already sent') {
@@ -133,6 +134,7 @@ const EventDetail = () => {
       setIsRequested(false);
       setSuccess('Join request unsent successfully');
       setError('');
+      dispatch({ type: 'unsend_request', payload: id });
     } catch (err) {
       console.error('Error unsending join request:', err.response?.data?.message || err.message);
       setError('Error unsending join request: ' + (err.response?.data?.message || err.message));
@@ -299,6 +301,7 @@ const EventDetail = () => {
       });
       setIsFavorite(!isFavorite);
       setError('');
+      dispatch({ type: 'toggle_favorite', payload: id });
     } catch (err) {
       setError('Error updating favorite status: ' + err.message);
     } finally {

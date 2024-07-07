@@ -1,7 +1,8 @@
+// components/UserEvents.js
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Divider } from '@mui/material';
 import UserEventsHeader from './UserEventsHeader';
 import './UserEvents.css';
 
@@ -62,29 +63,30 @@ const UserEvents = () => {
 const EventSection = ({ title, events }) => (
   <>
     <Typography variant="h5" className="section-title">{title}</Typography>
-    <Grid container spacing={2}>
+    <Grid container spacing={4}>
       {events.length > 0 ? (
         events.map(event => (
           <Grid item xs={12} sm={6} md={4} key={event._id}>
             <Card className="event-card">
               <CardContent>
-                <Typography variant="h6" component="div">
+                <Typography variant="h6" component="div" className="event-title">
                   {event.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Divider className="divider" />
+                <Typography variant="body2" color="text.secondary" className="event-description">
                   {event.description}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Date: {new Date(event.date).toLocaleDateString()}
+                <Typography variant="body2" color="text.secondary" className="event-details">
+                  <strong>Date:</strong> {new Date(event.date).toLocaleDateString()}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Time: {event.time}
+                <Typography variant="body2" color="text.secondary" className="event-details">
+                  <strong>Time:</strong> {event.time}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Location: {event.location}
+                <Typography variant="body2" color="text.secondary" className="event-details">
+                  <strong>Location:</strong> {event.location}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Category: {event.category}
+                <Typography variant="body2" color="text.secondary" className="event-details">
+                  <strong>Category:</strong> {event.category}
                 </Typography>
               </CardContent>
               <CardActions>
@@ -102,7 +104,7 @@ const EventSection = ({ title, events }) => (
           </Grid>
         ))
       ) : (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" className="no-events">
           No events found.
         </Typography>
       )}

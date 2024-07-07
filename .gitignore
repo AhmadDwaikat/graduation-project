@@ -9,7 +9,7 @@ frontend/node_modules/
 
 # Ignore node_modules in any subdirectory
 node_modules/
-
+public/backgrounds
 /.pnp
 .pnp.js
 

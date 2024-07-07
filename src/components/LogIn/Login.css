@@ -1,11 +1,31 @@
+/* Ensure the background image fills the full page size */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*background: url('C:/Ahmad/NNU/graduation project/react app 1/social-activity-app/public/backgrounds/15.jpg') no-repeat center center fixed;*/
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
 /* Container for the login page */
 .signup-login-container {
-    padding: 20px;
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding-top: 60px; /* Space for the fixed header */
 }
 
 /* Title styling */
@@ -13,6 +33,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
+    color: #333; /* Ensure the title is readable on the background */
 }
 
 /* Form styling */
@@ -34,17 +55,20 @@
 /* Sign in button styling */
 .signin-button {
     margin-top: 20px;
-    background-color: #007bff;
-    color: white;
     padding: 5px 10px;
     font-size: 12px;
     border-radius: 5px;
     text-transform: none;
     transition: background-color 0.3s;
+    background-color: transparent;
+    border: 1px solid #333;
+    color: #000000;
 }
 
 .signin-button:hover {
-    background-color: #0056b3;
+    background-color: #333;
+    color: #000000;
+    border: 1px solid #333;
 }
 
 /* Error message styling */
@@ -76,7 +100,7 @@
     padding: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.7); /* Increased transparency */
 }
 
 @media (min-width: 768px) {

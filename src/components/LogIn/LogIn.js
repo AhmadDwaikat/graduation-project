@@ -64,7 +64,7 @@ const Login = () => {
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ''}
               className="input-field"
-              sx={{ width: '200px' }} // Adjust the width to make the field smaller
+              fullWidth
             />
             <TextField
               {...register('password', { 
@@ -77,7 +77,7 @@ const Login = () => {
               error={!!errors.password}
               helperText={errors.password ? errors.password.message : ''}
               className="input-field"
-              sx={{ width: '200px' }} // Adjust the width to make the field smaller
+              fullWidth
             />
           </Box>
           {apiError && (
@@ -86,21 +86,11 @@ const Login = () => {
             </Typography>
           )}
           <Button
-            variant="outlined"
+            variant="contained"
             type="submit"
             className="signin-button"
-            sx={{
-              padding: '5px 10px',
-              fontSize: '12px',
-              border: '1px solid black',
-              color: 'gold',
-              '&:hover': {
-                border: '1px solid black',
-                color: 'lightgoldenrodyellow',
-                backgroundColor: 'transparent',
-              },
-              width: '200px' // Adjust the width to match the input fields
-            }}
+            color="primary"
+            fullWidth
           >
             Login
           </Button>

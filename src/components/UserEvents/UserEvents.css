@@ -1,21 +1,51 @@
+/* components/UserEvents.css */
+
 .user-events-container {
-    margin-top: 20px;
-  }
-  
-  .title {
-    margin-bottom: 20px;
-  }
-  
-  .section-title {
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .event-card {
-    cursor: pointer;
-  }
-  
-  .view-button {
-    margin-left: auto;
-  }
-  
+  padding: 20px;
+}
+
+.title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.section-title {
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.event-card {
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+}
+
+.event-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.event-description {
+  margin-bottom: 10px;
+}
+
+.event-details {
+  margin: 5px 0;
+}
+
+.divider {
+  margin: 10px 0;
+}
+
+.view-button {
+  margin-left: auto;
+}
+
+.no-events {
+  margin-top: 20px;
+  text-align: center;
+}

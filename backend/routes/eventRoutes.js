@@ -1,4 +1,3 @@
-// routes/eventRoutes.js
 const express = require('express');
 const multer = require('multer');
 const eventController = require('../controllers/eventController');
@@ -60,6 +59,7 @@ router.delete('/:id', auth, eventController.deleteEvent);
 // Routes for joining and leaving events
 router.put('/:id/request', auth, eventController.requestJoinEvent);
 router.put('/:id/approve/:userId', auth, eventController.approveJoinRequest);
+router.put('/:id/reject/:userId', auth, eventController.rejectJoinRequest); // Add this route
 router.put('/:id/unsend-request', auth, eventController.unsendRequestJoinEvent);
 router.put('/:id/leave', auth, eventController.leaveEvent);
 

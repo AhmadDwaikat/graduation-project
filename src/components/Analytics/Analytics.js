@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
+import { Typography, Card, CardContent, Button } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useEvent } from '../../context/EventContext';
 import './Analytics.css';
 
@@ -23,45 +24,71 @@ const Analytics = () => {
     );
 };
 
-const StatisticsCard = ({ statistics }) => (
-    <Card className="statistics-card">
-        <CardContent>
-            <Typography variant="h6" className="chart-title">
-                Participation Statistics
-            </Typography>
-            <Typography variant="body2">
-                Total Events: {statistics.totalEvents}
-            </Typography>
-            <Typography variant="body2">
-                Upcoming Events: {statistics.upcomingEvents}
-            </Typography>
-            <Typography variant="body2">
-                Past Events: {statistics.pastEvents}
-            </Typography>
-            {/* Add a chart to visualize these statistics */}
-        </CardContent>
-    </Card>
-);
+const StatisticsCard = ({ statistics }) => {
+    const data = [
+        { name: 'Total Events', value: statistics.totalEvents },
+        { name: 'Upcoming Events', value: statistics.upcomingEvents },
+        { name: 'Past Events', value: statistics.pastEvents }
+    ];
 
-const EngagementCard = ({ metrics }) => (
-    <Card className="engagement-card">
-        <CardContent>
-            <Typography variant="h6" className="chart-title">
-                Engagement Metrics
-            </Typography>
-            <Typography variant="body2">
-                Average Participation: {metrics.averageParticipation}%
-            </Typography>
-            <Typography variant="body2">
-                Feedback Received: {metrics.feedbackReceived}
-            </Typography>
-            <Typography variant="body2">
-                Positive Feedback: {metrics.positiveFeedback}
-            </Typography>
-            {/* Add a chart to visualize these metrics */}
-        </CardContent>
-    </Card>
-);
+    return (
+        <Card className="statistics-card">
+            <CardContent>
+                <Typography variant="h6" className="chart-title">
+                    Participation Statistics
+                </Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </CardContent>
+        </Card>
+    );
+};
+
+const EngagementCard = ({ metrics }) => {
+    const data = [
+        { name: 'Average Participation', value: metrics.averageParticipation },
+        { name: 'Feedback Received', value: metrics.feedbackReceived },
+        { name: 'Positive Feedback', value: metrics.positiveFeedback }
+    ];
+
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+
+    return (
+        <Card className="engagement-card">
+            <CardContent>
+                <Typography variant="h6" className="chart-title">
+                    Engagement Metrics
+                </Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={100}
+                            fill="#8884d8"
+                            label
+                        >
+                            {data.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                    </PieChart>
+                </ResponsiveContainer>
+            </CardContent>
+        </Card>
+    );
+};
 
 const ReportsCard = ({ reports }) => (
     <Card className="reports-card">
@@ -75,7 +102,9 @@ const ReportsCard = ({ reports }) => (
             <Typography variant="body2">
                 Report 2: {reports.report2}
             </Typography>
-            {/* Add tools to generate custom reports */}
+            <Button variant="contained" color="primary" className="generate-report-button">
+                Generate Report
+            </Button>
         </CardContent>
     </Card>
 );

@@ -131,144 +131,6 @@ exports.getNonCreatedEvents = async (req, res) => {
   }
 };
 
-// Request to join an event
-exports.requestJoinEvent = async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    const user = await User.findById(req.user.id);
-
-    if (!event) {
-      console.error('Event not found');
-      return res.status(404).json({ success: false, message: 'Event not found' });
-    }
-
-    if (!user) {
-      console.error('User not found');
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    const existingRequest = event.participants.find(p => p.user && p.user.toString() === req.user.id);
-    if (existingRequest) {
-      return res.status(400).json({ success: false, message: 'Join request already sent' });
-    }
-
-    event.participants.push({ user: req.user.id, status: 'requested' });
-    user.requestedEvents = user.requestedEvents || [];
-    user.requestedEvents.push({ event: event._id, status: 'requested' });
-
-    await event.save();
-    await user.save();
-
-    res.status(200).json({ success: true, message: 'Join request sent successfully' });
-  } catch (error) {
-    console.error('Error sending join request:', error.message);
-    res.status(500).json({ success: false, message: 'Error sending join request: ' + error.message });
-  }
-};
-
-// Approve a user's join request
-exports.approveJoinRequest = async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    const user = await User.findById(req.params.userId);
-
-    if (!event) {
-      return res.status(404).json({ success: false, message: 'Event not found' });
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
-    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
-
-    if (!participant || !userRequest) {
-      return res.status(400).json({ success: false, message: 'Join request not found' });
-    }
-
-    participant.status = 'approved';
-    userRequest.status = 'joined';
-
-    await event.save();
-    await user.save();
-
-    res.status(200).json({ success: true, message: 'Join request approved successfully' });
-  } catch (error) {
-    console.error('Error approving join request:', error.message);
-    res.status(500).json({ success: false, message: 'Error approving join request: ' + error.message });
-  }
-};
-
-// Unsend request to join an event
-exports.unsendRequestJoinEvent = async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    const user = await User.findById(req.user.id);
-
-    if (!event) {
-      return res.status(404).json({ success: false, message: 'Event not found' });
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    user.requestedEvents = user.requestedEvents || [];
-    const participantIndex = event.participants.findIndex(p => p.user && p.user.toString() === req.user.id && p.status === 'requested');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'requested');
-
-    if (participantIndex === -1) {
-      return res.status(400).json({ success: false, message: 'No pending join request found' });
-    }
-
-    if (userRequestIndex === -1) {
-      return res.status(400).json({ success: false, message: 'Join request not found in user database' });
-    }
-
-    event.participants.splice(participantIndex, 1);
-    user.requestedEvents.splice(userRequestIndex, 1);
-
-    await event.save();
-    await user.save();
-
-    res.status(200).json({ success: true, message: 'Join request unsent successfully' });
-  } catch (error) {
-    console.error('Error unsending join request:', error.message);
-    res.status(500).json({ success: false, message: 'Error unsending join request: ' + error.message });
-  }
-};
-
-// Leave an event
-exports.leaveEvent = async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    const user = await User.findById(req.user.id);
-
-    if (!event) {
-      return res.status(404).json({ success: false, message: 'Event not found' });
-    }
-
-    const participantIndex = event.participants.findIndex(p => p.user.toString() === req.user.id && p.status === 'approved');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
-
-    if (participantIndex === -1) {
-      return res.status(400).json({ success: false, message: 'User not part of this event' });
-    }
-
-    event.participants.splice(participantIndex, 1);
-    user.requestedEvents.splice(userRequestIndex, 1);
-
-    await event.save();
-    await user.save();
-
-    res.status(200).json({ success: true, message: 'Left event successfully' });
-  } catch (error) {
-    console.error('Error leaving event:', error.message);
-    res.status(500).json({ success: false, message: 'Error leaving event: ' + error.message });
-  }
-};
-
 // Get upcoming events that the user has participated in
 exports.getUserUpcomingEvents = async (req, res) => {
   try {
@@ -590,5 +452,178 @@ exports.getUserCreatedPastEvents = async (req, res) => {
   } catch (error) {
     console.error('Error fetching past events:', error.message);
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
+
+// Request to join an event
+exports.requestJoinEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+
+    if (!event) {
+      console.error('Event not found');
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      console.error('User not found');
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const existingRequest = event.participants.find(p => p.user && p.user.toString() === req.user.id);
+    if (existingRequest) {
+      return res.status(400).json({ success: false, message: 'Join request already sent' });
+    }
+
+    event.participants.push({ user: req.user.id, status: 'requested' });
+    user.requestedEvents = user.requestedEvents || [];
+    user.requestedEvents.push({ event: event._id, status: 'requested' });
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request sent successfully' });
+  } catch (error) {
+    console.error('Error sending join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error sending join request: ' + error.message });
+  }
+};
+
+// Approve a user's join request
+exports.approveJoinRequest = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
+    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
+
+    if (!participant || !userRequest) {
+      return res.status(400).json({ success: false, message: 'Join request not found' });
+    }
+
+    participant.status = 'approved';
+    userRequest.status = 'joined';
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request approved successfully' });
+  } catch (error) {
+    console.error('Error approving join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error approving join request: ' + error.message });
+  }
+};
+
+// Reject a user's join request
+exports.rejectJoinRequest = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
+    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
+
+    if (!participant || !userRequest) {
+      return res.status(400).json({ success: false, message: 'Join request not found' });
+    }
+
+    event.participants = event.participants.filter(p => p.user.toString() !== req.params.userId);
+    user.requestedEvents = user.requestedEvents.filter(r => r.event.toString() !== req.params.id);
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request rejected successfully' });
+  } catch (error) {
+    console.error('Error rejecting join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error rejecting join request: ' + error.message });
+  }
+};
+
+// Unsend request to join an event
+exports.unsendRequestJoinEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const participantIndex = event.participants.findIndex(p => p.user && p.user.toString() === req.user.id && p.status === 'requested');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'requested');
+
+    if (participantIndex === -1) {
+      return res.status(400).json({ success: false, message: 'No pending join request found' });
+    }
+
+    if (userRequestIndex === -1) {
+      return res.status(400).json({ success: false, message: 'Join request not found in user database' });
+    }
+
+    event.participants.splice(participantIndex, 1);
+    user.requestedEvents.splice(userRequestIndex, 1);
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Join request unsent successfully' });
+  } catch (error) {
+    console.error('Error unsending join request:', error.message);
+    res.status(500).json({ success: false, message: 'Error unsending join request: ' + error.message });
+  }
+};
+
+// Leave an event
+exports.leaveEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    const participantIndex = event.participants.findIndex(p => p.user.toString() === req.user.id && p.status === 'approved');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
+
+    if (participantIndex === -1) {
+      return res.status(400).json({ success: false, message: 'User not part of this event' });
+    }
+
+    event.participants.splice(participantIndex, 1);
+    user.requestedEvents.splice(userRequestIndex, 1);
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Left event successfully' });
+  } catch (error) {
+    console.error('Error leaving event:', error.message);
+    res.status(500).json({ success: false, message: 'Error leaving event: ' + error.message });
   }
 };
