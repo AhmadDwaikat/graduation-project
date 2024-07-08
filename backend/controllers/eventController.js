@@ -610,14 +610,14 @@ exports.leaveEvent = async (req, res) => {
     }
 
     const participantIndex = event.participants.findIndex(p => p.user.toString() === req.user.id && p.status === 'approved');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.toString() === req.params.id);
+    const userJoinedIndex = user.joinedEvents.findIndex(r => r.toString() === req.params.id);
 
     if (participantIndex === -1) {
       return res.status(400).json({ success: false, message: 'User not part of this event' });
     }
 
     event.participants.splice(participantIndex, 1);
-    user.requestedEvents.splice(userRequestIndex, 1);
+    user.joinedEvents.splice(userJoinedIndex, 1);
 
     await event.save();
     await user.save();
