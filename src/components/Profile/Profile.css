@@ -1,97 +1,90 @@
-/* Container for the profile page */
 .profile-container {
     padding: 20px;
     margin: auto;
     max-width: 1200px;
-    background-color: #ffffff;
+    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile card styling */
-.profile-card {
+.profile-container .profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile avatar styling */
-.profile-avatar {
-    width: 200px;
-    height: 200px;
+.profile-container .profile-avatar {
+    width: 150px;
+    height: 150px;
     margin-bottom: 20px;
     border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     object-fit: cover;
 }
 
-/* Profile name styling */
-.profile-name {
+.profile-container .profile-name {
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 24px;
 }
 
-/* Profile bio styling */
-.profile-bio {
+.profile-container .profile-email {
+    margin-bottom: 10px;
+    color: #777777;
+}
+
+.profile-container .profile-bio {
     margin-bottom: 20px;
     color: #555555;
     text-align: center;
 }
 
-/* Profile edit field styling */
-.profile-edit-field {
+.profile-container .profile-edit-field {
     margin-bottom: 20px;
 }
 
-/* Save and cancel button styling */
-.save-button,
-.cancel-button {
+.profile-container .save-button,
+.profile-container .interests-button {
     margin-top: 10px;
     width: 100%;
 }
 
-/* Section title styling */
-.section-title {
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 20px;
+.profile-container .save-button {
+    background-color: #285185;
 }
 
-/* Event and review card styling */
-.event-card, .review-card {
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.profile-container .save-button:hover {
+    background-color: #1d3e70;
 }
 
-/* Button styling */
-.view-button {
-    text-transform: none;
+.profile-container .interests-button {
+    background-color: #d67940;
 }
 
-/* Responsive design */
+.profile-container .interests-button:hover {
+    background-color: #c06430;
+}
+
 @media (max-width: 600px) {
     .profile-container {
         padding: 10px;
     }
 
-    .profile-avatar {
-        width: 150px; /* Adjust size for smaller screens */
-        height: 150px; /* Adjust size for smaller screens */
+    .profile-container .profile-avatar {
+        width: 100px;
+        height: 100px;
     }
 
-    .profile-name {
+    .profile-container .profile-name {
         font-size: 20px;
     }
 
-    .section-title {
-        font-size: 18px;
-    }
-
-    .save-button {
+    .profile-container .save-button,
+    .profile-container .interests-button {
         font-size: 14px;
         padding: 8px 16px;
     }

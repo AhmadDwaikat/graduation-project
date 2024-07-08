@@ -105,8 +105,6 @@ const Profile = () => {
   };
 
   const handleUpdateInterests = () => {
-    // Navigate to the interests update page
-    // Ensure to set up the route for interests page in your application
     window.location.href = '/interests';
   };
 

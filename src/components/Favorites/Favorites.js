@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Typography, Grid, Card, CardContent, CircularProgress } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import FavoritesHeader from './FavoritesHeader'; // Import the new header
+import './Favorites.css'; // Import the CSS file
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -32,26 +33,26 @@ const Favorites = () => {
   }, []);
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress className="loading" />;
   }
 
   if (error) {
-    return <Typography variant="h6" color="error">{error}</Typography>;
+    return <Typography variant="h6" color="error" className="error-message">{error}</Typography>;
   }
 
   return (
     <>
       <FavoritesHeader />
-      <div>
-        <Typography variant="h4" gutterBottom>Favorite Events</Typography>
+      <div className="favorites-container">
+        <Typography variant="h4" gutterBottom className="title">Favorite Events</Typography>
         <Grid container spacing={2}>
           {favorites.map(event => (
             <Grid item key={event._id} xs={12} sm={6} md={4}>
-              <Card>
+              <Card className="event-card">
                 <CardContent>
-                  <Typography variant="h6">{event.title}</Typography>
-                  <Typography variant="body2">{new Date(event.date).toLocaleDateString()}</Typography>
-                  <RouterLink to={`/event-detail/${event._id}`}>View Details</RouterLink>
+                  <Typography variant="h6" className="event-title">{event.title}</Typography>
+                  <Typography variant="body2" className="event-date">{new Date(event.date).toLocaleDateString()}</Typography>
+                  <RouterLink to={`/event-detail/${event._id}`} className="view-details">View Details</RouterLink>
                 </CardContent>
               </Card>
             </Grid>

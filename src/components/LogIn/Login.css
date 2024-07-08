@@ -7,7 +7,7 @@
     box-sizing: border-box;
   }
   
-  .login-box {
+  .signup-login-container .login-box {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -18,7 +18,7 @@
     overflow: hidden;
   }
   
-  .login-image {
+  .signup-login-container .login-image {
     display: none;
     justify-content: center;
     align-items: center;
@@ -27,59 +27,59 @@
     font-family: serif;
   }
   
-  .login-image img {
+  .signup-login-container .login-image img {
     max-width: 100%;
     height: auto;
   }
   
-  .login-form-container {
+  .signup-login-container .login-form-container {
     flex: 1;
     padding: 40px;
   }
   
-  .title {
+  .signup-login-container .title {
     margin-bottom: 1.5rem;
     text-align: center;
   }
   
-  .input-field {
+  .signup-login-container .input-field {
     margin-bottom: 1rem;
   }
   
-  .login-button {
+  .signup-login-container .login-button {
     margin-top: 1.5rem;
     background-color: #c0a9bd;
     color: white;
 
   }
   
-  .login-button:hover {
+  .signup-login-container .login-button:hover {
     background-color: #c0a9bd;
 
   }
   
-  .switch-auth {
+  .signup-login-container .switch-auth {
     margin-top: 1rem;
     text-align: center;
     color: white;
   }
   
-  .home-link {
+  .signup-login-container .home-link {
     margin-top: 1rem;
     text-align: center;
   }
   
   @media(min-width: 768px) {
-    .login-box {
+    .signup-login-container .login-box {
       flex-direction: row;
     }
   
-    .login-image {
+    .signup-login-container .login-image {
       display: flex;
       flex: 1;
     }
   
-    .login-form-container {
+    .signup-login-container .login-form-container {
       flex: 1;
     }
   }

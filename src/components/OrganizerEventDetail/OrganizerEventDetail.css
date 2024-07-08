@@ -7,21 +7,21 @@
 }
 
 /* Title Styles */
-.title {
+.organizer-event-detail-container .title {
   margin-bottom: 1rem;
   color: #072A40; /* Dark blue text color */
   font-weight: bold;
 }
 
 /* Description, Date, and Location Styles */
-.description, .date, .location {
+.organizer-event-detail-container .description, .date, .location {
   margin-bottom: 1rem;
   color: #072A40; /* Dark blue text color */
   line-height: 1.5;
 }
 
 /* Subtitle Styles */
-.subtitle {
+.organizer-event-detail-container .subtitle {
   margin-top: 2rem;
   margin-bottom: 1rem;
   color: #072A40; /* Dark blue text color */
@@ -30,65 +30,65 @@
 }
 
 /* Feedback Message Styles */
-.feedback {
+.organizer-event-detail-container .feedback {
   margin-bottom: 1rem;
   color: #072A40; /* Dark blue text color */
 }
 
-.feedback.success {
+.organizer-event-detail-container .feedback.success {
   color: #178CA4; /* Medium teal for success messages */
 }
 
-.feedback.error {
+.organizer-event-detail-container .feedback.error {
   color: #18B7BE; /* Bright teal for error messages */
 }
 
 /* Button Styles */
-.add-media-button, .delete-button, .update-button, .manage-participants-button {
+.organizer-event-detail-container .add-media-button, .delete-button, .update-button, .manage-participants-button {
   margin-top: 1rem;
   background-color: #18B7BE; /* Bright teal background */
   color: #F9F7F0; /* Light beige text color */
   font-weight: bold;
 }
 
-.add-media-button:hover, .delete-button:hover, .update-button:hover, .manage-participants-button:hover {
+.organizer-event-detail-container .organizer-event-detail-container .add-media-button:hover, .organizer-event-detail-container .delete-button:hover, .organizer-event-detail-container .update-button:hover, .organizer-event-detail-container .manage-participants-button:hover {
   background-color: #178CA4; /* Medium teal background on hover */
   color: #F9F7F0; /* Light beige text color on hover */
 }
 
 /* Card and Media Styles */
-.card {
+.organizer-event-detail-container .card {
   background-color: #F9F7F0; /* Light beige background */
   color: #072A40; /* Dark blue text color */
   border: 1px solid #072A40; /* Dark blue border */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.full-size-media {
+.organizer-event-detail-container .full-size-media {
   width: 100%;
   height: 200px;
   object-fit: cover;
   cursor: pointer;
 }
 
-.card-media-iframe {
+.organizer-event-detail-container .card-media-iframe {
   width: 100%;
   height: 200px;
 }
 
 /* Participant Styles */
-.participant-avatar {
+.organizer-event-detail-container .participant-avatar {
   width: 60px;
   height: 60px;
   border: 2px solid #072A40; /* Dark blue border */
 }
 
-.participant-link {
+.organizer-event-detail-container .participant-link {
   text-decoration: none;
   color: #072A40; /* Dark blue text color */
 }
 
-.participant-card {
+.organizer-event-detail-container .participant-card {
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -99,7 +99,7 @@
 }
 
 /* Ratings and Comments Box Styles */
-.ratings-box, .comments-box {
+.organizer-event-detail-container .ratings-box, .comments-box {
   margin-bottom: 2rem;
   padding: 1rem;
   background-color: #F9F7F0; /* Light beige background */
@@ -108,17 +108,17 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.rating-item, .comment-item {
+.organizer-event-detail-container .rating-item, .comment-item {
   margin-bottom: 0.5rem;
   color: #072A40; /* Dark blue text color */
   font-weight: bold;
 }
 
-.media-input {
+.organizer-event-detail-container .media-input {
   margin-top: 1rem;
 }
 
-.dialog-image {
+.organizer-event-detail-container .dialog-image {
   width: 100%;
   height: auto;
 }

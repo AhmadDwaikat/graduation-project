@@ -19,6 +19,7 @@ import UserEvents from './components/UserEvents'; // Import the new UserEvents c
 import { EventProvider } from './context/EventContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import ParticipantManagementPage from './components/ParticipantManagement';
+
 import CreateEventHeader from './components/EventCreation/CreateEventHeader';
 import ActivityLibraryHeader from './components/ActivityLibrary/ActivityLibraryHeader';
 import AnalyticsHeader from './components/Analytics/AnalyticsHeader';

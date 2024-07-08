@@ -22,14 +22,14 @@ html, body {
     width: 100%;
   }
   
-  .title {
+  .event-creation-container .title {
     text-align: center;
     margin-bottom: 30px;
     font-weight: bold;
     color: #333;
   }
   
-  .info-box {
+  .event-creation-container .info-box {
     margin-bottom: 20px;
     padding: 20px;
     background-color: #f0f4ff;
@@ -37,61 +37,61 @@ html, body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .input-field {
+  .event-creation-container .input-field {
     width: 100%;
     margin-bottom: 20px;
   }
   
-  .date-time-container {
+  .event-creation-container .date-time-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
   
-  .date-field,
-  .time-field {
+  .event-creation-container .date-field,
+  .event-creation-container .time-field {
     width: 48%;
   }
   
-  .location-participant-container {
+  .event-creation-container .location-participant-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
   
-  .location-field,
-  .participant-field {
+  .event-creation-container .location-field,
+  .event-creation-container .participant-field {
     width: 48%;
   }
   
-  .event-category-container {
+  .event-creation-container .event-category-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
   
-  .event-field,
-  .category-field {
+  .event-creation-container .event-field,
+  .event-creation-container .category-field {
     width: 48%;
   }
   
-  .submit-button {
+  .event-creation-container  .submit-button {
     margin-top: 20px;
     background-color: #e59560;
     color: white;
   }
   
-  .submit-button:hover {
+  .event-creation-container .submit-button:hover {
     background-color: #e59560;
   }
   
-  .error-message {
+  .event-creation-container .error-message {
     color: red;
     font-size: 0.875rem;
     margin-top: 5px;
   }
   
-  .MuiOutlinedInput-root {
+  .event-creation-container .MuiOutlinedInput-root {
     &.Mui-focused fieldset {
       border-color: #1d3124 !important;
     }

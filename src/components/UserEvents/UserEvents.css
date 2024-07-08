@@ -2,50 +2,71 @@
 
 .user-events-container {
   padding: 20px;
+  background-color: #ccd9e2; /* New background color */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+.user-events-container .title {
   margin-bottom: 20px;
   text-align: center;
   font-weight: bold;
+  color: #285185; /* Title color */
+  font-size: 2rem;
 }
 
-.section-title {
+.user-events-container .section-title {
   margin: 20px 0;
   font-weight: bold;
   text-align: center;
+  color: #285185; /* Section title color */
+  font-size: 1.5rem;
 }
 
-.event-card {
+.user-events-container .event-card {
   transition: transform 0.3s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f7f1f0; /* Card background color */
 }
 
-.event-card:hover {
+.user-events-container .event-card:hover {
   transform: scale(1.05);
 }
 
-.event-title {
+.user-events-container .event-title {
   font-weight: bold;
   margin-bottom: 10px;
+  color: #285185; /* Event title color */
 }
 
-.event-description {
+.user-events-container .event-description {
   margin-bottom: 10px;
+  color: #6f4849; /* Description color */
 }
 
-.event-details {
+.user-events-container .event-details {
   margin: 5px 0;
+  color: #6f4849; /* Details color */
 }
 
-.divider {
+.user-events-container .divider {
   margin: 10px 0;
 }
 
-.view-button {
+.user-events-container .view-button {
   margin-left: auto;
+  background-color: #d67940; /* Button background color */
+  color: white;
+  border-radius: 5px;
 }
 
-.no-events {
+.user-events-container .view-button:hover {
+  background-color: #d67940; /* Button hover color */
+}
+
+.user-events-container .no-events {
   margin-top: 20px;
   text-align: center;
+  color: #6f4849; /* No events text color */
 }

@@ -1,57 +1,84 @@
 /* Container for the activity library */
 .activity-library-container {
-    padding: 2rem;
-    margin-top: 2rem;
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: #ccd9e2;
 }
 
 /* Paper container styling */
-.paper-container {
-    padding: 2rem;
+.activity-library-container .paper-container {
+  padding: 2rem;
+  background-color: #f7f1f0; /* New background color for the event section */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Title styling */
-.title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 600;
+.activity-library-container .title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #285185;
 }
 
 /* Search and filter section styling */
-.search-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+.activity-library-container .search-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  background-color: #cea6a0; /* New background color */
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.activity-library-container .search-field,
+.activity-library-container .filter-field {
+  max-width: 600px;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 10px; /* Added rounded corners */
 }
 
 /* Grid container for activities */
-.activity-grid {
-    margin-top: 2rem;
+.activity-library-container .activity-grid {
+  margin-top: 2rem;
 }
 
 /* Individual activity card */
-.activity-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+.activity-library-container .activity-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.activity-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.activity-library-container .activity-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Title of each activity */
-.activity-title {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+.activity-library-container .activity-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #285185;
 }
 
 /* Details of each activity */
-.activity-details {
-    color: #555555;
+.activity-library-container .activity-details {
+  color: #6f4849;
 }
-.event-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
+
+/* Description of each activity */
+.activity-library-container .activity-description {
+  margin-top: 0.5rem;
+  color: #555555;
+}
+
+/* Link styling */
+.activity-library-container .event-link {
+  text-decoration: none;
+  color: inherit;
+}

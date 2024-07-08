@@ -88,14 +88,17 @@ const SearchFilter = ({ searchTerm, onSearchChange, filterCategory, onCategoryCh
       className="search-field"
       value={searchTerm}
       onChange={onSearchChange}
-      fullWidth
+      InputProps={{
+        style: { border: 'none' },
+      }}
     />
-    <FormControl variant="outlined" className="filter-field" fullWidth>
+    <FormControl variant="outlined" className="filter-field">
       <InputLabel>Filter by Category</InputLabel>
       <Select
         value={filterCategory}
         onChange={onCategoryChange}
         label="Filter by Category"
+        style={{ border: 'none' }}
       >
         <MenuItem value="">All Categories</MenuItem>
         {Array.from(new Set(activities.map((activity) => activity.category))).map((category) => (

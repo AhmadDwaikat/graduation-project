@@ -7,13 +7,13 @@
   text-align: center;
 }
 
-.title {
+.home-container .title {
   margin-bottom: 20px;
   font-weight: bold;
   color: #333;
 }
 
-.overview-section {
+.home-container .overview-section {
   margin-bottom: 40px;
   padding: 20px;
   background-color: #f0f4ff;
@@ -21,13 +21,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.overview-title {
+.home-container .overview-title {
   font-weight: bold;
   margin-bottom: 20px;
   color: #333;
 }
 
-.overview-content {
+.home-container .overview-content {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -37,23 +37,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.overview-icon {
+.home-container .overview-icon {
   margin-right: 15px;
   font-size: 40px;
   color: #3b82f6;
 }
 
-.overview-text {
+.home-container .overview-text {
   flex: 1;
   font-size: 1.2rem;
   color: #1e3a8a;
 }
 
-.auth-section {
+.home-container .auth-section {
   margin-top: 20px;
 }
 
-.auth-prompt {
+.home-container .auth-prompt {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,44 +61,44 @@
   margin: 10px 0;
 }
 
-.auth-link {
+.home-container .auth-link {
   margin-left: 10px;
   text-decoration: underline;
   cursor: pointer;
   color: #6366f1;
 }
 
-.auth-description {
+.home-container .auth-description {
   margin: 5px 0 15px 0;
   color: #555;
 }
 
-.footer {
+.home-container .footer {
   background-color: #929fba;
   color: white;
   text-align: center;
   padding: 4rem 0;
 }
 
-.footer .footer-content {
+.home-container .footer .footer-content {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
-.footer .footer-section {
+.home-container .footer .footer-section {
   flex: 1;
   margin: 1rem;
   min-width: 200px;
 }
 
-.footer .social-icons a {
+.home-container .footer .social-icons a {
   color: white;
   margin: 0 0.5rem;
   font-size: 1.5rem;
 }
 
-.footer-copy {
+.home-container .footer-copy {
   margin-top: 2rem;
   font-size: 0.875rem;
 }
