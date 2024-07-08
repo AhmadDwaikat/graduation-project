@@ -1,110 +1,86 @@
-/* Ensure the background image fills the full page size */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    /*background: url('C:/Ahmad/NNU/graduation project/react app 1/social-activity-app/public/backgrounds/15.jpg') no-repeat center center fixed;*/
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-}
-
-header {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-/* Container for the login page */
 .signup-login-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-    padding-top: 60px; /* Space for the fixed header */
-}
-
-/* Title styling */
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #333; /* Ensure the title is readable on the background */
-}
-
-/* Form styling */
-.signin-form {
+    align-items: center;
+    background-color: #f8efea;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .login-box {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     width: 100%;
-    align-items: center; /* Center align items */
-}
-
-/* Input container styling */
-.input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center align items */
-}
-
-/* Sign in button styling */
-.signin-button {
-    margin-top: 20px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 5px;
-    text-transform: none;
-    transition: background-color 0.3s;
-    background-color: transparent;
-    border: 1px solid #333;
-    color: #000000;
-}
-
-.signin-button:hover {
-    background-color: #333;
-    color: #000000;
-    border: 1px solid #333;
-}
-
-/* Error message styling */
-.error-message {
-    color: red;
-}
-
-/* Switch auth link styling */
-.switch-auth {
-    text-align: center;
-    margin-top: 20px;
-    color: #007bff;
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.switch-auth:hover {
-    color: #0056b3;
-}
-
-/* Input styling */
-.input-field {
-    margin-bottom: 20px;
-}
-
-/* Container styling */
-.login-container {
+    max-width: 1200px;
+    background-color: #929fba;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .login-image {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: #4a4a5a; /* Lighter shade of #28262d */
+    color: white;
+    font-family: serif;
+  }
+  
+  .login-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .login-form-container {
+    flex: 1;
     padding: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.7); /* Increased transparency */
-}
+  }
+  
+  .title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .input-field {
+    margin-bottom: 1rem;
+  }
+  
+  .login-button {
+    margin-top: 1.5rem;
+    background-color: #c0a9bd;
+    color: white;
 
-@media (min-width: 768px) {
-    .login-container {
-        width: 400px;
+  }
+  
+  .login-button:hover {
+    background-color: #c0a9bd;
+
+  }
+  
+  .switch-auth {
+    margin-top: 1rem;
+    text-align: center;
+    color: white;
+  }
+  
+  .home-link {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  @media(min-width: 768px) {
+    .login-box {
+      flex-direction: row;
     }
-}
+  
+    .login-image {
+      display: flex;
+      flex: 1;
+    }
+  
+    .login-form-container {
+      flex: 1;
+    }
+  }
+  

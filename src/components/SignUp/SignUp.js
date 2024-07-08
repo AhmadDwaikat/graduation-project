@@ -8,7 +8,7 @@ import './SignUp.css';
 const SignUp = () => {
   const { dispatch } = useEvent();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
+  const { register, handleSubmit, formState: { errors }, setError, clearErrors, watch } = useForm();
 
   const onSubmit = async (data) => {
     clearErrors();
@@ -42,66 +42,88 @@ const SignUp = () => {
     }
   };
 
+  const password = watch('password');
+
   return (
-    <Container maxWidth="sm" className="signup-login-container">
-      <Box className="signup-container">
-        <Typography variant="h4" className="title">Sign Up</Typography>
-        <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            {...register('name', { required: 'Name is required' })}
-            label="Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            error={!!errors.name}
-            helperText={errors.name ? errors.name.message : ''}
-            className="input-field"
-          />
-          <TextField
-            {...register('email', {
-              required: 'Email is required',
-              pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: 'Invalid email address' }
-            })}
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
-            className="input-field"
-          />
-          <TextField
-            {...register('password', {
-              required: 'Password is required',
-              minLength: { value: 6, message: 'Password must be at least 6 characters' }
-            })}
-            label="Password"
-            variant="outlined"
-            type="password"
-            fullWidth
-            margin="normal"
-            error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ''}
-            className="input-field"
-          />
-          {errors.apiError && (
-            <Typography color="error" variant="body2" className="error-message">
-              {errors.apiError.message}
-            </Typography>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            type="submit"
-            className="signup-button"
-          >
-            Sign Up
-          </Button>
-        </form>
-        <Typography variant="body2" className="switch-auth">
-          Already have an account? <Link to="/login">Login</Link>
-        </Typography>
+    <Container maxWidth="lg" className="signup-login-container">
+      <Box className="signup-box">
+        <Box className="signup-image"><h2>Social Activity App</h2></Box>
+        <Box className="signup-form-container">
+          <Typography variant="h4" className="title">Sign Up</Typography>
+          <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              {...register('name', { required: 'Name is required' })}
+              label="Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              error={!!errors.name}
+              helperText={errors.name ? errors.name.message : ''}
+              className="input-field"
+            />
+            <TextField
+              {...register('email', {
+                required: 'Email is required',
+                pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: 'Invalid email address' }
+              })}
+              label="Email"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              error={!!errors.email}
+              helperText={errors.email ? errors.email.message : ''}
+              className="input-field"
+            />
+            <TextField
+              {...register('password', {
+                required: 'Password is required',
+                minLength: { value: 6, message: 'Password must be at least 6 characters' }
+              })}
+              label="Password"
+              variant="outlined"
+              type="password"
+              fullWidth
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password ? errors.password.message : ''}
+              className="input-field"
+            />
+            <TextField
+              {...register('confirmPassword', {
+                required: 'Please confirm your password',
+                validate: (value) => value === password || 'Passwords do not match'
+              })}
+              label="Confirm Password"
+              variant="outlined"
+              type="password"
+              fullWidth
+              margin="normal"
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
+              className="input-field"
+            />
+            {errors.apiError && (
+              <Typography color="error" variant="body2" className="error-message">
+                {errors.apiError.message}
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+              className="signup-button"
+            >
+              Sign Up
+            </Button>
+          </form>
+          <Typography variant="body2" className="switch-auth">
+            Already have an account? <Link to="/login">Login</Link>
+          </Typography>
+          <Typography variant="body2" className="home-link">
+            <Link to="/">Home</Link>
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

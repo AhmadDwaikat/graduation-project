@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Typography, Container, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Typography, Container, TextField, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import './EventCreation.css';
@@ -62,122 +62,160 @@ const EventCreation = () => {
   };
 
   return (
-    <Container maxWidth="sm" className="event-creation-container">
-      <Typography variant="h4" className="title">Create Event</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register('title', { required: 'Title is required' })}
-          label="Title"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.title}
-          helperText={errors.title ? errors.title.message : ''}
-          className="input-field"
-        />
-        <TextField
-          {...register('description', { required: 'Description is required' })}
-          label="Description"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.description}
-          helperText={errors.description ? errors.description.message : ''}
-          className="input-field"
-        />
-        <TextField
-          {...register('date', { required: 'Date is required' })}
-          label="Date"
-          type="date"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.date}
-          helperText={errors.date ? errors.date.message : ''}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          className="input-field"
-        />
-        <TextField
-          {...register('time', { required: 'Time is required' })}
-          label="Time"
-          type="time"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.time}
-          helperText={errors.time ? errors.time.message : ''}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          className="input-field"
-        />
-        <TextField
-          {...register('location', { required: 'Location is required' })}
-          label="Location"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.location}
-          helperText={errors.location ? errors.location.message : ''}
-          className="input-field"
-        />
-        <TextField
-          {...register('participantLimit', { required: 'Participant limit is required' })}
-          label="Participant Limit"
-          type="number"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors.participantLimit}
-          helperText={errors.participantLimit ? errors.participantLimit.message : ''}
-          className="input-field"
-        />
-        <FormControl fullWidth variant="outlined" margin="normal" className="input-field">
-          <InputLabel>Event Type</InputLabel>
-          <Select
-            {...register('eventType', { required: 'Event Type is required' })}
-            label="Event Type"
-            defaultValue=""
-            error={!!errors.eventType}
-          >
-            {Object.keys(eventTypes).map((type) => (
-              <MenuItem key={type} value={type}>{type}</MenuItem>
-            ))}
-          </Select>
-          {errors.eventType && <Typography color="error" className="error-message">{errors.eventType.message}</Typography>}
-        </FormControl>
-        {selectedEventType && (
-          <FormControl fullWidth variant="outlined" margin="normal" className="input-field">
-            <InputLabel>Category</InputLabel>
-            <Select
-              {...register('category', { required: 'Category is required' })}
-              label="Category"
-              defaultValue=""
-              error={!!errors.category}
+    <Container maxWidth="lg" className="event-creation-container">
+      <Box className="event-box">
+        <Box className="event-info">
+          <Typography variant="h4" className="title">Create Event</Typography>
+          <Box className="info-box">
+            <Typography variant="body1">
+            Welcome to the event creation page! Here, you can create events for various categories. Please fill out the form below with accurate details to ensure your event is successfully created and reaches the right audience. Make sure to provide a descriptive title, detailed description, and accurate date, time, and location for your event. Select the appropriate event type and category to categorize your event correctly. We look forward to seeing the events you create!                 </Typography>
+          </Box>
+        </Box>
+        <Box className="event-form-container">
+          <form onSubmit={handleSubmit(onSubmit)} className="event-form">
+            <TextField
+              {...register('title', { required: 'Title is required' })}
+              label="Title"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              error={!!errors.title}
+              helperText={errors.title ? errors.title.message : ''}
+              className="input-field"
+              InputProps={{
+                style: { borderColor: '#1d3124' },
+              }}
+            />
+            <TextField
+              {...register('description', { required: 'Description is required' })}
+              label="Description"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+              margin="normal"
+              error={!!errors.description}
+              helperText={errors.description ? errors.description.message : ''}
+              className="input-field"
+              InputProps={{
+                style: { borderColor: '#1d3124' },
+              }}
+            />
+            <Box className="date-time-container">
+              <TextField
+                {...register('date', { required: 'Date is required' })}
+                label="Date"
+                type="date"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.date}
+                helperText={errors.date ? errors.date.message : ''}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className="input-field date-field"
+                InputProps={{
+                  style: { borderColor: '#1d3124' },
+                }}
+              />
+              <TextField
+                {...register('time', { required: 'Time is required' })}
+                label="Time"
+                type="time"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.time}
+                helperText={errors.time ? errors.time.message : ''}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className="input-field time-field"
+                InputProps={{
+                  style: { borderColor: '#1d3124' },
+                }}
+              />
+            </Box>
+            <Box className="location-participant-container">
+              <TextField
+                {...register('location', { required: 'Location is required' })}
+                label="Location"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.location}
+                helperText={errors.location ? errors.location.message : ''}
+                className="input-field location-field"
+                InputProps={{
+                  style: { borderColor: '#1d3124' },
+                }}
+              />
+              <TextField
+                {...register('participantLimit', { required: 'Participant limit is required' })}
+                label="Participant Limit"
+                type="number"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.participantLimit}
+                helperText={errors.participantLimit ? errors.participantLimit.message : ''}
+                className="input-field participant-field"
+                InputProps={{
+                  style: { borderColor: '#1d3124' },
+                }}
+              />
+            </Box>
+            <Box className="event-category-container">
+              <FormControl fullWidth variant="outlined" margin="normal" className="input-field event-field">
+                <InputLabel>Event Type</InputLabel>
+                <Select
+                  {...register('eventType', { required: 'Event Type is required' })}
+                  label="Event Type"
+                  defaultValue=""
+                  error={!!errors.eventType}
+                  style={{ borderColor: '#1d3124' }}
+                >
+                  {Object.keys(eventTypes).map((type) => (
+                    <MenuItem key={type} value={type}>{type}</MenuItem>
+                  ))}
+                </Select>
+                {errors.eventType && <Typography color="error" className="error-message">{errors.eventType.message}</Typography>}
+              </FormControl>
+              {selectedEventType && (
+                <FormControl fullWidth variant="outlined" margin="normal" className="input-field category-field">
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    {...register('category', { required: 'Category is required' })}
+                    label="Category"
+                    defaultValue=""
+                    error={!!errors.category}
+                    style={{ borderColor: '#1d3124' }}
+                  >
+                    {eventTypes[selectedEventType].map((category) => (
+                      <MenuItem key={category} value={category}>{category}</MenuItem>
+                    ))}
+                  </Select>
+                  {errors.category && <Typography color="error" className="error-message">{errors.category.message}</Typography>}
+                </FormControl>
+              )}
+            </Box>
+            {errors.apiError && (
+              <Typography color="error" variant="body2" className="error-message">
+                {errors.apiError.message}
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              fullWidth
+              type="submit"
+              className="submit-button"
             >
-              {eventTypes[selectedEventType].map((category) => (
-                <MenuItem key={category} value={category}>{category}</MenuItem>
-              ))}
-            </Select>
-            {errors.category && <Typography color="error" className="error-message">{errors.category.message}</Typography>}
-          </FormControl>
-        )}
-        {errors.apiError && (
-          <Typography color="error" variant="body2" className="error-message">
-            {errors.apiError.message}
-          </Typography>
-        )}
-        <Button
-          variant="contained"
-          fullWidth
-          type="submit"
-          className="submit-button"
-        >
-          Create Event
-        </Button>
-      </form>
+              Create Event
+            </Button>
+          </form>
+        </Box>
+      </Box>
     </Container>
   );
 };

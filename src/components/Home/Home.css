@@ -1,84 +1,104 @@
 .home-container {
   padding: 20px;
   margin-top: 20px;
-  background-color: #f9f9f9;
+  background-color: #f8efea; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  text-align: center;
 }
 
 .title {
   margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
 }
 
 .overview-section {
   margin-bottom: 40px;
+  padding: 20px;
+  background-color: #f0f4ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .overview-title {
   font-weight: bold;
   margin-bottom: 20px;
+  color: #333;
 }
 
 .overview-content {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  background-color: #e0e7ff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .overview-icon {
   margin-right: 15px;
   font-size: 40px;
-  color: #ff7043;
+  color: #3b82f6;
 }
 
 .overview-text {
   flex: 1;
+  font-size: 1.2rem;
+  color: #1e3a8a;
 }
 
-.search-form {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center; /* Center the search box */
-}
-
-.search-button {
-  margin-top: 10px;
-}
-
-.featured-events {
+.auth-section {
   margin-top: 20px;
 }
 
-.featured-event-card {
+.auth-prompt {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
 }
 
-.card-content {
-  display: flex;
-  flex-direction: column;
+.auth-link {
+  margin-left: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #6366f1;
 }
 
-.event-title {
-  font-weight: bold;
-  margin-bottom: 10px;
+.auth-description {
+  margin: 5px 0 15px 0;
+  color: #555;
 }
 
-.event-details {
-  margin-bottom: 5px;
-}
-
-.login-signup {
-  margin-top: 20px;
+.footer {
+  background-color: #929fba;
+  color: white;
   text-align: center;
+  padding: 4rem 0;
 }
 
-.custom-text-field-root {
-  background-color: transparent;
-  border-radius: 30px;
+.footer .footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-.custom-text-field-outline {
-  border-color: transparent !important;
+.footer .footer-section {
+  flex: 1;
+  margin: 1rem;
+  min-width: 200px;
+}
+
+.footer .social-icons a {
+  color: white;
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.footer-copy {
+  margin-top: 2rem;
+  font-size: 0.875rem;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import './Login.css';
 
@@ -48,11 +48,12 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm" className="signup-login-container">
-      <Box className="login-container">
-        <Typography variant="h4" className="title">Login</Typography>
-        <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
-          <Box className="input-container">
+    <Container maxWidth="lg" className="signup-login-container">
+      <Box className="login-box">
+        <Box className="login-image"><h2>Social Activity App</h2></Box>
+        <Box className="login-form-container">
+          <Typography variant="h4" className="title">Login</Typography>
+          <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
             <TextField
               {...register('email', { 
                 required: 'Email is required', 
@@ -60,11 +61,11 @@ const Login = () => {
               })}
               label="Email"
               variant="outlined"
+              fullWidth
               margin="normal"
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ''}
               className="input-field"
-              fullWidth
             />
             <TextField
               {...register('password', { 
@@ -73,31 +74,34 @@ const Login = () => {
               label="Password"
               type="password"
               variant="outlined"
+              fullWidth
               margin="normal"
               error={!!errors.password}
               helperText={errors.password ? errors.password.message : ''}
               className="input-field"
-              fullWidth
             />
-          </Box>
-          {apiError && (
-            <Typography color="error" variant="body2" className="error-message">
-              {apiError}
-            </Typography>
-          )}
-          <Button
-            variant="contained"
-            type="submit"
-            className="signin-button"
-            color="primary"
-            fullWidth
-          >
-            Login
-          </Button>
-        </form>
-        <Typography variant="body2" className="switch-auth">
-          Don't have an account? <span onClick={() => navigate('/signup')}>Sign Up</span>
-        </Typography>
+            {apiError && (
+              <Typography color="error" variant="body2" className="error-message">
+                {apiError}
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              type="submit"
+              className="login-button"
+              color="primary"
+              fullWidth
+            >
+              Login
+            </Button>
+          </form>
+          <Typography variant="body2" className="switch-auth">
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </Typography>
+          <Typography variant="body2" className="home-link">
+            <Link to="/">Home</Link>
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

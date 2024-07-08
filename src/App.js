@@ -28,8 +28,6 @@ import ProfileHeader from './components/Profile/ProfileHeader';
 import EventOrganizerHeader from './components/OrganizerEventDetail/EventOrganizerHeader';
 import UpdateEventHeader from './components/UpdateEvent/UpdateEventHeader';
 import ParticipantManagementHeader from './components/ParticipantManagement/ParticipantManagementHeader';
-import LoginHeader from './components/LogIn/LoginHeader';
-import SignupHeader from './components/SignUp/SignupHeader';
 import Favorites from './components/Favorites/Favorites';  // Import the new Favorites component
 import Interests from './components/Interests';
 const App = () => {
@@ -41,8 +39,8 @@ const App = () => {
           <Route path="/event-detail/:id" element={<ProtectedRoute><><EventDetailHeader /><EventDetail /></></ProtectedRoute>} />
           <Route path="/event-organizer/:id" element={<ProtectedRoute><><EventOrganizerHeader /><OrganizerEventDetail /></></ProtectedRoute>} />
           <Route path="/event/:eventId/participants" element={<ProtectedRoute><><ParticipantManagementHeader eventId={':eventId'} /><ParticipantManagementPage /></></ProtectedRoute>} />
-          <Route path="/signup" element={<><SignupHeader /><SignUp /></>} />
-          <Route path="/login" element={<><LoginHeader /><Login /></>} />
+          <Route path="/signup" element={<><SignUp /></>} />
+          <Route path="/login" element={<><Login /></>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
           <Route path="/event-creation" element={<ProtectedRoute><><CreateEventHeader /><EventCreation /></></ProtectedRoute>} />
