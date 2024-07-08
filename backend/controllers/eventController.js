@@ -344,7 +344,7 @@ exports.removeParticipant = async (req, res) => {
     }
 
     const participantIndex = event.participants.findIndex(p => p.user.toString() === req.params.userId && p.status === 'approved');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.toString() === req.params.id);
 
     if (participantIndex === -1) {
       return res.status(400).json({ success: false, message: 'User not part of this event' });
@@ -475,12 +475,13 @@ exports.requestJoinEvent = async (req, res) => {
 
     const existingRequest = event.participants.find(p => p.user && p.user.toString() === req.user.id);
     if (existingRequest) {
-      return res.status(400).json({ success: false, message: 'Join request already sent' });
+      event.participants.find(p => p.user && p.user.toString() === req.user.id).status = 'requested'
+    } else {
+      event.participants.push({ user: req.user.id, status: 'requested' });
     }
 
-    event.participants.push({ user: req.user.id, status: 'requested' });
     user.requestedEvents = user.requestedEvents || [];
-    user.requestedEvents.push({ event: event._id, status: 'requested' });
+    user.requestedEvents.push(event._id);
 
     await event.save();
     await user.save();
@@ -507,7 +508,7 @@ exports.approveJoinRequest = async (req, res) => {
     }
 
     const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
-    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
+    const userRequest = user.requestedEvents.find(r => r.toString() === req.params.id);
 
     if (!participant || !userRequest) {
       return res.status(400).json({ success: false, message: 'Join request not found' });
@@ -541,14 +542,14 @@ exports.rejectJoinRequest = async (req, res) => {
     }
 
     const participant = event.participants.find(p => p.user.toString() === req.params.userId && p.status === 'requested');
-    const userRequest = user.requestedEvents.find(r => r.event.toString() === req.params.id && r.status === 'requested');
+    const userRequest = user.requestedEvents.find(r => r.toString() === req.params.id);
 
     if (!participant || !userRequest) {
       return res.status(400).json({ success: false, message: 'Join request not found' });
     }
 
     event.participants = event.participants.filter(p => p.user.toString() !== req.params.userId);
-    user.requestedEvents = user.requestedEvents.filter(r => r.event.toString() !== req.params.id);
+    user.requestedEvents = user.requestedEvents.filter(r => r.toString() !== req.params.id);
 
     await event.save();
     await user.save();
@@ -575,7 +576,7 @@ exports.unsendRequestJoinEvent = async (req, res) => {
     }
 
     const participantIndex = event.participants.findIndex(p => p.user && p.user.toString() === req.user.id && p.status === 'requested');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'requested');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.toString() === req.params.id);
 
     if (participantIndex === -1) {
       return res.status(400).json({ success: false, message: 'No pending join request found' });
@@ -609,7 +610,7 @@ exports.leaveEvent = async (req, res) => {
     }
 
     const participantIndex = event.participants.findIndex(p => p.user.toString() === req.user.id && p.status === 'approved');
-    const userRequestIndex = user.requestedEvents.findIndex(r => r.event.toString() === req.params.id && r.status === 'joined');
+    const userRequestIndex = user.requestedEvents.findIndex(r => r.toString() === req.params.id);
 
     if (participantIndex === -1) {
       return res.status(400).json({ success: false, message: 'User not part of this event' });

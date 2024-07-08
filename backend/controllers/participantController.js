@@ -45,9 +45,11 @@ exports.updateParticipantStatus = async (req, res) => {
       case 'approve':
         participant.status = 'approved';
         user.joinedEvents.push(eventId);
+        user.requestedEvents = user.requestedEvents.filter(id => id.toString() !== eventId);
         break;
       case 'reject':
         participant.status = 'rejected';
+        user.requestedEvents = user.requestedEvents.filter(id => id.toString() !== eventId);
         user.joinedEvents = user.joinedEvents.filter(id => id.toString() !== eventId);
         break;
       case 'remove':

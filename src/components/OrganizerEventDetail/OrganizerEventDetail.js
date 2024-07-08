@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions } from '@mui/material';
+import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions, Dialog, DialogContent } from '@mui/material';
 import './OrganizerEventDetail.css';
 
 const OrganizerEventDetail = () => {
@@ -10,6 +10,7 @@ const OrganizerEventDetail = () => {
   const [event, setEvent] = useState(null);
   const [mediaFiles, setMediaFiles] = useState([]);
   const [feedback, setFeedback] = useState({ message: '', type: '' });
+  const [openImage, setOpenImage] = useState(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -93,6 +94,14 @@ const OrganizerEventDetail = () => {
     navigate(`/event/${id}/participants`);
   };
 
+  const handleClickImage = (image) => {
+    setOpenImage(image);
+  };
+
+  const handleCloseImage = () => {
+    setOpenImage(null);
+  };
+
   if (!event) {
     return <Typography>Loading...</Typography>;
   }
@@ -173,6 +182,7 @@ const OrganizerEventDetail = () => {
                   className="full-size-media"
                   image={`http://localhost:5000/${image}`}
                   alt={`Image ${index + 1}`}
+                  onClick={() => handleClickImage(image)}
                 />
                 <CardActions>
                   <Button
@@ -219,6 +229,12 @@ const OrganizerEventDetail = () => {
           ))}
         </Grid>
       )}
+
+      <Dialog open={Boolean(openImage)} onClose={handleCloseImage} maxWidth="md">
+        <DialogContent>
+          <img src={`http://localhost:5000/${openImage}`} alt="Selected" className="dialog-image" />
+        </DialogContent>
+      </Dialog>
 
       <Button
         variant="contained"

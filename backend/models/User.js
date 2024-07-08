@@ -44,15 +44,8 @@ const UserSchema = new mongoose.Schema({
     ref: 'Event',
   }],
   requestedEvents: [{
-    event: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Event'
-    },
-    status: {
-      type: String,
-      enum: ['requested', 'joined'],
-      default: 'requested',
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event'
   }],
   gender: {
     type: String,

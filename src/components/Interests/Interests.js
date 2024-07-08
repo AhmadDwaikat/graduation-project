@@ -1,9 +1,10 @@
 // components/Interests.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button, Checkbox, FormControlLabel, Typography, Box } from '@mui/material';
 import './Interests.css';
+import { useEvent } from '../../context/EventContext';
 
 const interestsList = [
   { name: "Soccer", icon: "⚽" },
@@ -148,6 +149,11 @@ const interestsList = [
 const Interests = () => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const navigate = useNavigate();
+  const { state: { user } } = useEvent();
+
+  useEffect(() => {
+    setSelectedInterests(user?.interests || [])
+  }, [user])
 
   const handleInterestChange = (interest) => {
     setSelectedInterests((prev) => {

@@ -9,14 +9,20 @@ import { useEvent } from '../../context/EventContext';
 import RatingsBreakdown from './RatingsBreakdown';
 import './EventDetail.css';
 
+const EVENT_STATUS = {
+  NONE: 'NONE',
+  REQUESTED: 'REQUESTED',
+  APPROVED: 'APPROVED',
+};
+
 const EventDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { state: { user }, dispatch } = useEvent();
+  console.log(user, user?.favorites?.includes(id))
   const [event, setEvent] = useState(null);
-  const [isRequested, setIsRequested] = useState(!!user?.requestedEvents?.find(({ event }) => event === id));
-  const [isApproved, setIsApproved] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(user?.favorites?.includes(id));
+  const [eventStatus, setEventStatus] = useState(EVENT_STATUS.NONE);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
@@ -29,8 +35,20 @@ const EventDetail = () => {
   const [editCommentText, setEditCommentText] = useState('');
 
   useEffect(() => {
-    const isEventRequested = !!user?.requestedEvents?.find(({ event }) => event === id);
-    setIsRequested(isEventRequested);
+    const requestedEvent = user?.requestedEvents?.find(event => event === id);
+    const joinedEvent = user?.joinedEvents?.find(event => event === id);
+
+    if (joinedEvent) {
+      setEventStatus(EVENT_STATUS.APPROVED);
+    } else if (requestedEvent) {
+      setEventStatus(EVENT_STATUS.REQUESTED);
+    } else {
+      setEventStatus(EVENT_STATUS.NONE);
+    }
+
+    const isFavoriteEvent = user?.favorites?.includes(id)
+    setIsFavorite(isFavoriteEvent)
+
   }, [user, id]);
 
   useEffect(() => {
@@ -47,16 +65,14 @@ const EventDetail = () => {
           setComments(eventData.comments || []);
           setRatings(eventData.ratings || []);
 
-          const participant = eventData.participants.find(p => p.user && p.user._id === user._id);
-          if (participant) {
-            if (participant.status === 'requested') {
-              setIsRequested(true);
-              setIsApproved(false);
-            } else if (participant.status === 'approved') {
-              setIsRequested(false);
-              setIsApproved(true);
-            }
-          }
+          // const participant = eventData.participants.find(p => p.user && p.user._id === user._id);
+          // if (participant) {
+          //   if (participant.status === 'requested') {
+          //     setEventStatus(EVENT_STATUS.REQUESTED);
+          //   } else if (participant.status === 'approved') {
+          //     setEventStatus(EVENT_STATUS.APPROVED);
+          //   }
+          // }
 
           const userRating = eventData.ratings.find(r => r.user && r.user._id === user._id);
           if (userRating) {
@@ -94,14 +110,14 @@ const EventDetail = () => {
           },
         }
       );
-      setIsRequested(true);
+      setEventStatus(EVENT_STATUS.REQUESTED);
       setSuccess('Join request sent successfully');
       setError('');
       dispatch({ type: 'join_event', payload: id });
     } catch (err) {
       console.error('Error sending join request:', err.response?.data?.message || err.message);
       if (err.response && err.response.data.message === 'Join request already sent') {
-        setIsRequested(true);
+        setEventStatus(EVENT_STATUS.REQUESTED);
         setError('Join request already sent');
       } else {
         setError('Error sending join request: ' + (err.response?.data?.message || err.message));
@@ -109,6 +125,7 @@ const EventDetail = () => {
       }
     } finally {
       setLoading(false);
+      console.log(user)
     }
   };
 
@@ -131,7 +148,7 @@ const EventDetail = () => {
           },
         }
       );
-      setIsRequested(false);
+      setEventStatus(EVENT_STATUS.NONE);
       setSuccess('Join request unsent successfully');
       setError('');
       dispatch({ type: 'unsend_request', payload: id });
@@ -163,15 +180,14 @@ const EventDetail = () => {
           },
         }
       );
-      setIsApproved(false);
+      setEventStatus(EVENT_STATUS.NONE);
       setSuccess('Left event successfully');
       setError('');
       dispatch({ type: 'leave_event', payload: id });
     } catch (err) {
       console.error('Error leaving event:', err.response?.data?.message || err.message);
       if (err.response && err.response.data.message === 'User not part of this event') {
-        setIsRequested(false);
-        setIsApproved(false);
+        setEventStatus(EVENT_STATUS.NONE);
         setError('User not part of this event');
       } else {
         setError('Error leaving event: ' + (err.response?.data?.message || err.message));
@@ -364,6 +380,8 @@ const EventDetail = () => {
     count: ratings.filter(rating => rating.rating === value).length
   }));
 
+  console.log(isFavorite, 'isFavorite')
+
   return (
     <div className="event-detail-container">
       <Typography variant="h4" className="title">
@@ -395,7 +413,7 @@ const EventDetail = () => {
           {event.description}
         </Typography>
         <div className="action-buttons">
-          {!isRequested && !isApproved && (
+          {eventStatus === EVENT_STATUS.NONE && (
             <Button
               variant="contained"
               color="primary"
@@ -406,7 +424,7 @@ const EventDetail = () => {
               {loading ? <CircularProgress size={24} /> : 'Send Request'}
             </Button>
           )}
-          {isRequested && !isApproved && (
+          {eventStatus === EVENT_STATUS.REQUESTED && (
             <Button
               variant="contained"
               color="secondary"
@@ -417,7 +435,7 @@ const EventDetail = () => {
               {loading ? <CircularProgress size={24} /> : 'Unsend Request'}
             </Button>
           )}
-          {isApproved && (
+          {eventStatus === EVENT_STATUS.APPROVED && (
             <Button
               variant="contained"
               color="secondary"
