@@ -48,8 +48,8 @@ const EventDetail = () => {
       setEventStatus(EVENT_STATUS.NONE);
     }
 
-    const isFavoriteEvent = user?.favorites?.includes(id)
-    setIsFavorite(isFavoriteEvent)
+    const isFavoriteEvent = user?.favorites?.includes(id);
+    setIsFavorite(isFavoriteEvent);
 
   }, [user, id]);
 
@@ -83,6 +83,18 @@ const EventDetail = () => {
   const handleRequestJoinEvent = async () => {
     if (!user) {
       setError('User not authenticated');
+      return;
+    }
+
+    const now = new Date();
+    const eventDate = new Date(event.date);
+    if (eventDate < now) {
+      setError('Event is in the past');
+      return;
+    }
+
+    if (event.participants.length >= event.participantLimit) {
+      setError('Participant limit reached');
       return;
     }
 
@@ -373,10 +385,13 @@ const EventDetail = () => {
           <strong>Location:</strong> {event.location}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          <strong>Creator:</strong> {event.creator.name}
+          <strong>Event Type:</strong> {event.eventType}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           <strong>Category:</strong> {event.category}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          <strong>Participant Limit:</strong> {event.participantLimit}
         </Typography>
         <Typography variant="body2" className="event-description">
           {event.description}
