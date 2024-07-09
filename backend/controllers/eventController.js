@@ -190,6 +190,9 @@ exports.rateEvent = async (req, res) => {
   }
 };
 
+
+
+
 // Submit a comment
 exports.commentEvent = async (req, res) => {
   try {
@@ -209,6 +212,67 @@ exports.commentEvent = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
+// Update a comment
+exports.updateComment = async (req, res) => {
+  try {
+    const { comment } = req.body;
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    const commentIndex = event.comments.findIndex(c => c._id.toString() === req.params.commentId);
+
+    if (commentIndex === -1) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
+    }
+
+    if (event.comments[commentIndex].user.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to update this comment' });
+    }
+
+    event.comments[commentIndex].comment = comment;
+    await event.save();
+
+    res.status(200).json({ success: true, message: 'Comment updated successfully' });
+  } catch (error) {
+    console.error('Error updating comment:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Delete a comment
+exports.deleteComment = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    const commentIndex = event.comments.findIndex(c => c._id.toString() === req.params.commentId);
+
+    if (commentIndex === -1) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
+    }
+
+    if (event.comments[commentIndex].user.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to delete this comment' });
+    }
+
+    event.comments.splice(commentIndex, 1);
+    await event.save();
+
+    res.status(200).json({ success: true, message: 'Comment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting comment:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
 
 // Get high-rated events that the user did not create
 exports.getHighRatedEvents = async (req, res) => {

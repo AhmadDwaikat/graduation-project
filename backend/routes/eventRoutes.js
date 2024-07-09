@@ -69,6 +69,12 @@ router.post('/:id/rate', auth, eventController.rateEvent);
 // Comment on an event
 router.post('/:id/comment', auth, eventController.commentEvent);
 
+// Update comment on an event
+router.put('/:id/comment/:commentId', auth, eventController.updateComment);
+
+// Delete comment on an event
+router.delete('/:id/comment/:commentId', auth, eventController.deleteComment);
+
 // Add and delete media (images and videos)
 router.post('/:id/media', auth, upload.array('media'), eventController.addMediaToEvent);
 router.delete('/:id/media/:type/:file', auth, eventController.deleteMedia);
