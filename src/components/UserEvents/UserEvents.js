@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Divider } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Divider, IconButton } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import UserEventsHeader from './UserEventsHeader';
 import './UserEvents.css';
 
@@ -42,6 +43,29 @@ const UserEvents = () => {
     fetchUserCreatedEvents();
   }, [fetchUserCreatedEvents]);
 
+  const handleDelete = async (eventId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setFetchError('No token found');
+        return;
+      }
+
+      const response = await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success) {
+        setCreatedUpcomingEvents(createdUpcomingEvents.filter(event => event._id !== eventId));
+        setCreatedPastEvents(createdPastEvents.filter(event => event._id !== eventId));
+      } else {
+        setFetchError('Failed to delete event');
+      }
+    } catch (err) {
+      setFetchError('Error deleting event: ' + err.message);
+    }
+  };
+
   return (
     <>
       <UserEventsHeader />
@@ -52,14 +76,14 @@ const UserEvents = () => {
             {fetchError}
           </Typography>
         )}
-        <EventSection title="Upcoming Events" events={createdUpcomingEvents} />
-        <EventSection title="Past Events" events={createdPastEvents} />
+        <EventSection title="Upcoming Events" events={createdUpcomingEvents} handleDelete={handleDelete} />
+        <EventSection title="Past Events" events={createdPastEvents} handleDelete={handleDelete} />
       </Container>
     </>
   );
 };
 
-const EventSection = ({ title, events }) => (
+const EventSection = ({ title, events, handleDelete }) => (
   <>
     <Typography variant="h5" className="section-title">{title}</Typography>
     <Grid container spacing={4}>
@@ -67,6 +91,14 @@ const EventSection = ({ title, events }) => (
         events.map(event => (
           <Grid item xs={12} sm={6} md={4} key={event._id}>
             <Card className="event-card">
+              <IconButton
+                aria-label="delete"
+                className="delete-button"
+                onClick={() => handleDelete(event._id)}
+                style={{ position: 'absolute', top: 8, right: 8 }}
+              >
+                <CloseIcon />
+              </IconButton>
               <CardContent>
                 <Typography variant="h6" component="div" className="event-title">
                   {event.title}

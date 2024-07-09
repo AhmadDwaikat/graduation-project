@@ -72,7 +72,7 @@ exports.getEvent = async (req, res) => {
 
 // Update an event
 exports.updateEvent = async (req, res) => {
-  const { title, description, date, time, category, location, participantLimit } = req.body;
+  const { title, description, date, time, category, location, participantLimit, eventType } = req.body;
 
   try {
     const event = await Event.findById(req.params.id);
@@ -91,6 +91,7 @@ exports.updateEvent = async (req, res) => {
     event.category = category || event.category;
     event.location = location || event.location;
     event.participantLimit = participantLimit || event.participantLimit;
+    event.eventType = eventType || event.eventType;
 
     const updatedEvent = await event.save();
     res.status(200).json({ success: true, data: updatedEvent });
@@ -99,7 +100,6 @@ exports.updateEvent = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
-
 // Delete an event
 exports.deleteEvent = async (req, res) => {
   try {

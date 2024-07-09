@@ -3,7 +3,7 @@
     padding: 20px;
     margin: auto;
     max-width: 1200px;
-    background-color: #f8f9fa;
+    background-color: #ccd9e2;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -12,7 +12,7 @@
 .dashboard-container .title {
     margin-bottom: 30px;
     font-weight: 700;
-    color: #343a40;
+    color: #285185;
     text-align: center;
     font-size: 2.5rem;
     letter-spacing: 1px;
@@ -23,7 +23,7 @@
     margin-top: 40px;
     margin-bottom: 25px;
     font-weight: 600;
-    color: #343a40;
+    color: #285185;
     font-size: 1.75rem;
     letter-spacing: 0.5px;
     text-align: center;
@@ -41,7 +41,7 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    background-color: #f7f1f0;
 }
 
 .dashboard-container .activity-card:hover {
@@ -53,13 +53,13 @@
 .dashboard-container .activity-title {
     font-weight: 700;
     margin-bottom: 10px;
-    color: #495057;
+    color: #285185;
     font-size: 1.25rem;
 }
 
 /* Details of each event */
 .dashboard-container .activity-details {
-    color: #6c757d;
+    color: #6f4849;
     font-size: 0.875rem;
     margin-bottom: 5px;
 }
@@ -68,6 +68,14 @@
 .dashboard-container .no-data {
     text-align: center;
     margin-top: 30px;
-    color: #6c757d;
+    color: #6f4849;
     font-size: 1rem;
+}
+
+/* Circular progress */
+.circular-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

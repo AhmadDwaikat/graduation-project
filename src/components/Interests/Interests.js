@@ -174,7 +174,7 @@ const Interests = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.data.success) {
-        navigate('/dashboard');
+        navigate('/profile'); // Navigate to the profile page
       }
     } catch (error) {
       console.error('Error updating interests:', error.message);

@@ -1,38 +1,54 @@
 /* General Container Styles */
 .organizer-event-detail-container {
-  padding: 2rem;
-  background-color: #ffffff;
+  padding: 20px;
+  margin: auto;
+  max-width: 1000px;
+  background-color: #f2ebe5;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Title Styles */
 .organizer-event-detail-container .title {
-  margin-bottom: 1rem;
-  color: #072A40; /* Dark blue text color */
+  margin-bottom: 20px;
+  color: #285185; /* Dark blue text color */
+  text-align: center;
   font-weight: bold;
 }
 
+/* Event Detail Section */
+.organizer-event-detail-container .event-detail-section {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Description, Date, and Location Styles */
-.organizer-event-detail-container .description, .date, .location {
-  margin-bottom: 1rem;
-  color: #072A40; /* Dark blue text color */
-  line-height: 1.5;
+.organizer-event-detail-container .description,
+.organizer-event-detail-container .date,
+.organizer-event-detail-container .time,
+.organizer-event-detail-container .location,
+.organizer-event-detail-container .event-type,
+.organizer-event-detail-container .category,
+.organizer-event-detail-container .participant-limit {
+  margin-bottom: 10px;
+  color: #555555;
 }
 
 /* Subtitle Styles */
 .organizer-event-detail-container .subtitle {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: #072A40; /* Dark blue text color */
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #285185; /* Dark blue text color */
   font-weight: bold;
-  font-size: 1.25rem;
 }
 
 /* Feedback Message Styles */
 .organizer-event-detail-container .feedback {
-  margin-bottom: 1rem;
-  color: #072A40; /* Dark blue text color */
+  margin-bottom: 20px;
+  color: #285185; /* Dark blue text color */
 }
 
 .organizer-event-detail-container .feedback.success {
@@ -40,35 +56,42 @@
 }
 
 .organizer-event-detail-container .feedback.error {
-  color: #18B7BE; /* Bright teal for error messages */
+  color: #B00020; /* Bright red for error messages */
 }
 
 /* Button Styles */
-.organizer-event-detail-container .add-media-button, .delete-button, .update-button, .manage-participants-button {
-  margin-top: 1rem;
-  background-color: #18B7BE; /* Bright teal background */
-  color: #F9F7F0; /* Light beige text color */
+.organizer-event-detail-container .add-media-button,
+.organizer-event-detail-container .update-button,
+.organizer-event-detail-container .manage-participants-button {
+  margin-top: 20px;
+  background-color: #285185; /* Dark blue background */
+  color: #ffffff; /* White text color */
   font-weight: bold;
 }
 
-.organizer-event-detail-container .organizer-event-detail-container .add-media-button:hover, .organizer-event-detail-container .delete-button:hover, .organizer-event-detail-container .update-button:hover, .organizer-event-detail-container .manage-participants-button:hover {
-  background-color: #178CA4; /* Medium teal background on hover */
-  color: #F9F7F0; /* Light beige text color on hover */
+.organizer-event-detail-container .add-media-button:hover,
+.organizer-event-detail-container .update-button:hover,
+.organizer-event-detail-container .manage-participants-button:hover {
+  background-color: #1d3e70; /* Darker blue background on hover */
+  color: #ffffff; /* White text color on hover */
 }
 
-/* Card and Media Styles */
-.organizer-event-detail-container .card {
-  background-color: #F9F7F0; /* Light beige background */
-  color: #072A40; /* Dark blue text color */
-  border: 1px solid #072A40; /* Dark blue border */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Media Gallery Styles */
+.organizer-event-detail-container .media-gallery .media-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.organizer-event-detail-container .media-gallery .media-card:hover {
+  transform: scale(1.05);
 }
 
 .organizer-event-detail-container .full-size-media {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  cursor: pointer;
 }
 
 .organizer-event-detail-container .card-media-iframe {
@@ -76,49 +99,42 @@
   height: 200px;
 }
 
-/* Participant Styles */
-.organizer-event-detail-container .participant-avatar {
-  width: 60px;
-  height: 60px;
-  border: 2px solid #072A40; /* Dark blue border */
-}
-
-.organizer-event-detail-container .participant-link {
-  text-decoration: none;
-  color: #072A40; /* Dark blue text color */
-}
-
-.organizer-event-detail-container .participant-card {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: #F9F7F0; /* Light beige background */
-  color: #072A40; /* Dark blue text color */
-  border: 1px solid #072A40; /* Dark blue border */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Ratings and Comments Box Styles */
-.organizer-event-detail-container .ratings-box, .comments-box {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: #F9F7F0; /* Light beige background */
-  border-radius: 8px;
-  border: 1px solid #072A40; /* Dark blue border */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.organizer-event-detail-container .rating-item, .comment-item {
-  margin-bottom: 0.5rem;
-  color: #072A40; /* Dark blue text color */
-  font-weight: bold;
+.organizer-event-detail-container .delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .organizer-event-detail-container .media-input {
-  margin-top: 1rem;
+  margin-top: 10px;
 }
 
+/* Dialog Image Styles */
 .organizer-event-detail-container .dialog-image {
   width: 100%;
   height: auto;
+}
+
+.organizer-event-detail-container .close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Social Sharing Styles */
+.organizer-event-detail-container .social-sharing {
+  margin-top: 20px;
+}
+
+.organizer-event-detail-container .share-icon {
+  font-size: 32px;
+  color: #285185;
+  transition: color 0.2s;
+}
+
+.organizer-event-detail-container .share-icon:hover {
+  color: #1d3e70;
 }

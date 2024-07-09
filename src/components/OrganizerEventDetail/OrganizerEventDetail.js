@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions, Dialog, DialogContent } from '@mui/material';
+import { Container, Typography, Grid, Button, Card, CardMedia, Box, CardActions, Dialog, DialogContent, IconButton, Paper } from '@mui/material';
+import { Facebook, Twitter, LinkedIn, Close, Delete } from '@mui/icons-material';
 import './OrganizerEventDetail.css';
 
 const OrganizerEventDetail = () => {
@@ -102,6 +103,27 @@ const OrganizerEventDetail = () => {
     setOpenImage(null);
   };
 
+  const handleShare = (platform) => {
+    const eventUrl = window.location.href;
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${eventUrl}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${eventUrl}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${eventUrl}`;
+        break;
+      default:
+        break;
+    }
+
+    window.open(shareUrl, '_blank');
+  };
+
   if (!event) {
     return <Typography>Loading...</Typography>;
   }
@@ -111,15 +133,45 @@ const OrganizerEventDetail = () => {
       <Typography variant="h4" className="title" gutterBottom>
         {event.title}
       </Typography>
-      <Typography variant="body1" className="description" gutterBottom>
-        {event.description}
-      </Typography>
-      <Typography variant="body2" className="date" gutterBottom>
-        Date: {new Date(event.date).toLocaleDateString()}
-      </Typography>
-      <Typography variant="body2" className="location" gutterBottom>
-        Location: {event.location}
-      </Typography>
+      <Paper elevation={3} className="event-detail-section">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="body1" className="description" gutterBottom>
+              {event.description}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="date" gutterBottom>
+              <strong>Date:</strong> {new Date(event.date).toLocaleDateString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="time" gutterBottom>
+              <strong>Time:</strong> {event.time}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="location" gutterBottom>
+              <strong>Location:</strong> {event.location}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="event-type" gutterBottom>
+              <strong>Event Type:</strong> {event.eventType}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="category" gutterBottom>
+              <strong>Category:</strong> {event.category}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="participant-limit" gutterBottom>
+              <strong>Participant Limit:</strong> {event.participantLimit}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
 
       {feedback.message && (
         <Typography
@@ -173,25 +225,23 @@ const OrganizerEventDetail = () => {
       {event.images.length === 0 ? (
         <Typography>No images available.</Typography>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="media-gallery">
           {event.images.map((image, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <Card className="card">
+              <Card className="media-card" onClick={() => handleClickImage(image)}>
                 <CardMedia
                   component="img"
                   className="full-size-media"
                   image={`http://localhost:5000/${image}`}
                   alt={`Image ${index + 1}`}
-                  onClick={() => handleClickImage(image)}
                 />
                 <CardActions>
-                  <Button
-                    variant="contained"
+                  <IconButton
                     className="delete-button"
                     onClick={() => handleDeleteMedia(image, 'image')}
                   >
-                    Delete
-                  </Button>
+                    <Delete />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Grid>
@@ -205,10 +255,10 @@ const OrganizerEventDetail = () => {
       {event.videos.length === 0 ? (
         <Typography>No videos available.</Typography>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="media-gallery">
           {event.videos.map((video, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <Card className="card">
+              <Card className="media-card">
                 <CardMedia
                   component="iframe"
                   className="full-size-media card-media-iframe"
@@ -216,13 +266,12 @@ const OrganizerEventDetail = () => {
                   title={`Video ${index + 1}`}
                 />
                 <CardActions>
-                  <Button
-                    variant="contained"
+                  <IconButton
                     className="delete-button"
                     onClick={() => handleDeleteMedia(video, 'video')}
                   >
-                    Delete
-                  </Button>
+                    <Delete />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Grid>
@@ -233,8 +282,30 @@ const OrganizerEventDetail = () => {
       <Dialog open={Boolean(openImage)} onClose={handleCloseImage} maxWidth="md">
         <DialogContent>
           <img src={`http://localhost:5000/${openImage}`} alt="Selected" className="dialog-image" />
+          <IconButton
+            aria-label="close"
+            className="close-button"
+            onClick={handleCloseImage}
+          >
+            <Close />
+          </IconButton>
         </DialogContent>
       </Dialog>
+
+      <Box className="social-sharing">
+        <Typography variant="h6" className="subtitle" gutterBottom>
+          Share Event
+        </Typography>
+        <IconButton onClick={() => handleShare('facebook')}>
+          <Facebook />
+        </IconButton>
+        <IconButton onClick={() => handleShare('twitter')}>
+          <Twitter />
+        </IconButton>
+        <IconButton onClick={() => handleShare('linkedin')}>
+          <LinkedIn />
+        </IconButton>
+      </Box>
 
       <Button
         variant="contained"

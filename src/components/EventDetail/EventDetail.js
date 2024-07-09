@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions, Divider } from '@mui/material';
+import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions, Divider, Link } from '@mui/material';
 import { PersonAdd, PersonRemove, Cancel, Message, Favorite, FavoriteBorder, Edit, Delete } from '@mui/icons-material';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, FacebookMessengerShareButton, FacebookIcon, TwitterIcon, LinkedinIcon, FacebookMessengerIcon } from 'react-share';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useEvent } from '../../context/EventContext';
 import RatingsBreakdown from './RatingsBreakdown';
 import './EventDetail.css';
@@ -19,7 +22,6 @@ const EventDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { state: { user }, dispatch } = useEvent();
-  console.log(user, user?.favorites?.includes(id))
   const [event, setEvent] = useState(null);
   const [eventStatus, setEventStatus] = useState(EVENT_STATUS.NONE);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -56,34 +58,21 @@ const EventDetail = () => {
 
     const fetchEventDetails = async () => {
       try {
-        console.log(`Fetching event details for eventId: ${id}`);
         const response = await axios.get(`http://localhost:5000/api/events/${id}`);
         if (response.data && response.data.success) {
           const eventData = response.data.data;
-          console.log('Event details fetched:', eventData);
           setEvent(eventData);
           setComments(eventData.comments || []);
           setRatings(eventData.ratings || []);
-
-          // const participant = eventData.participants.find(p => p.user && p.user._id === user._id);
-          // if (participant) {
-          //   if (participant.status === 'requested') {
-          //     setEventStatus(EVENT_STATUS.REQUESTED);
-          //   } else if (participant.status === 'approved') {
-          //     setEventStatus(EVENT_STATUS.APPROVED);
-          //   }
-          // }
 
           const userRating = eventData.ratings.find(r => r.user && r.user._id === user._id);
           if (userRating) {
             setRating(userRating.rating);
           }
         } else {
-          console.error('Event not found');
           setError('Event not found');
         }
       } catch (err) {
-        console.error('Error fetching event details:', err.message);
         setError('Error fetching event details: ' + err.message);
       }
     };
@@ -100,7 +89,6 @@ const EventDetail = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      console.log(`Requesting to join eventId: ${id}`);
       await axios.put(
         `http://localhost:5000/api/events/${id}/request`,
         {},
@@ -115,7 +103,6 @@ const EventDetail = () => {
       setError('');
       dispatch({ type: 'join_event', payload: id });
     } catch (err) {
-      console.error('Error sending join request:', err.response?.data?.message || err.message);
       if (err.response && err.response.data.message === 'Join request already sent') {
         setEventStatus(EVENT_STATUS.REQUESTED);
         setError('Join request already sent');
@@ -125,7 +112,6 @@ const EventDetail = () => {
       }
     } finally {
       setLoading(false);
-      console.log(user)
     }
   };
 
@@ -138,7 +124,6 @@ const EventDetail = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      console.log(`Unsend join request for eventId: ${id}`);
       await axios.put(
         `http://localhost:5000/api/events/${id}/unsend-request`,
         {},
@@ -153,7 +138,6 @@ const EventDetail = () => {
       setError('');
       dispatch({ type: 'unsend_request', payload: id });
     } catch (err) {
-      console.error('Error unsending join request:', err.response?.data?.message || err.message);
       setError('Error unsending join request: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     } finally {
@@ -170,7 +154,6 @@ const EventDetail = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      console.log(`Leaving eventId: ${id}`);
       await axios.put(
         `http://localhost:5000/api/events/${id}/leave`,
         {},
@@ -185,7 +168,6 @@ const EventDetail = () => {
       setError('');
       dispatch({ type: 'leave_event', payload: id });
     } catch (err) {
-      console.error('Error leaving event:', err.response?.data?.message || err.message);
       if (err.response && err.response.data.message === 'User not part of this event') {
         setEventStatus(EVENT_STATUS.NONE);
         setError('User not part of this event');
@@ -201,7 +183,6 @@ const EventDetail = () => {
   const handleRatingSubmit = async () => {
     try {
       const token = localStorage.getItem('token');
-      console.log(`Submitting rating: ${rating} for eventId: ${id}`);
       await axios.post(
         `http://localhost:5000/api/events/${id}/rate`,
         { rating },
@@ -221,7 +202,6 @@ const EventDetail = () => {
       setSuccess('Rating submitted successfully');
       setError('');
     } catch (err) {
-      console.error('Error submitting rating:', err.response?.data?.message || err.message);
       setError('Error submitting rating: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     }
@@ -235,7 +215,6 @@ const EventDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      console.log(`Submitting comment: ${comment} for eventId: ${id}`);
       await axios.post(
         `http://localhost:5000/api/events/${id}/comment`,
         { comment },
@@ -250,7 +229,6 @@ const EventDetail = () => {
       setSuccess('Comment submitted successfully');
       setError('');
     } catch (err) {
-      console.error('Error submitting comment:', err.response?.data?.message || err.message);
       setError('Error submitting comment: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     }
@@ -277,7 +255,6 @@ const EventDetail = () => {
       setSuccess('Comment updated successfully');
       setError('');
     } catch (err) {
-      console.error('Error updating comment:', err.response?.data?.message || err.message);
       setError('Error updating comment: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     }
@@ -299,7 +276,6 @@ const EventDetail = () => {
       setSuccess('Comment deleted successfully');
       setError('');
     } catch (err) {
-      console.error('Error deleting comment:', err.response?.data?.message || err.message);
       setError('Error deleting comment: ' + (err.response?.data?.message || err.message));
       setSuccess('');
     }
@@ -327,7 +303,6 @@ const EventDetail = () => {
 
   const handleOpenChat = async () => {
     if (!event || !event.creator || !event.creator._id) {
-      console.error('Event or organizer ID is undefined');
       setError('Event or organizer ID is undefined');
       return;
     }
@@ -338,10 +313,8 @@ const EventDetail = () => {
       const existingConversationId = user.conversations?.[organizerId];
 
       if (existingConversationId) {
-        console.log(`Existing conversation found: ${existingConversationId}`);
         navigate(`/chat/${existingConversationId}`);
       } else {
-        console.log('No existing conversation found, creating new one');
         const response = await axios.post(
           'http://localhost:5000/api/chat/conversation',
           { userId: organizerId },
@@ -352,12 +325,10 @@ const EventDetail = () => {
           }
         );
         const newConversation = response.data.data;
-        console.log('New conversation created:', newConversation);
         navigate(`/chat/${newConversation._id}`);
         dispatch({ type: 'update_conversations', payload: { organizerId, conversationId: newConversation._id } });
       }
     } catch (err) {
-      console.error('Error opening chat:', err.response?.data?.message || err.message);
       setError('Error opening chat: ' + (err.response?.data?.message || err.message));
     }
   };
@@ -379,8 +350,6 @@ const EventDetail = () => {
     value,
     count: ratings.filter(rating => rating.rating === value).length
   }));
-
-  console.log(isFavorite, 'isFavorite')
 
   return (
     <div className="event-detail-container">
@@ -458,18 +427,18 @@ const EventDetail = () => {
             {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
           </IconButton>
           <div className="share-buttons">
-            <FacebookShareButton url={window.location.href} quote={event.title}>
-              <FacebookIcon size={32} round />
-            </FacebookShareButton>
-            <TwitterShareButton url={window.location.href} title={event.title}>
-              <TwitterIcon size={32} round />
-            </TwitterShareButton>
-            <LinkedinShareButton url={window.location.href} title={event.title}>
-              <LinkedinIcon size={32} round />
-            </LinkedinShareButton>
-            <FacebookMessengerShareButton url={window.location.href} appId="YOUR_APP_ID">
-              <FacebookMessengerIcon size={32} round />
-            </FacebookMessengerShareButton>
+            <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <FacebookIcon className="share-icon" />
+            </Link>
+            <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <TwitterIcon className="share-icon" />
+            </Link>
+            <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <InstagramIcon className="share-icon" />
+            </Link>
+            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <LinkedInIcon className="share-icon" />
+            </Link>
           </div>
         </div>
       </div>
@@ -522,60 +491,62 @@ const EventDetail = () => {
           Submit Comment
         </Button>
         <div className="existing-comments">
-          {comments.map((comment, index) => (
-            <Card key={index} className="comment-card">
-              <CardContent>
-                <Box display="flex" alignItems="center">
-                  <Avatar src={`http://localhost:5000/${comment.user.profilePicture}`} />
-                  <Box ml={2}>
-                    <Typography variant="body1">{comment.user.name}</Typography>
-                    <Typography variant="body2" color="textSecondary">{moment(comment.createdAt).format('LL')}</Typography>
+          <div className="comment-grid">
+            {comments.map((comment, index) => (
+              <Card key={index} className="comment-card">
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Avatar src={`http://localhost:5000/${comment.user.profilePicture}`} />
+                    <Box ml={2}>
+                      <Typography variant="body1">{comment.user.name}</Typography>
+                      <Typography variant="body2" color="textSecondary">{moment(comment.createdAt).format('LL')}</Typography>
+                    </Box>
                   </Box>
-                </Box>
-                {editCommentId === comment._id ? (
-                  <Box>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      value={editCommentText}
-                      onChange={(e) => setEditCommentText(e.target.value)}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleCommentEdit(comment._id, editCommentText)}
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        setEditCommentId(null);
-                        setEditCommentText('');
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                ) : (
-                  <Typography variant="body2" className="comment-text">{comment.comment}</Typography>
-                )}
-                {user._id === comment.user._id && (
-                  <Box display="flex" justifyContent="flex-end" mt={1}>
-                    <IconButton size="small" onClick={() => {
-                      setEditCommentId(comment._id);
-                      setEditCommentText(comment.comment);
-                    }}>
-                      <Edit fontSize="small" />
-                    </IconButton>
-                    <IconButton size="small" onClick={() => handleCommentDelete(comment._id)}>
-                      <Delete fontSize="small" />
-                    </IconButton>
-                  </Box>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                  {editCommentId === comment._id ? (
+                    <Box>
+                      <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={editCommentText}
+                        onChange={(e) => setEditCommentText(e.target.value)}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleCommentEdit(comment._id, editCommentText)}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          setEditCommentId(null);
+                          setEditCommentText('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Typography variant="body2" className="comment-text">{comment.comment}</Typography>
+                  )}
+                  {user._id === comment.user._id && (
+                    <Box display="flex" justifyContent="flex-end" mt={1}>
+                      <IconButton size="small" onClick={() => {
+                        setEditCommentId(comment._id);
+                        setEditCommentText(comment.comment);
+                      }}>
+                        <Edit fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => handleCommentDelete(comment._id)}>
+                        <Delete fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>

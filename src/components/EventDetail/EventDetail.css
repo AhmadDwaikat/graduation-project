@@ -3,65 +3,68 @@
   padding: 20px;
   margin: auto;
   max-width: 1000px;
-  background-color: #ffffff;
+  background-color: #f2ebe5;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Title of the event detail page */
-.title {
+.event-detail-container .title {
   margin-bottom: 20px;
   font-weight: 600;
-  color: #333333;
+  color: #285185;
   text-align: center;
 }
 
-/* Event card styles */
-.event-card {
-  margin-bottom: 20px;
-  box-shadow: none; /* Remove the border box */
-}
-
 /* Event title styles */
-.event-title {
+.event-detail-container .event-title {
   font-weight: 600;
   margin-bottom: 10px;
+  color: #285185;
 }
 
 /* Event details styles */
-.event-details {
-  margin-bottom: 10px;
-  color: #555555;
-}
-
-/* Event description styles */
-.event-description {
+.event-detail-container .event-details {
   margin-bottom: 20px;
 }
 
+/* Event description styles */
+.event-detail-container .event-description {
+  margin-bottom: 20px;
+  color: #555555;
+}
+
 /* Share buttons container */
-.share-buttons {
+.event-detail-container .share-buttons {
   display: flex;
   gap: 10px;
 }
 
 /* Section title styles */
-.section-title {
+.event-detail-container .section-title {
   margin-top: 20px;
   font-weight: 500;
-  color: #333333;
+  color: #285185;
 }
 
 /* Comment card styles */
-.comment-card {
+.event-detail-container .comment-card {
   margin-top: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
+  background-color: #f7f1f0;
+}
+
+/* Comment grid container */
+.event-detail-container .comment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+  gap: 20px;
 }
 
 /* Rating section styles */
-.ratings-section {
+.event-detail-container .ratings-section {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -69,42 +72,105 @@
 }
 
 /* Existing comments section styles */
-.existing-comments {
+.event-detail-container .existing-comments {
   margin-top: 20px;
 }
 
-.comments-section {
-  margin-top: 20px;
+/* Media gallery styles */
+.event-detail-container .media-gallery .media-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.comments-section .comment-card {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.event-detail-container .media-gallery .media-card:hover {
+  transform: scale(1.05);
 }
 
-.comments-section .comment-card .comment-header {
+/* Button styles */
+.event-detail-container .action-buttons .MuiButton-root {
+  margin-right: 10px;
+}
+
+.event-detail-container .action-buttons .MuiButton-containedPrimary {
+  background-color: #285185;
+  color: #ffffff;
+}
+
+.event-detail-container .action-buttons .MuiButton-containedSecondary {
+  background-color: #d67940;
+  color: #ffffff;
+}
+
+.event-detail-container .action-buttons .MuiButton-containedPrimary:hover {
+  background-color: #1d3e70;
+}
+
+.event-detail-container .action-buttons .MuiButton-containedSecondary:hover {
+  background-color: #c06430;
+}
+
+/* Comment form styles */
+.event-detail-container .comments-section .MuiTextField-root {
+  margin-bottom: 10px;
+}
+
+.event-detail-container .comments-section .MuiButton-root {
+  background-color: #285185;
+  color: #ffffff;
+}
+
+.event-detail-container .comments-section .MuiButton-root:hover {
+  background-color: #1d3e70;
+}
+
+/* Comment card header styles */
+.event-detail-container .comment-card .comment-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.comments-section .comment-card .comment-header .avatar {
+.event-detail-container .comment-card .comment-header .avatar {
   margin-right: 10px;
 }
 
-.comments-section .comment-card .comment-body {
+/* Comment card body styles */
+.event-detail-container .comment-card .comment-body {
   font-size: 14px;
   color: #333;
 }
 
-.comments-section .comment-card .comment-footer {
+/* Comment card footer styles */
+.event-detail-container .comment-card .comment-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
   font-size: 12px;
   color: #999;
+}
+
+/* Alert styles */
+.event-detail-container .MuiAlert-root {
+  margin-bottom: 20px;
+}
+
+/* Share icon styles */
+.share-icon {
+  font-size: 32px;
+  color: #285185;
+  transition: color 0.2s;
+}
+
+.share-icon:hover {
+  color: #1d3e70;
+}
+/* Rating submit button styles */
+.event-detail-container .ratings-section .MuiButton-containedPrimary {
+  background-color: #9f496e; /* New color for the Submit Rating button */
+  color: #ffffff;
+}
+
+.event-detail-container .ratings-section .MuiButton-containedPrimary:hover {
+  background-color: #9f496e; /* Hover color for the Submit Rating button */
 }

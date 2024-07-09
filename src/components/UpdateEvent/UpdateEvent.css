@@ -1,31 +1,77 @@
-/* UpdateEvent.css */
-
 .update-event-container {
-    padding: 20px;
-    margin: auto;
-    max-width: 600px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f6f4e8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
+}
+
+.update-event-container .title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.update-event-container .info-box {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f0f4ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.update-event-container .input-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.update-event-container .date-time-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.update-event-container .date-field,
+.update-event-container .time-field {
+  width: 48%;
+}
+
+.update-event-container .location-participant-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.update-event-container .location-field,
+.update-event-container .participant-field {
+  width: 48%;
+}
+
+.update-event-container .submit-button {
+  margin-top: 20px;
+  background-color: #e59560;
+  color: white;
+}
+
+.update-event-container .submit-button:hover {
+  background-color: #e59560;
+}
+
+.update-event-container .error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.update-event-container .MuiOutlinedInput-root {
+  &.Mui-focused fieldset {
+    border-color: #1d3124 !important;
   }
-  
-  .title {
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #333333;
-    text-align: center;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  form > * {
-    margin-bottom: 15px;
-  }
-  
-  button {
-    margin-top: 20px;
-  }
-  
+}

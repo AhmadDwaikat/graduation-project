@@ -1,49 +1,67 @@
-/* components/Interests.css */
-
 .interests-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .interests-title {
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  .interests-subtitle {
-    margin-bottom: 20px;
-  }
-  
-  .interests-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .interest-item {
-    background-color: #f0f0f0;
-    border-radius: 20px;
-    padding: 10px 20px;
-    margin: 5px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .interest-item.selected {
-    background-color: #e0e0ff;
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
-  }
-  
-  .interest-checkbox {
-    display: none;
-  }
-  
-  .continue-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border-radius: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f2f3;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 10000px; /* Increased width */
+  margin: auto;
+  min-height: 600px; /* Decreased height */
+}
+
+.interests-container .interests-title {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #285185;
+}
+
+.interests-container .interests-subtitle {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #666666;
+}
+
+.interests-container .interests-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px;
+}
+
+.interests-container .interest-item {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.interests-container .interest-item.selected {
+  background-color: #e0e0ff;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+}
+
+.interests-container .interest-checkbox {
+  display: none;
+}
+
+.interests-container .continue-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #285185;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.interests-container .continue-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+}

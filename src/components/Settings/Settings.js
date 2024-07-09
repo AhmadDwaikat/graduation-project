@@ -11,14 +11,19 @@ const Settings = () => {
     // Fetch user data if needed for other parts of the settings
   }, []);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
       currentPassword: '',
       newPassword: '',
+      confirmPassword: '',
     }
   });
 
   const onSubmit = async (data) => {
+    if (data.newPassword !== data.confirmPassword) {
+      setServerError('New password and confirm password do not match');
+      return;
+    }
     try {
       const response = await fetch('http://localhost:5000/api/auth/change-password', {
         method: 'PUT',
@@ -47,14 +52,14 @@ const Settings = () => {
 
   return (
     <Container maxWidth="lg" className="settings-container">
-      <Paper elevation={3} style={{ padding: '2rem', marginTop: '2rem' }}>
+      <Paper elevation={3} className="settings-paper">
         <Typography variant="h4" className="title">
           Settings
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} className="settings-form">
           {serverError && <Alert severity="error" className="alert-message">{serverError}</Alert>}
           {successMessage && <Alert severity="success" className="alert-message">{successMessage}</Alert>}
-          <PasswordSettingsCard register={register} errors={errors} />
+          <PasswordSettingsCard register={register} errors={errors} watch={watch} />
           <NotificationSettingsCard />
           <PrivacySettingsCard />
         </form>
@@ -63,10 +68,10 @@ const Settings = () => {
   );
 };
 
-const PasswordSettingsCard = ({ register, errors }) => (
+const PasswordSettingsCard = ({ register, errors, watch }) => (
   <Card className="settings-card">
     <CardContent>
-      <Typography variant="h6" className="section-title">
+      <Typography variant="h6" className="section-title" align="center">
         Change Password
       </Typography>
       <TextField
@@ -98,6 +103,22 @@ const PasswordSettingsCard = ({ register, errors }) => (
         helperText={errors.newPassword ? errors.newPassword.message : ''}
         aria-invalid={!!errors.newPassword}
         aria-describedby="new-password-error"
+      />
+      <TextField
+        {...register('confirmPassword', {
+          required: 'Confirm password is required',
+          validate: value =>
+            value === watch('newPassword') || 'Passwords do not match'
+        })}
+        label="Confirm New Password"
+        type="password"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
+        aria-invalid={!!errors.confirmPassword}
+        aria-describedby="confirm-password-error"
       />
       <Button variant="contained" color="primary" type="submit" className="save-button">
         Save Changes

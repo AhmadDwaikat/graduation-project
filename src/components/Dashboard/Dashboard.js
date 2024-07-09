@@ -5,34 +5,7 @@ import { Typography, Grid, Card, CardContent, CircularProgress, Container } from
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import DashboardHeader from './DashboardHeader';
-import { styled } from '@mui/system';
 import './Dashboard.css';
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-    padding: '20px',
-    margin: 'auto',
-    maxWidth: '1200px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '10px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-}));
-
-const StyledTypography = styled(Typography)(({ theme }) => ({
-    color: '#343a40',
-}));
-
-const StyledCard = styled(Card)(({ theme }) => ({
-    cursor: 'pointer',
-    transition: 'transform 0.3s, box-shadow 0.3s',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#ffffff',
-    '&:hover': {
-        transform: 'translateY(-5px)',
-        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)',
-    },
-}));
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -83,23 +56,23 @@ const Dashboard = () => {
     const handleEventClick = (id) => navigate(`/event-detail/${id}`);
 
     if (loading) {
-        return <CircularProgress />;
+        return <CircularProgress className="circular-progress" />;
     }
 
     if (error) {
-        return <Typography variant="h6" color="error">{error}</Typography>;
+        return <Typography variant="h6" color="error" className="error">{error}</Typography>;
     }
 
     return (
         <>
             <DashboardHeader />
-            <StyledContainer className="dashboard-container">
-                <StyledTypography variant="h4" className="title">Dashboard</StyledTypography>
+            <Container className="dashboard-container">
+                <Typography variant="h4" className="title">Dashboard</Typography>
                 <EventSection title="Recommended Events" events={recommendedEvents} onEventClick={handleEventClick} />
                 <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
                 <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
                 <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
-            </StyledContainer>
+            </Container>
         </>
     );
 };
@@ -112,20 +85,14 @@ const EventSection = ({ title, events, onEventClick }) => {
 
     return (
         <>
-            <StyledTypography variant="h5" className="section-title">{title}</StyledTypography>
+            <Typography variant="h5" className="section-title">{title}</Typography>
             <Grid container spacing={4} className="activity-grid">
                 {events.length > 0 ? (
                     events.map(event => (
                         <Grid item xs={12} sm={6} md={4} key={event._id}>
-                            <StyledCard className="activity-card" onClick={() => onEventClick(event._id)}>
+                            <Card className="activity-card" onClick={() => onEventClick(event._id)}>
                                 <CardContent>
-                                    <StyledTypography variant="h6" className="activity-title">{event.title}</StyledTypography>
-                                    <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Date: {new Date(event.date).toLocaleDateString()}
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Location: {event.location}
-                                    </Typography>
+                                    <Typography variant="h6" className="activity-title">{event.title}</Typography>
                                     <Typography variant="body2" color="textSecondary" className="activity-details">
                                         Category: {event.category}
                                     </Typography>
@@ -133,13 +100,13 @@ const EventSection = ({ title, events, onEventClick }) => {
                                         Rating: {event.averageRating ? event.averageRating.toFixed(1) : 'N/A'}
                                     </Typography>
                                 </CardContent>
-                            </StyledCard>
+                            </Card>
                         </Grid>
                     ))
                 ) : (
-                    <StyledTypography variant="body2" color="textSecondary" className="no-data">
+                    <Typography variant="body2" color="textSecondary" className="no-data">
                         No {title.toLowerCase()} available.
-                    </StyledTypography>
+                    </Typography>
                 )}
             </Grid>
         </>
@@ -152,9 +119,7 @@ EventSection.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
-            location: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired, // Added prop type for category
+            category: PropTypes.string.isRequired,
             averageRating: PropTypes.number,
         })
     ).isRequired,
