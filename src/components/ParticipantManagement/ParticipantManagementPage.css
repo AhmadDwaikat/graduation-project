@@ -1,58 +1,69 @@
-/* General Container Styles */
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .participant-management-container {
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 80px; /* Adjust this value based on your header height */
+}
+
+.participant-management-container .title {
+  margin-bottom: 1rem;
+  color: #072A40; /* Dark blue text color */
+}
+
+.participant-management-container .participant-card {
+  background-color: #F9F7F0; /* Light beige background */
+  color: #072A40; /* Dark blue text color */
+  border: 1px solid #CCCCCC; /* Gray border */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.participant-management-container .participant-avatar {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 2px solid #072A40; /* Dark blue border */
+}
+
+.participant-management-container button {
+  text-transform: none;
+}
+
+@media (max-width: 600px) {
+  .participant-management-container .participant-management-container {
+    padding: 1rem;
   }
-  
-  /* Title Styles */
-  .participant-management-container .title {
-    margin-bottom: 1rem;
-    color: #072A40; /* Dark blue text color */
-  }
-  
-  /* Participant Card Styles */
-  .participant-management-container .participant-card {
-    background-color: #F9F7F0; /* Light beige background */
-    color: #072A40; /* Dark blue text color */
-    border: 1px solid #CCCCCC; /* Gray border */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Participant Avatar Styles */
+
   .participant-management-container .participant-avatar {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 10px;
-    border-radius: 50%;
-    border: 2px solid #072A40; /* Dark blue border */
+    width: 50px;
+    height: 50px;
   }
-  
-  /* Button Styles */
+
+  .participant-management-container .title {
+    font-size: 24px;
+  }
+
   .participant-management-container button {
-    text-transform: none;
+    font-size: 14px;
+    padding: 8px 16px;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .participant-management-container .participant-management-container {
-      padding: 1rem;
-    }
-  
-    .participant-management-container .participant-avatar {
-      width: 50px;
-      height: 50px;
-    }
-  
-    .participant-management-container .title {
-      font-size: 24px;
-    }
-  
-    .participant-management-container button {
-      font-size: 14px;
-      padding: 8px 16px;
-    }
-  }
-  
+}

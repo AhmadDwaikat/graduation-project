@@ -1,8 +1,19 @@
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
 .user-events-container {
   padding: 20px;
   background-color: #ccd9e2; /* New background color */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 80px; /* Adjust this value based on your header height */
 }
 
 .user-events-container .title {

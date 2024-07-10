@@ -1,51 +1,67 @@
-/* Container for the settings page */
-.settings-container {
+html, body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .settings-container {
     padding: 20px;
-    margin-top: 20px;
-}
-
-/* Paper styling */
-.settings-container .settings-paper {
+    margin-top: 80px; /* Adjust this value based on your header height */
+  }
+  
+  /* Paper styling */
+  .settings-container .settings-paper {
     padding: 2rem;
     margin-top: 2rem;
     background-color: #ccd9e2; /* Light background color */
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Title styling */
-.settings-container .title {
+  }
+  
+  /* Title styling */
+  .settings-container .title {
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
     color: #285185; /* Primary color */
-}
-
-/* Form styling */
-.settings-container .settings-form {
+  }
+  
+  /* Form styling */
+  .settings-container .settings-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-/* Card styling */
-.settings-container .settings-card {
+  }
+  
+  /* Card styling */
+  .settings-container .settings-card {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f7f1f0; /* Slightly darker background color */
-}
-
-/* Section title styling */
-.settings-container .section-title {
+  }
+  
+  /* Section title styling */
+  .settings-container .section-title {
     margin-bottom: 10px;
     font-weight: 600;
     color: #1d3e70; /* Darker primary color */
     text-align: center; /* Center align the section title */
-}
-
-/* Save button styling */
-.settings-container .save-button {
+  }
+  
+  /* Save button styling */
+  .settings-container .save-button {
     margin-top: 20px;
     background-color: #d67940; /* Changed button color */
     color: white;
@@ -54,25 +70,26 @@
     border-radius: 5px;
     text-transform: none;
     transition: background-color 0.3s;
-}
-
-.settings-container .save-button:hover {
+  }
+  
+  .settings-container .save-button:hover {
     background-color: #c06430; /* Darker hover color */
-}
-
-/* Error and success message styling */
-.settings-container .alert-message {
+  }
+  
+  /* Error and success message styling */
+  .settings-container .alert-message {
     margin-bottom: 20px;
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
-    .settings-container .settings-container {
-        padding: 10px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .settings-container {
+      padding: 10px;
     }
-
+  
     .settings-container .save-button {
-        font-size: 14px;
-        padding: 8px 16px;
+      font-size: 14px;
+      padding: 8px 16px;
     }
-}
+  }
+  

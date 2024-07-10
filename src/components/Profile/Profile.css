@@ -1,13 +1,31 @@
-.profile-container {
+html, body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .profile-container {
     padding: 20px;
     margin: auto;
     max-width: 1200px;
     background-color: #ccd9e2;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-container .profile-card {
+    margin-top: 80px; /* Adjust this value based on your header height */
+  }
+  
+  .profile-container .profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,91 +34,91 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 96%;
-}
-
-.profile-container .profile-avatar {
+  }
+  
+  .profile-container .profile-avatar {
     width: 150px;
     height: 150px;
     margin-bottom: 20px;
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     object-fit: cover;
-}
-
-.profile-container .profile-name {
+  }
+  
+  .profile-container .profile-name {
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 24px;
     color: #285185;
-}
-
-.profile-container .profile-email {
+  }
+  
+  .profile-container .profile-email {
     margin-bottom: 10px;
     color: #777777;
-}
-
-.profile-container .profile-bio {
+  }
+  
+  .profile-container .profile-bio {
     margin-bottom: 20px;
     color: #555555;
     text-align: center;
-}
-
-.profile-container .profile-edit-field {
+  }
+  
+  .profile-container .profile-edit-field {
     margin-bottom: 20px;
-}
-
-.profile-container .profile-edit-group {
+  }
+  
+  .profile-container .profile-edit-group {
     display: flex;
     gap: 20px;
     width: 100%;
-}
-
-.profile-container .profile-edit-field-half {
+  }
+  
+  .profile-container .profile-edit-field-half {
     flex: 1;
-}
-
-.profile-container .button-group {
+  }
+  
+  .profile-container .button-group {
     display: flex;
     gap: 20px;
     width: 100%;
     margin-top: 20px;
     justify-content: center; /* Center the buttons */
-}
-
-.profile-container .save-button,
-.profile-container .interests-button,
-.profile-container .custom-file-button {
+  }
+  
+  .profile-container .save-button,
+  .profile-container .interests-button,
+  .profile-container .custom-file-button {
     flex: 1;
     max-width: 200px; /* Optional: set a max width for consistency */
-}
-
-.profile-container .save-button {
+  }
+  
+  .profile-container .save-button {
     background-color: #285185;
-}
-
-.profile-container .save-button:hover {
+  }
+  
+  .profile-container .save-button:hover {
     background-color: #1d3e70;
-}
-
-.profile-container .interests-button {
+  }
+  
+  .profile-container .interests-button {
     background-color: #d67940;
-}
-
-.profile-container .interests-button:hover {
+  }
+  
+  .profile-container .interests-button:hover {
     background-color: #c06430;
-}
-
-.profile-container .file-input-container {
+  }
+  
+  .profile-container .file-input-container {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.profile-container .file-input {
+  }
+  
+  .profile-container .file-input {
     display: none;
-}
-
-.profile-container .custom-file-button {
+  }
+  
+  .profile-container .custom-file-button {
     padding: 10px 20px;
     background-color: #285185;
     color: #fff;
@@ -108,40 +126,41 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-}
-
-.profile-container .custom-file-button:hover {
+  }
+  
+  .profile-container .custom-file-button:hover {
     background-color: #1d3e70;
-}
-
-@media (max-width: 600px) {
+  }
+  
+  @media (max-width: 600px) {
     .profile-container {
-        padding: 10px;
+      padding: 10px;
     }
-
+  
     .profile-container .profile-avatar {
-        width: 100px;
-        height: 100px;
+      width: 100px;
+      height: 100px;
     }
-
+  
     .profile-container .profile-name {
-        font-size: 20px;
+      font-size: 20px;
     }
-
+  
     .profile-container .profile-edit-group {
-        flex-direction: column;
+      flex-direction: column;
     }
-
+  
     .profile-container .button-group {
-        flex-direction: column;
-        gap: 10px;
+      flex-direction: column;
+      gap: 10px;
     }
-
+  
     .profile-container .save-button,
     .profile-container .interests-button,
     .profile-container .custom-file-button {
-        font-size: 14px;
-        padding: 8px 16px;
-        max-width: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      max-width: none;
     }
-}
+  }
+  

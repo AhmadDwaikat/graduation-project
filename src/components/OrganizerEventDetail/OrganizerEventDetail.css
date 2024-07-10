@@ -1,4 +1,20 @@
-/* General Container Styles */
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .organizer-event-detail-container {
   padding: 20px;
   margin: auto;
@@ -6,9 +22,9 @@
   background-color: #f2ebe5;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 80px; /* Adjust this value based on your header height */
 }
 
-/* Title Styles */
 .organizer-event-detail-container .title {
   margin-bottom: 20px;
   color: #285185; /* Dark blue text color */
@@ -16,7 +32,6 @@
   font-weight: bold;
 }
 
-/* Event Detail Section */
 .organizer-event-detail-container .event-detail-section {
   padding: 20px;
   margin-bottom: 20px;
@@ -25,7 +40,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Description, Date, and Location Styles */
 .organizer-event-detail-container .description,
 .organizer-event-detail-container .date,
 .organizer-event-detail-container .time,
@@ -37,7 +51,6 @@
   color: #555555;
 }
 
-/* Subtitle Styles */
 .organizer-event-detail-container .subtitle {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -45,7 +58,6 @@
   font-weight: bold;
 }
 
-/* Feedback Message Styles */
 .organizer-event-detail-container .feedback {
   margin-bottom: 20px;
   color: #285185; /* Dark blue text color */
@@ -59,7 +71,6 @@
   color: #B00020; /* Bright red for error messages */
 }
 
-/* Button Styles */
 .organizer-event-detail-container .add-media-button,
 .organizer-event-detail-container .update-button,
 .organizer-event-detail-container .manage-participants-button {
@@ -76,7 +87,6 @@
   color: #ffffff; /* White text color on hover */
 }
 
-/* Media Gallery Styles */
 .organizer-event-detail-container .media-gallery .media-card {
   position: relative;
   cursor: pointer;
@@ -110,7 +120,6 @@
   margin-top: 10px;
 }
 
-/* Dialog Image Styles */
 .organizer-event-detail-container .dialog-image {
   width: 100%;
   height: auto;
@@ -124,7 +133,6 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Social Sharing Styles */
 .organizer-event-detail-container .social-sharing {
   margin-top: 20px;
 }

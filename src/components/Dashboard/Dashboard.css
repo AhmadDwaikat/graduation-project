@@ -73,9 +73,19 @@
 }
 
 /* Circular progress */
-.circular-progress {
+.dashboard-container .circular-progress {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+.dashboard-container .header-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.dashboard-container .dashboard-container {
+    margin-top: 80px; /* Adjust this value based on your header height */
 }

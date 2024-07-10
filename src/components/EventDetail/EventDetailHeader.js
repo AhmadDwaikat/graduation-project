@@ -1,4 +1,3 @@
-// src/components/EventDetail/EventDetailHeader.js
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Avatar, ListItemIcon, Button } from '@mui/material';
 import { Mail as MailIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon, LibraryBooks as LibraryBooksIcon, Favorite as FavoriteIcon } from '@mui/icons-material';
@@ -84,7 +83,7 @@ const EventDetailHeader = ({ eventId }) => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
+    <AppBar position="fixed" className="header-fixed" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
           <Typography variant="h4" noWrap sx={{ fontWeight: 'bold' }}>

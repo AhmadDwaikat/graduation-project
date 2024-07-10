@@ -1,69 +1,78 @@
-/* Container for the favorites page */
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .favorites-container {
-    padding: 2rem;
-    background-color: #ccd9e2;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 2rem auto;
-    max-width: 1200px;
-  }
-  
-  /* Title styling */
-  .favorites-container .title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 600;
-    font-size: 2rem;
-    color: #285185;
-  }
-  
-  /* Loading spinner styling */
-  .favorites-container .loading {
-    display: block;
-    margin: 2rem auto;
-  }
-  
-  /* Error message styling */
-  .favorites-container .error-message {
-    text-align: center;
-    color: red;
-  }
-  
-  /* Event card styling */
-  .favorites-container .event-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .favorites-container .event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Event title styling */
-  .favorites-container .event-title {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #285185;
-  }
-  
-  /* Event date styling */
-  .favorites-container .event-date {
-    color: #6f4849;
-  }
-  
-  /* View details link styling */
-  .favorites-container .view-details {
-    text-decoration: none;
-    color: #d67940;
-    margin-top: 1rem;
-    display: inline-block;
-    font-weight: bold;
-  }
-  
-  .favorites-container .view-details:hover {
-    color: #6f4849;
-  }
-  
+  padding: 2rem;
+  background-color: #ccd9e2;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  max-width: 1200px;
+  margin-top: 80px; /* Adjust this value based on your header height */
+}
+
+.favorites-container .title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #285185;
+}
+
+.favorites-container .loading {
+  display: block;
+  margin: 2rem auto;
+}
+
+.favorites-container .error-message {
+  text-align: center;
+  color: red;
+}
+
+.favorites-container .event-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorites-container .event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.favorites-container .event-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #285185;
+}
+
+.favorites-container .event-date {
+  color: #6f4849;
+}
+
+.favorites-container .view-details {
+  text-decoration: none;
+  color: #d67940;
+  margin-top: 1rem;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.favorites-container .view-details:hover {
+  color: #6f4849;
+}

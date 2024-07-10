@@ -385,13 +385,7 @@ const EventDetail = () => {
           <strong>Location:</strong> {event.location}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          <strong>Event Type:</strong> {event.eventType}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
           <strong>Category:</strong> {event.category}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          <strong>Participant Limit:</strong> {event.participantLimit}
         </Typography>
         <Typography variant="body2" className="event-description">
           {event.description}

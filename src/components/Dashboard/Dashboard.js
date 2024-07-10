@@ -94,7 +94,7 @@ const EventSection = ({ title, events, onEventClick }) => {
                                 <CardContent>
                                     <Typography variant="h6" className="activity-title">{event.title}</Typography>
                                     <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Category: {event.category}
+                                        {event.description}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" className="activity-details">
                                         Rating: {event.averageRating ? event.averageRating.toFixed(1) : 'N/A'}
@@ -119,7 +119,7 @@ EventSection.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
             averageRating: PropTypes.number,
         })
     ).isRequired,

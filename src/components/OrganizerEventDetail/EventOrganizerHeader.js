@@ -82,7 +82,7 @@ const EventOrganizerHeader = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
+    <AppBar position="fixed" className="header-fixed" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
           <Typography variant="h4" noWrap sx={{ fontWeight: 'bold' }}>

@@ -5,20 +5,20 @@
     margin-top: 20px;
 }
 
-.title {
+analytics-container .title {
     margin-bottom: 20px;
 }
 
-.statistics-card, .engagement-card, .reports-card {
+analytics-container .statistics-card, .engagement-card, .reports-card {
     width: 100%;
     max-width: 600px;
     margin-bottom: 20px;
 }
 
-.chart-title {
+analytics-container .chart-title {
     margin-bottom: 10px;
 }
 
-.generate-report-button {
+analytics-container .generate-report-button {
     margin-top: 20px;
 }

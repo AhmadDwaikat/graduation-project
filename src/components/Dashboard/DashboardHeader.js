@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, IconButton, Box, Badge, Menu, MenuItem, Av
 import { Mail as MailIcon, Notifications as NotificationsIcon, Event as EventIcon, LibraryBooks as LibraryBooksIcon, Assessment as AssessmentIcon, Favorite as FavoriteIcon, AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Dashboard.css';
 
 const DashboardHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -82,7 +83,7 @@ const DashboardHeader = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
+    <AppBar position="fixed" className="header-fixed" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
           <Typography variant="h4" noWrap sx={{ fontWeight: 'bold' }}>

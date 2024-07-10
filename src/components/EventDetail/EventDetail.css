@@ -1,4 +1,20 @@
-/* Container for the entire event detail page */
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .event-detail-container {
   padding: 20px;
   margin: auto;
@@ -6,9 +22,9 @@
   background-color: #f2ebe5;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 80px; /* Adjust this value based on your header height */
 }
 
-/* Title of the event detail page */
 .event-detail-container .title {
   margin-bottom: 20px;
   font-weight: 600;
@@ -16,38 +32,32 @@
   text-align: center;
 }
 
-/* Event title styles */
 .event-detail-container .event-title {
   font-weight: 600;
   margin-bottom: 10px;
   color: #285185;
 }
 
-/* Event details styles */
 .event-detail-container .event-details {
   margin-bottom: 20px;
 }
 
-/* Event description styles */
 .event-detail-container .event-description {
   margin-bottom: 20px;
   color: #555555;
 }
 
-/* Share buttons container */
 .event-detail-container .share-buttons {
   display: flex;
   gap: 10px;
 }
 
-/* Section title styles */
 .event-detail-container .section-title {
   margin-top: 20px;
   font-weight: 500;
   color: #285185;
 }
 
-/* Comment card styles */
 .event-detail-container .comment-card {
   margin-top: 10px;
   border-radius: 8px;
@@ -56,14 +66,12 @@
   background-color: #f7f1f0;
 }
 
-/* Comment grid container */
 .event-detail-container .comment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
   gap: 20px;
 }
 
-/* Rating section styles */
 .event-detail-container .ratings-section {
   display: flex;
   align-items: center;
@@ -71,12 +79,10 @@
   margin-bottom: 20px;
 }
 
-/* Existing comments section styles */
 .event-detail-container .existing-comments {
   margin-top: 20px;
 }
 
-/* Media gallery styles */
 .event-detail-container .media-gallery .media-card {
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -86,7 +92,6 @@
   transform: scale(1.05);
 }
 
-/* Button styles */
 .event-detail-container .action-buttons .MuiButton-root {
   margin-right: 10px;
 }
@@ -109,7 +114,6 @@
   background-color: #c06430;
 }
 
-/* Comment form styles */
 .event-detail-container .comments-section .MuiTextField-root {
   margin-bottom: 10px;
 }
@@ -123,7 +127,6 @@
   background-color: #1d3e70;
 }
 
-/* Comment card header styles */
 .event-detail-container .comment-card .comment-header {
   display: flex;
   align-items: center;
@@ -134,13 +137,11 @@
   margin-right: 10px;
 }
 
-/* Comment card body styles */
 .event-detail-container .comment-card .comment-body {
   font-size: 14px;
   color: #333;
 }
 
-/* Comment card footer styles */
 .event-detail-container .comment-card .comment-footer {
   display: flex;
   justify-content: space-between;
@@ -150,22 +151,20 @@
   color: #999;
 }
 
-/* Alert styles */
 .event-detail-container .MuiAlert-root {
   margin-bottom: 20px;
 }
 
-/* Share icon styles */
-.share-icon {
+.event-detail-container .share-icon {
   font-size: 32px;
   color: #285185;
   transition: color 0.2s;
 }
 
-.share-icon:hover {
+.event-detail-container .share-icon:hover {
   color: #1d3e70;
 }
-/* Rating submit button styles */
+
 .event-detail-container .ratings-section .MuiButton-containedPrimary {
   background-color: #9f496e; /* New color for the Submit Rating button */
   color: #ffffff;

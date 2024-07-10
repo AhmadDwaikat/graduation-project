@@ -1,3 +1,13 @@
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
 .update-event-container {
   display: flex;
   flex-direction: column;
@@ -9,6 +19,7 @@
   border-radius: 10px;
   max-width: 1200px;
   margin: auto;
+  margin-top: 80px; /* Adjust this value based on your header height */
   width: 100%;
 }
 
