@@ -10,8 +10,7 @@ import OrganizerEventDetail from './components/OrganizerEventDetail';
 import ParticipantManagement from './components/ParticipantManagement';
 import Profile from './components/Profile';
 import ActivityLibrary from './components/ActivityLibrary';
-import Notifications from './components/Notifications';
-import Messages from './components/Messages';
+
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
 import UpdateEvent from './components/UpdateEvent';
@@ -50,8 +49,6 @@ const App = () => {
           <Route path="/event-update/:id" element={<ProtectedRoute><><UpdateEventHeader eventId={':id'} /><UpdateEvent /></></ProtectedRoute>} />
           <Route path="/participant-management" element={<ProtectedRoute><ParticipantManagement /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><><ProfileHeader /><Profile /></></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-          <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><><SettingsHeader /><Settings /></></ProtectedRoute>} />
           <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} /> 
           <Route path="/user-events" element={<ProtectedRoute><UserEvents /></ProtectedRoute>} /> {/* Add new route for User Events */}
