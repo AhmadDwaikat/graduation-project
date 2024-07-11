@@ -97,6 +97,9 @@ const EventSection = ({ title, events, onEventClick }) => {
                                         {event.description}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" className="activity-details">
+                                        Category: {event.category}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" className="activity-details">
                                         Rating: {event.averageRating ? event.averageRating.toFixed(1) : 'N/A'}
                                     </Typography>
                                 </CardContent>
@@ -120,6 +123,7 @@ EventSection.propTypes = {
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired,
+            category: PropTypes.string.isRequired,
             averageRating: PropTypes.number,
         })
     ).isRequired,
