@@ -38,7 +38,8 @@ const Dashboard = () => {
                     setUpcomingEvents(upcomingResponse.data.data.slice(0, 6) || []);
                     setPastEvents(pastResponse.data.data.slice(0, 6) || []);
                     setFeaturedEvents(featuredResponse.data.data.slice(0, 6) || []);
-                    setRecommendedEvents(recommendedResponse.data.data.slice(0, 6) || []);
+                    const sortedRecommendedEvents = (recommendedResponse.data.data || []).sort((a, b) => b.hybridScore - a.hybridScore);
+                    setRecommendedEvents(sortedRecommendedEvents.slice(0, 6));  // Limit to top 6
                     dispatch({ type: 'set_my_events', payload: [...(upcomingResponse.data.data || []), ...(pastResponse.data.data || [])] });
                 } else {
                     setError('Failed to fetch events');
@@ -68,16 +69,16 @@ const Dashboard = () => {
             <DashboardHeader />
             <Container className="dashboard-container">
                 <Typography variant="h4" className="title">Dashboard</Typography>
-                <EventSection title="Recommended Events" events={recommendedEvents} onEventClick={handleEventClick} />
-                <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} />
-                <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} />
-                <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} />
+                <EventSection title="Recommended Events" events={recommendedEvents} onEventClick={handleEventClick} showRating={false} />
+                <EventSection title="Featured Events" events={featuredEvents} onEventClick={handleEventClick} showRating={true} />
+                <EventSection title="My Upcoming Events" events={upcomingEvents} onEventClick={handleEventClick} showRating={true} />
+                <EventSection title="My Past Events" events={pastEvents} onEventClick={handleEventClick} showRating={true} />
             </Container>
         </>
     );
 };
 
-const EventSection = ({ title, events, onEventClick }) => {
+const EventSection = ({ title, events, onEventClick, showRating }) => {
     if (!Array.isArray(events)) {
         console.error(`Invalid events data for ${title}:`, events);
         return null;
@@ -88,24 +89,29 @@ const EventSection = ({ title, events, onEventClick }) => {
             <Typography variant="h5" className="section-title">{title}</Typography>
             <Grid container spacing={4} className="activity-grid">
                 {events.length > 0 ? (
-                    events.map(event => (
-                        <Grid item xs={12} sm={6} md={4} key={event._id}>
-                            <Card className="activity-card" onClick={() => onEventClick(event._id)}>
-                                <CardContent>
-                                    <Typography variant="h6" className="activity-title">{event.title}</Typography>
-                                    <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        {event.description}
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Category: {event.category}
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" className="activity-details">
-                                        Rating: {event.averageRating ? event.averageRating.toFixed(1) : 'N/A'}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))
+                    events.map(event => {
+                        const eventData = event.event || event;
+                        return (
+                            <Grid item xs={12} sm={6} md={4} key={eventData._id}>
+                                <Card className="activity-card" onClick={() => onEventClick(eventData._id)}>
+                                    <CardContent>
+                                        <Typography variant="h6" className="activity-title">{eventData.title}</Typography>
+                                        <Typography variant="body2" color="textSecondary" className="activity-details">
+                                            {eventData.description}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" className="activity-details">
+                                            Category: {eventData.category}
+                                        </Typography>
+                                        {showRating && (
+                                            <Typography variant="body2" color="textSecondary" className="activity-details">
+                                                Rating: {eventData.averageRating ? eventData.averageRating.toFixed(1) : 'N/A'}
+                                            </Typography>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        );
+                    })
                 ) : (
                     <Typography variant="body2" color="textSecondary" className="no-data">
                         No {title.toLowerCase()} available.
@@ -120,14 +126,18 @@ EventSection.propTypes = {
     title: PropTypes.string.isRequired,
     events: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
-            averageRating: PropTypes.number,
+            event: PropTypes.shape({
+                _id: PropTypes.string.isRequired,
+                title: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired,
+                category: PropTypes.string.isRequired,
+                averageRating: PropTypes.number,
+            }),
+            hybridScore: PropTypes.number,
         })
     ).isRequired,
     onEventClick: PropTypes.func.isRequired,
+    showRating: PropTypes.bool,
 };
 
 export default Dashboard;

@@ -169,19 +169,31 @@ exports.rateEvent = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
-    const existingRating = event.ratings.find(r => r.user.toString() === req.user.id);
-
-    if (existingRating) {
-      existingRating.rating = rating;  // Update existing rating
+    const existingEventRating = event.ratings.find(r => r.user.toString() === req.user.id);
+    if (existingEventRating) {
+      existingEventRating.rating = rating;  // Update existing event rating
     } else {
-      event.ratings.push({ user: req.user.id, rating });  // Add new rating
+      event.ratings.push({ user: req.user.id, rating });  // Add new event rating
     }
 
-    // Calculate average rating
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const existingUserRating = user.ratings.find(r => r.eventId.toString() === req.params.id);
+    if (existingUserRating) {
+      existingUserRating.rating = rating;  // Update existing user rating
+    } else {
+      user.ratings.push({ eventId: req.params.id, rating });  // Add new user rating
+    }
+
+    // Calculate average rating for the event
     const totalRatings = event.ratings.reduce((acc, r) => acc + r.rating, 0);
     event.averageRating = totalRatings / event.ratings.length;
 
     await event.save();
+    await user.save();
 
     res.status(200).json({ success: true, message: 'Rating submitted successfully' });
   } catch (error) {

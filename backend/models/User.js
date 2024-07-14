@@ -18,6 +18,9 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
+  ratings: [
+    { eventId: mongoose.Schema.Types.ObjectId, rating: Number }
+  ],
   hasSelectedInterests: {
     type: Boolean,
     default: false,
