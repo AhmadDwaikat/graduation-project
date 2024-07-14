@@ -8,7 +8,7 @@ const Settings = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    // Fetch user data if needed for other parts of the settings
+   
   }, []);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
@@ -60,8 +60,6 @@ const Settings = () => {
           {serverError && <Alert severity="error" className="alert-message">{serverError}</Alert>}
           {successMessage && <Alert severity="success" className="alert-message">{successMessage}</Alert>}
           <PasswordSettingsCard register={register} errors={errors} watch={watch} />
-          <NotificationSettingsCard />
-          <PrivacySettingsCard />
         </form>
       </Paper>
     </Container>
@@ -123,28 +121,6 @@ const PasswordSettingsCard = ({ register, errors, watch }) => (
       <Button variant="contained" color="primary" type="submit" className="save-button">
         Save Changes
       </Button>
-    </CardContent>
-  </Card>
-);
-
-const NotificationSettingsCard = () => (
-  <Card className="settings-card">
-    <CardContent>
-      <Typography variant="h6" className="section-title">
-        Notification Preferences
-      </Typography>
-      {/* Notification preferences options */}
-    </CardContent>
-  </Card>
-);
-
-const PrivacySettingsCard = () => (
-  <Card className="settings-card">
-    <CardContent>
-      <Typography variant="h6" className="section-title">
-        Privacy Settings
-      </Typography>
-      {/* Privacy settings options */}
     </CardContent>
   </Card>
 );

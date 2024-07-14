@@ -31,7 +31,7 @@ const ActivityLibrary = () => {
   useEffect(() => {
     fetchNonCreatedEvents();
 
-    const interval = setInterval(fetchNonCreatedEvents, 10000); // every 10 seconds
+    const interval = setInterval(fetchNonCreatedEvents, 1000); 
 
     return () => clearInterval(interval);
   }, []);

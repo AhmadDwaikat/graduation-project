@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Typography, Grid, Card, CardContent, CircularProgress } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import FavoritesHeader from './FavoritesHeader'; // Import the new header
-import './Favorites.css'; // Import the CSS file
+import FavoritesHeader from './FavoritesHeader';
+import './Favorites.css'; 
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);

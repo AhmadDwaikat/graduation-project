@@ -22,7 +22,7 @@ html, body {
   background-color: #f2ebe5;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .event-detail-container .title {
@@ -166,10 +166,10 @@ html, body {
 }
 
 .event-detail-container .ratings-section .MuiButton-containedPrimary {
-  background-color: #9f496e; /* New color for the Submit Rating button */
+  background-color: #9f496e; 
   color: #ffffff;
 }
 
 .event-detail-container .ratings-section .MuiButton-containedPrimary:hover {
-  background-color: #9f496e; /* Hover color for the Submit Rating button */
+  background-color: #9f496e; 
 }

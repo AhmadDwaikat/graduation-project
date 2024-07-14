@@ -7,7 +7,7 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn'; // Import LinkedIn icon
+import LinkedInIcon from '@mui/icons-material/LinkedIn'; 
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -79,7 +79,7 @@ const Home = () => {
                         <Typography variant="body2"><Link component={RouterLink} to="/">Home</Link></Typography>
                         <Typography variant="body2"><Link component={RouterLink} to="/about">About Us</Link></Typography>
                         <Typography variant="body2"><Link component={RouterLink} to="/contact">Contact</Link></Typography>
-                        <Typography variant="body2"><Link component={RouterLink} to="/services">Services</Link></Typography> {/* Added Services link */}
+                        <Typography variant="body2"><Link component={RouterLink} to="/services">Services</Link></Typography> {}
                     </Box>
                     <Box className="footer-section">
                         <Typography variant="h6">Follow Us</Typography>
@@ -87,7 +87,7 @@ const Home = () => {
                             <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FacebookIcon /></Link>
                             <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer"><TwitterIcon /></Link>
                             <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer"><InstagramIcon /></Link>
-                            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><LinkedInIcon /></Link> {/* Added LinkedIn icon */}
+                            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><LinkedInIcon /></Link> {}
                         </Box>
                     </Box>
                     <Box className="footer-section">

@@ -15,7 +15,7 @@ const Header = () => {
     navigate('/login');
   };
 
-  // Return null if the path is home (i.e., '/')
+  
   if (location.pathname === '/') {
     return null;
   }

@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    setApiError(''); // Clear previous errors
+    setApiError(''); 
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -23,7 +23,7 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem('token', result.token);
 
-        // Check if the user has selected interests
+        
         const userInfoResponse = await fetch('http://localhost:5000/api/auth/me', {
           method: 'GET',
           headers: {

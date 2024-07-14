@@ -14,7 +14,7 @@ import ActivityLibrary from './components/ActivityLibrary';
 import Analytics from './components/Analytics';
 import Settings from './components/Settings';
 import UpdateEvent from './components/UpdateEvent';
-import UserEvents from './components/UserEvents'; // Import the new UserEvents component
+import UserEvents from './components/UserEvents'; 
 import { EventProvider } from './context/EventContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import ParticipantManagementPage from './components/ParticipantManagement';
@@ -28,7 +28,7 @@ import ProfileHeader from './components/Profile/ProfileHeader';
 import EventOrganizerHeader from './components/OrganizerEventDetail/EventOrganizerHeader';
 import UpdateEventHeader from './components/UpdateEvent/UpdateEventHeader';
 import ParticipantManagementHeader from './components/ParticipantManagement/ParticipantManagementHeader';
-import Favorites from './components/Favorites/Favorites';  // Import the new Favorites component
+import Favorites from './components/Favorites/Favorites';  
 import Interests from './components/Interests';
 const App = () => {
   return (
@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/profile" element={<ProtectedRoute><><ProfileHeader /><Profile /></></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><><SettingsHeader /><Settings /></></ProtectedRoute>} />
           <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} /> 
-          <Route path="/user-events" element={<ProtectedRoute><UserEvents /></ProtectedRoute>} /> {/* Add new route for User Events */}
+          <Route path="/user-events" element={<ProtectedRoute><UserEvents /></ProtectedRoute>} /> {}
         </Routes>
       </EventProvider>
     </Router>

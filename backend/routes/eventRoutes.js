@@ -59,7 +59,7 @@ router.delete('/:id', auth, eventController.deleteEvent);
 // Routes for joining and leaving events
 router.put('/:id/request', auth, eventController.requestJoinEvent);
 router.put('/:id/approve/:userId', auth, eventController.approveJoinRequest);
-router.put('/:id/reject/:userId', auth, eventController.rejectJoinRequest); // Add this route
+router.put('/:id/reject/:userId', auth, eventController.rejectJoinRequest); 
 router.put('/:id/unsend-request', auth, eventController.unsendRequestJoinEvent);
 router.put('/:id/leave', auth, eventController.leaveEvent);
 
@@ -81,8 +81,7 @@ router.delete('/:id/media/:type/:file', auth, eventController.deleteMedia);
 
 router.get('/:eventId/participants', auth, participantController.getParticipants);
 router.put('/:eventId/participants/:participantId', auth, participantController.updateParticipantStatus);
-router.post('/:eventId/participants/:participantId/notification', auth, participantController.sendNotification);
-router.post('/:eventId/participants/:participantId/message', auth, participantController.sendMessage);
+
 
 router.get('/user/created/upcoming', auth, eventController.getUserCreatedUpcomingEvents);
 router.get('/user/created/past', auth, eventController.getUserCreatedPastEvents);

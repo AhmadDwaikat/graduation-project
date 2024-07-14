@@ -27,7 +27,7 @@ const LoginHeader = () => {
               onClick={toggleDrawer(false)}
               onKeyDown={toggleDrawer(false)}
             >
-              {/* Empty list */}
+              {}
             </Box>
           </Drawer>
           <Button color="inherit" component={RouterLink} to="/" sx={{ marginLeft: 2 }}>

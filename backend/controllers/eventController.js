@@ -17,7 +17,7 @@ exports.createEvent = async (req, res) => {
       category,
       location,
       participantLimit,
-      creator: req.user.id, // Ensure the creator field is populated
+      creator: req.user.id, 
     });
 
     await event.save();
@@ -55,10 +55,9 @@ exports.getUserEvents = async (req, res) => {
 exports.getEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id)
-      .populate('creator', 'name') // Populate creator's name
-      .populate('ratings.user', 'name') // Populate user information in ratings
-      .populate('comments.user', 'name'); // Populate user information in comments
-
+      .populate('creator', 'name') 
+      .populate('ratings.user', 'name') 
+      .populate('comments.user', 'name'); 
     if (!event) {
       return res.status(404).json({ success: false, message: 'Event not found' });
     }
@@ -337,7 +336,7 @@ exports.addMediaToEvent = async (req, res) => {
     }
 
     const media = req.files.map(file => ({
-      path: file.path.replace(/\\/g, '/'), // Ensure consistent path format
+      path: file.path.replace(/\\/g, '/'), 
       mimetype: file.mimetype,
     }));
 

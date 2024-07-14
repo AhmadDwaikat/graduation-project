@@ -27,7 +27,7 @@ html, body {
   max-width: 1200px;
   margin: auto;
   width: 100%;
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .event-creation-container .title {

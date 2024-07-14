@@ -20,18 +20,18 @@ html, body {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .participant-management-container .title {
   margin-bottom: 1rem;
-  color: #072A40; /* Dark blue text color */
+  color: #072A40; 
 }
 
 .participant-management-container .participant-card {
-  background-color: #F9F7F0; /* Light beige background */
-  color: #072A40; /* Dark blue text color */
-  border: 1px solid #CCCCCC; /* Gray border */
+  background-color: #F9F7F0; 
+  color: #072A40; 
+  border: 1px solid #CCCCCC; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -41,7 +41,7 @@ html, body {
   height: 60px;
   margin-bottom: 10px;
   border-radius: 50%;
-  border: 2px solid #072A40; /* Dark blue border */
+  border: 2px solid #072A40; 
 }
 
 .participant-management-container button {

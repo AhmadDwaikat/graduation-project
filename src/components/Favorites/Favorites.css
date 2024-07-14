@@ -22,7 +22,7 @@ html, body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 2rem auto;
   max-width: 1200px;
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .favorites-container .title {

@@ -35,10 +35,6 @@ const cosineSimilarity = (vecA, vecB) => {
   return magnitudeA && magnitudeB ? dotProduct / (magnitudeA * magnitudeB) : 0;
 };
 
-
-
-
-
 module.exports = {
   TfidfVectorizer,
   cosineSimilarity,

@@ -22,7 +22,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/upload', uploadRoute);
-app.use('/api', recommendationRoutes); // Corrected
+app.use('/api', recommendationRoutes);
 
 // Static folder for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

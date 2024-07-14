@@ -1,4 +1,3 @@
-// components/Interests.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -174,7 +173,7 @@ const Interests = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.data.success) {
-        navigate('/profile'); // Navigate to the profile page
+        navigate('/profile'); 
       }
     } catch (error) {
       console.error('Error updating interests:', error.message);

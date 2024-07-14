@@ -19,7 +19,7 @@ html, body {
   border-radius: 10px;
   max-width: 1200px;
   margin: auto;
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
   width: 100%;
 }
 

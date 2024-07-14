@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Menu, MenuItem, Avatar, ListItemIcon, Button } from '@mui/material';
-import { AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon, Favorite as FavoriteIcon } from '@mui/icons-material'; // Added FavoriteIcon
+import { AccountCircle as AccountCircleIcon, Settings as SettingsIcon, ExitToApp as ExitToAppIcon, Dashboard as DashboardIcon, Favorite as FavoriteIcon } from '@mui/icons-material'; 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

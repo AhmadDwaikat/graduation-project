@@ -22,12 +22,12 @@ html, body {
   background-color: #f2ebe5;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .organizer-event-detail-container .title {
   margin-bottom: 20px;
-  color: #285185; /* Dark blue text color */
+  color: #285185; 
   text-align: center;
   font-weight: bold;
 }
@@ -54,37 +54,37 @@ html, body {
 .organizer-event-detail-container .subtitle {
   margin-top: 20px;
   margin-bottom: 10px;
-  color: #285185; /* Dark blue text color */
+  color: #285185; 
   font-weight: bold;
 }
 
 .organizer-event-detail-container .feedback {
   margin-bottom: 20px;
-  color: #285185; /* Dark blue text color */
+  color: #285185; 
 }
 
 .organizer-event-detail-container .feedback.success {
-  color: #178CA4; /* Medium teal for success messages */
+  color: #178CA4; 
 }
 
 .organizer-event-detail-container .feedback.error {
-  color: #B00020; /* Bright red for error messages */
+  color: #B00020; 
 }
 
 .organizer-event-detail-container .add-media-button,
 .organizer-event-detail-container .update-button,
 .organizer-event-detail-container .manage-participants-button {
   margin-top: 20px;
-  background-color: #285185; /* Dark blue background */
-  color: #ffffff; /* White text color */
+  background-color: #285185;
+  color: #ffffff;
   font-weight: bold;
 }
 
 .organizer-event-detail-container .add-media-button:hover,
 .organizer-event-detail-container .update-button:hover,
 .organizer-event-detail-container .manage-participants-button:hover {
-  background-color: #1d3e70; /* Darker blue background on hover */
-  color: #ffffff; /* White text color on hover */
+  background-color: #1d3e70; 
+  color: #ffffff; 
 }
 
 .organizer-event-detail-container .media-gallery .media-card {

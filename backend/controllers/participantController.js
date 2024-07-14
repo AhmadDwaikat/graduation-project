@@ -70,12 +70,3 @@ exports.updateParticipantStatus = async (req, res) => {
   }
 };
 
-exports.sendNotification = async (req, res) => {
-  // Implement notification sending logic
-  res.status(200).json({ success: true, message: 'Notification sent' });
-};
-
-exports.sendMessage = async (req, res) => {
-  // Implement message sending logic
-  res.status(200).json({ success: true, message: 'Message sent' });
-};

@@ -94,11 +94,11 @@ const recommendEvents = async (userId) => {
     const contentSimilarity = contentSimilarities.find(cs => cs.event._id.equals(prediction.event._id)).similarity;
     return {
       event: prediction.event,
-      hybridScore: prediction.predictedRating * 0.5 + contentSimilarity * 0.5 // Adjust weights as needed
+      hybridScore: prediction.predictedRating * 0.5 + contentSimilarity * 0.5 
     };
   });
 
-  // Sort by hybrid score and limit to top 6
+  
   hybridRecommendations.sort((a, b) => b.hybridScore - a.hybridScore);
 
   return hybridRecommendations.slice(0, 6);
@@ -106,7 +106,7 @@ const recommendEvents = async (userId) => {
 
 exports.recommendEvents = async (req, res) => {
   try {
-    const userId = req.user.id;  // Assuming the user is authenticated and their ID is in req.user.id
+    const userId = req.user.id; 
     const recommendedEvents = await recommendEvents(userId);
     res.status(200).json({ success: true, data: recommendedEvents });
   } catch (error) {

@@ -8,8 +8,6 @@ const initialState = {
   featuredEvents: [],
   myEvents: [],
   activities: [],
-  notifications: [],
-  messages: [],
   analytics: {},
   settings: {},
   joinedEvents: [],
@@ -17,7 +15,7 @@ const initialState = {
   participants: [],
   profile: {},
   nonCreatedEvents: [],
-  recommendedEvents: [],  // Add recommendedEvents to the initial state
+  recommendedEvents: [], 
 };
 
 function reducer(state, action) {
@@ -60,7 +58,7 @@ function reducer(state, action) {
       return { ...state, createdEvents: [...state.createdEvents, action.payload] };
     case 'set_non_created_events':
       return { ...state, nonCreatedEvents: action.payload };
-    case 'set_recommended_events':  // Add case to set recommended events
+    case 'set_recommended_events':  
       return { ...state, recommendedEvents: action.payload };
     default:
       return state;

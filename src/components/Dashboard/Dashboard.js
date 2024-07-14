@@ -39,7 +39,7 @@ const Dashboard = () => {
                     setPastEvents(pastResponse.data.data.slice(0, 6) || []);
                     setFeaturedEvents(featuredResponse.data.data.slice(0, 6) || []);
                     const sortedRecommendedEvents = (recommendedResponse.data.data || []).sort((a, b) => b.hybridScore - a.hybridScore);
-                    setRecommendedEvents(sortedRecommendedEvents.slice(0, 6));  // Limit to top 6
+                    setRecommendedEvents(sortedRecommendedEvents.slice(0, 6));  
                     dispatch({ type: 'set_my_events', payload: [...(upcomingResponse.data.data || []), ...(pastResponse.data.data || [])] });
                 } else {
                     setError('Failed to fetch events');

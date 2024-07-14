@@ -17,14 +17,14 @@ html, body {
   
   .settings-container {
     padding: 20px;
-    margin-top: 80px; /* Adjust this value based on your header height */
+    margin-top: 80px; 
   }
   
   /* Paper styling */
   .settings-container .settings-paper {
     padding: 2rem;
     margin-top: 2rem;
-    background-color: #ccd9e2; /* Light background color */
+    background-color: #ccd9e2; 
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
@@ -34,7 +34,7 @@ html, body {
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
-    color: #285185; /* Primary color */
+    color: #285185; 
   }
   
   /* Form styling */
@@ -49,21 +49,21 @@ html, body {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f7f1f0; /* Slightly darker background color */
+    background-color: #f7f1f0; 
   }
   
   /* Section title styling */
   .settings-container .section-title {
     margin-bottom: 10px;
     font-weight: 600;
-    color: #1d3e70; /* Darker primary color */
-    text-align: center; /* Center align the section title */
+    color: #1d3e70; 
+    text-align: center; 
   }
   
   /* Save button styling */
   .settings-container .save-button {
     margin-top: 20px;
-    background-color: #d67940; /* Changed button color */
+    background-color: #d67940; 
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -73,7 +73,7 @@ html, body {
   }
   
   .settings-container .save-button:hover {
-    background-color: #c06430; /* Darker hover color */
+    background-color: #c06430; 
   }
   
   /* Error and success message styling */

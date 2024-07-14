@@ -10,17 +10,17 @@ html, body {
 
 .user-events-container {
   padding: 20px;
-  background-color: #ccd9e2; /* New background color */
+  background-color: #ccd9e2; 
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Adjust this value based on your header height */
+  margin-top: 80px; 
 }
 
 .user-events-container .title {
   margin-bottom: 20px;
   text-align: center;
   font-weight: bold;
-  color: #285185; /* Title color */
+  color: #285185; 
   font-size: 2rem;
 }
 
@@ -28,16 +28,16 @@ html, body {
   margin: 20px 0;
   font-weight: bold;
   text-align: center;
-  color: #285185; /* Section title color */
+  color: #285185; 
   font-size: 1.5rem;
 }
 
 .user-events-container .event-card {
-  position: relative; /* Added for positioning the delete button */
+  position: relative; 
   transition: transform 0.3s ease;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f7f1f0; /* Card background color */
+  background-color: #f7f1f0; 
 }
 
 .user-events-container .event-card:hover {
@@ -47,17 +47,17 @@ html, body {
 .user-events-container .event-title {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #285185; /* Event title color */
+  color: #285185; 
 }
 
 .user-events-container .event-description {
   margin-bottom: 10px;
-  color: #6f4849; /* Description color */
+  color: #6f4849; 
 }
 
 .user-events-container .event-details {
   margin: 5px 0;
-  color: #6f4849; /* Details color */
+  color: #6f4849; 
 }
 
 .user-events-container .divider {
@@ -66,19 +66,19 @@ html, body {
 
 .user-events-container .view-button {
   margin-left: auto;
-  background-color: #d67940; /* Button background color */
+  background-color: #d67940; 
   color: white;
   border-radius: 5px;
 }
 
 .user-events-container .view-button:hover {
-  background-color: #d67940; /* Button hover color */
+  background-color: #d67940; 
 }
 
 .user-events-container .no-events {
   margin-top: 20px;
   text-align: center;
-  color: #6f4849; /* No events text color */
+  color: #6f4849; 
 }
 
 .user-events-container .delete-button {

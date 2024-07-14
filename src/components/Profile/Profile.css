@@ -22,7 +22,7 @@ html, body {
     background-color: #ccd9e2;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 80px; /* Adjust this value based on your header height */
+    margin-top: 80px; 
   }
   
   .profile-container .profile-card {
@@ -82,14 +82,14 @@ html, body {
     gap: 20px;
     width: 100%;
     margin-top: 20px;
-    justify-content: center; /* Center the buttons */
+    justify-content: center; 
   }
   
   .profile-container .save-button,
   .profile-container .interests-button,
   .profile-container .custom-file-button {
     flex: 1;
-    max-width: 200px; /* Optional: set a max width for consistency */
+    max-width: 200px; 
   }
   
   .profile-container .save-button {

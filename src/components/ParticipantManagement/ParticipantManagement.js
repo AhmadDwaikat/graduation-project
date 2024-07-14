@@ -74,13 +74,7 @@ const ParticipantManagementPage = () => {
     }
   };
 
-  const handleSendMessage = (participantId) => {
-    // Implement message sending functionality here
-  };
 
-  const handleSendNotification = (participantId) => {
-    // Implement notification sending functionality here
-  };
 
   return (
     <Container maxWidth="lg" className="participant-management-container">
@@ -149,18 +143,6 @@ const ParticipantManagementPage = () => {
                     </Button>
                   </>
                 )}
-                <Button
-                  size="small"
-                  onClick={() => handleSendMessage(participant.user._id)}
-                >
-                  Send Message
-                </Button>
-                <Button
-                  size="small"
-                  onClick={() => handleSendNotification(participant.user._id)}
-                >
-                  Send Notification
-                </Button>
               </CardActions>
             </Card>
           </Grid>
