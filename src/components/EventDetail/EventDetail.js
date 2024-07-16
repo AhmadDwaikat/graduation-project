@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import { Typography, Card, CardContent, Button, Alert, CircularProgress, TextField, Rating, Grid, CardMedia, IconButton, Avatar, Box, Dialog, DialogContent, DialogActions, Divider, Link } from '@mui/material';
-import { PersonAdd, PersonRemove, Cancel, Message, Favorite, FavoriteBorder, Edit, Delete } from '@mui/icons-material';
+import { PersonAdd, PersonRemove, Cancel, Favorite, FavoriteBorder, Edit, Delete } from '@mui/icons-material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -20,7 +20,6 @@ const EVENT_STATUS = {
 
 const EventDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { state: { user }, dispatch } = useEvent();
   const [event, setEvent] = useState(null);
   const [eventStatus, setEventStatus] = useState(EVENT_STATUS.NONE);
@@ -313,38 +312,6 @@ const EventDetail = () => {
     }
   };
 
-  const handleOpenChat = async () => {
-    if (!event || !event.creator || !event.creator._id) {
-      setError('Event or organizer ID is undefined');
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('token');
-      const organizerId = event.creator._id;
-      const existingConversationId = user.conversations?.[organizerId];
-
-      if (existingConversationId) {
-        navigate(`/chat/${existingConversationId}`);
-      } else {
-        const response = await axios.post(
-          'http://localhost:5000/api/chat/conversation',
-          { userId: organizerId },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
-          }
-        );
-        const newConversation = response.data.data;
-        navigate(`/chat/${newConversation._id}`);
-        dispatch({ type: 'update_conversations', payload: { organizerId, conversationId: newConversation._id } });
-      }
-    } catch (err) {
-      setError('Error opening chat: ' + (err.response?.data?.message || err.message));
-    }
-  };
-
   const handleImageClick = (image) => {
     setOpenImage(image);
   };
@@ -424,14 +391,6 @@ const EventDetail = () => {
               {loading ? <CircularProgress size={24} /> : 'Leave Event'}
             </Button>
           )}
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<Message />}
-            onClick={handleOpenChat}
-          >
-            Chat with Organizer
-          </Button>
           <IconButton onClick={handleFavoriteToggle} disabled={loading}>
             {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
           </IconButton>
